@@ -160,11 +160,25 @@
                     } else {
                         $ddt->ddt_scontrino = $_GET['scontrino'];
                     }
-
+                    
+                    /*
                     if (!isset($_GET['importo'])) {
                         $errorecreazione['importo'] = 'Importo';
                     } else {
                         $ddt->ddt_importo = $_GET['importo'];
+                    }
+                    */
+                    
+                    if (!isset($_GET['fatturazioneelettronica'])) {
+                        $ddt->ddt_fatturazioneelettronica = 0;;
+                    } else {
+                        $ddt->ddt_fatturazioneelettronica = 1;
+                    }
+                    
+                    if (!isset($_GET['pagato'])) {
+                        $ddt->ddt_pagato = 0;
+                    } else {
+                        $ddt->ddt_pagato = 1;
                     }
 
                     if (empty($errorecreazione)) {

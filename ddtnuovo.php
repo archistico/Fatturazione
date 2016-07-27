@@ -84,7 +84,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li><i class="fa fa-dashboard"></i> Home</li>
-                        <li>DDT/li>
+                        <li>DDT</li>
                         <li class="active">Nuovo</li>
                     </ol>
                 </section>
@@ -231,17 +231,17 @@
 
 
 
-                        <!-- **********************************IMPORTO****************************** -->
+                        <!-- **********************************ALTRO****************************** -->
                         <div class="box box-primary">
                             <div class="box-header with-border">
-                                <h3 class="box-title">IMPORTO</h3>
+                                <h3 class="box-title">ALTRO</h3>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
 
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Numero scontrino</label>
                                             <input type="text" class="form-control" placeholder="Numero scontrino" name='scontrino' required>
@@ -249,10 +249,22 @@
                                     </div>
                                     <!-- /.col -->
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Importo scontrino</label>
-                                            <input type="number" min="0" max="1000000" step="0.01" class="form-control" placeholder="Importo" value="0" name='importo' required>
+                                    <div class="col-md-4">
+                                        <br>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" placeholder="Fatturazione elettronica" name='fatturazioneelettronica' > Fatturazione elettronica
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+
+                                    <div class="col-md-4">
+                                        <br>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" placeholder="Pagato" name='pagato' > DDT pagato
+                                            </label>
                                         </div>
                                     </div>
                                     <!-- /.col -->

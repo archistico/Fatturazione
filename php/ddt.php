@@ -25,6 +25,8 @@ class DDT {
     public $ddt_ritiro_stringa;
     public $ddt_scontrino;
     public $ddt_importo;
+    public $ddt_fatturazioneelettronica;
+    public $ddt_pagato;
     public $ddt_fkfattura;
     public $ddt_annullato;
 
@@ -46,7 +48,7 @@ class DDT {
             $dataEmissione = $this->ddt_data->format('Y-m-d');
             $dataRitiro = $this->ddt_ritiro->format('Y-m-d');
             
-            $db->exec("INSERT INTO ddt VALUES (NULL, '$this->ddt_numero','$this->ddt_anno','$dataEmissione', '$this->ddt_fkcliente', '$this->ddt_destinazione', '$this->ddt_causale', '$this->ddt_trasporto', '$this->ddt_aspetto', '$this->ddt_colli', '$dataRitiro', '$this->ddt_scontrino', '$this->ddt_importo', '$this->ddt_fkfattura', '0');");
+            $db->exec("INSERT INTO ddt VALUES (NULL, '$this->ddt_numero','$this->ddt_anno','$dataEmissione', '$this->ddt_fkcliente', '$this->ddt_destinazione', '$this->ddt_causale', '$this->ddt_trasporto', '$this->ddt_aspetto', '$this->ddt_colli', '$dataRitiro', '$this->ddt_scontrino', '0', '$this->ddt_fatturazioneelettronica', '$this->ddt_pagato', null, '0');");
 
             // chiude il database
             $db = NULL;
@@ -94,6 +96,8 @@ class DDT {
             $this->ddt_ritiro_stringa = $this->ddt_ritiro->format('d/m/Y');
             $this->ddt_scontrino = $row['ddt_scontrino'];
             $this->ddt_importo = $row['ddt_importo'];
+            $this->ddt_fatturazioneelettronica = $row['ddt_fatturazioneelettronica'];
+            $this->ddt_pagato = $row['ddt_pagato'];
             $this->ddt_fkfattura = $row['ddt_fkfattura'];
             $this->ddt_annullato = $row['ddt_annullato'];
             
