@@ -258,6 +258,7 @@
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
+                    <hr class="fatturazione">
                     <div class="row">
                         <form name="ddtForm" action="ddtvisualizza.php" method="get" class="no-print">
 
@@ -267,7 +268,7 @@
                                     <input type="number" min="0" max="1000" step="0.001" class="form-control" placeholder="Qt" value="0" name='quantita' required>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Prodotto</label>
                                     <select class="form-control select2" style="width: 100%;" name='prodotto' required>
@@ -285,7 +286,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <input type="hidden" name="ddt_id" value="<?php echo $_GET['ddt_id']; ?>">
                                     <input type="hidden" name="TipoOperazione" value="2">
@@ -300,6 +301,7 @@
                         </form>
                     </div>
                     <!-- this row will not appear when printing -->
+                    <hr class="fatturazione">
                     <div class="row no-print">
                         <div class="col-md-4">
                             <button type="button" class="btn btn-primary btn-block" style="margin-right: 5px;">
