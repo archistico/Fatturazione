@@ -121,6 +121,13 @@ function DDTTabella() {
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
 
         $result = $db->query('SELECT ddt.*, cliente.* FROM ddt INNER JOIN cliente ON ddt.ddt_fkcliente = cliente.cli_id WHERE ddt.ddt_annullato = 0');
+        
+        // Parte iniziale
+        print "<table id='ddttabella' class='table table-bordered table-hover'>";
+        print "<thead><tr>";
+        print "<th>#</th><th>Data</th><th>Numero</th><th>Cliente</th><th>Importo</th><th>Pagato</th>";
+        print "</tr></thead><tbody>";
+        
         foreach ($result as $row) {
             $row = get_object_vars($row);
             $numero_padded = sprintf("%04d", $row['ddt_numero']);
@@ -138,11 +145,19 @@ function DDTTabella() {
             }
             
             print "<td>&euro; " . $row['ddt_importo'] . "</td>";
-            
+            if($row['ddt_pagato']) {
+                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
+            } else {
+                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";
+            }
             print "</tr>";
         }
         // chiude il database
         $db = NULL;
+        
+        // Parte finale
+        print "</tbody></table>";
+        
     } catch (PDOException $e) {
         throw new PDOException("Error  : " . $e->getMessage());
     }

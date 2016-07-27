@@ -106,20 +106,7 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table id="ddttabella" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Data</th>
-                                                <th>Numero</th>
-                                                <th>Cliente</th>
-                                                <th>Importo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php include 'php/ddt.php'; DDTTabella(); ?>
-                                        </tbody>
-                                    </table>
+                                    <?php include 'php/ddt.php'; DDTTabella(); ?>
                                 </div>
                                 <!-- /.box-body -->
                             </div>
