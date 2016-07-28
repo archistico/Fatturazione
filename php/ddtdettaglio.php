@@ -72,7 +72,7 @@ function ddtdettaglio_tabella($id) {
             print "<td>". $row['pro_categoria'] . " - " . convertiStringaToHTML($row['pro_descrizione'])." (&euro; ".$row['pro_prezzo'].")</td>";
             print "<td>".$row['ddd_tracciabilita']."</td>";
             $importo = $row['ddd_quantita']*$row['pro_prezzo'];
-            print "<td>&euro; $importo</td>";
+            print "<td>&euro; " . number_format($importo, 2, ',', ' ') . "</td>";
             print "</tr>";
         }
         

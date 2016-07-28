@@ -251,7 +251,7 @@
                         <div class="col-md-8">
                         </div>
                         <div class="col-md-4">
-                            <h4>Importo Totale: <b>&euro; <?php echo $ddt->ddt_importo; ?></b></h4>
+                            <h4>Importo Totale: <b>&euro; <?php echo number_format($ddt->ddt_importo, 2, ',', ' '); ?></b></h4>
                         </div>
                     </div>
                     
