@@ -228,7 +228,8 @@
                             <b>Aspetto:</b> <?php echo $ddt->ddt_aspetto; ?><br>
                             <b>Trasporto:</b> <?php echo $ddt->ddt_trasporto; ?><br>
                             <b>Scontrino:</b> <?php echo $ddt->ddt_scontrino; ?><br>
-                            <b>Importo:</b> <?php echo $ddt->ddt_importo; ?>
+                            <b>Fatturazione Elettronica:</b> <?php echo $ddt->ddt_fatturazioneelettronica==1?'Sì':'No'; ?><br>
+                            <b>Pagato:</b> <?php echo $ddt->ddt_pagato==1?'Sì':'No'; ?><br>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -238,26 +239,22 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="box-body">
-                                <table id="ddtdettagliotabella" class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="no-print">#</th>
-                                            <th>Quantità</th>
-                                            <th>Prodotto</th>
-                                            <th>Tracciabilità</th>
-                                            <th>Importo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php ddtdettaglio_tabella($ddt_id); ?>
-                                    </tbody>
-                                </table>
+                                <?php ddtdettaglio_tabella($ddt_id); ?>
                             </div>
                             <!-- /.box-body -->
                         </div>
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Importo Totale: <b>&euro; <?php echo $ddt->ddt_importo; ?></b></h4>
+                        </div>
+                    </div>
+                    
                     <hr class="fatturazione">
                     <div class="row">
                         <form name="ddtForm" action="ddtvisualizza.php" method="get" class="no-print">
@@ -301,7 +298,6 @@
                         </form>
                     </div>
                     <!-- this row will not appear when printing -->
-                    <hr class="fatturazione">
                     <div class="row no-print">
                         <div class="col-md-4">
                             <button type="button" class="btn btn-primary btn-block" style="margin-right: 5px;">
@@ -329,7 +325,6 @@
         <!-- ./wrapper -->
 
         <?php include 'script.php'; ?>
-    </body>
     <!-- page script -->
     <script>
         $(function () {
@@ -344,5 +339,6 @@
             
         });
     </script>
+    </body>
 </html>
 
