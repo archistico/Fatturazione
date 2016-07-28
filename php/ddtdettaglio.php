@@ -1,6 +1,7 @@
 <?php
 
 class DDTDettaglio {
+    public $ddd_id;
     public $ddd_fkddt;
     public $ddd_quantita;
     public $ddd_fkprodotto;
@@ -19,6 +20,39 @@ class DDTDettaglio {
             $db->exec("INSERT INTO ddtdettaglio VALUES (NULL, '$this->ddd_fkddt','$this->ddd_quantita', '$this->ddd_fkprodotto', '$this->ddd_tracciabilita', '0');");
             
             // Calcolo l'importo
+            $result = $db->query('SELECT ddtdettaglio.*, prodotto.* FROM ddtdettaglio INNER JOIN prodotto ON ddtdettaglio.ddd_fkprodotto = prodotto.pro_id WHERE ddtdettaglio.ddd_annullato = 0 AND ddtdettaglio.ddd_fkddt = ' . $this->ddd_fkddt);
+
+            $importototale = 0;
+            foreach ($result as $row) {
+                $row = get_object_vars($row);
+                $importo = $row['ddd_quantita'] * $row['pro_prezzo'];
+                $importototale = $importototale + $importo;
+            }
+
+            // Correggo il valore dell'importo del DDT
+            $db->exec("UPDATE ddt SET ddt_importo = '$importototale' WHERE ddt.ddt_id = '$this->ddd_fkddt';");
+            
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    
+    public function CancellaSQL() {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+            // Cancello il DDT Dettaglio
+            $db->exec("DELETE FROM ddtdettaglio WHERE ddd_id = '$this->ddd_id';");
+            
+            // Corretto l'importo del DDT
             $result = $db->query('SELECT ddtdettaglio.*, prodotto.* FROM ddtdettaglio INNER JOIN prodotto ON ddtdettaglio.ddd_fkprodotto = prodotto.pro_id WHERE ddtdettaglio.ddd_annullato = 0 AND ddtdettaglio.ddd_fkddt = ' . $this->ddd_fkddt);
 
             $importototale = 0;

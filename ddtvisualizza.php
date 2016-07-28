@@ -171,6 +171,37 @@
                 }
                 //FINE AGGIUNGO
                 
+                // SE CANCELLA
+                if ($TipoOperazione == tipoOperazione::cancella) {
+                    // Carico le variabili
+                    if (!isset($_GET['ddt_id'])) {
+                        $errorecancella['ddt'] = 'ID DDT';
+                    } else {
+                        $ddd->ddd_fkddt = $_GET['ddt_id'];
+                        $ddt_id = $_GET['ddt_id'];
+                    }
+                    
+                    if (!isset($_GET['ddtdettaglio'])) {
+                        $errorecancella['ddtdettaglio'] = 'ID DDTDettaglio';
+                    } else {
+                        $ddd->ddd_id = $_GET['ddtdettaglio'];
+                    }
+                    
+                    if (empty($errorecancella) && $ddd->CancellaSQL()) {
+
+                        if ($ddt->CaricaSQL($ddt_id)) {
+                            // OK
+                        } else {
+                            $errorecancella['database'] = 'Database';
+                        }
+                    }
+
+                    if (!empty($errorecancella)) {
+                        print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom: 0!important;'><h4><i class='fa fa-ban'></i> Note:</h4>Errori " . implode(", ", $errorecancella) . "</div></div>";
+                    }
+                }
+                //FINE CANCELLA
+                
                 
                 ?>
                 <section class="content-header">
