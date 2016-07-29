@@ -41,7 +41,7 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-plus"></i> Nuova fattura</a></li>
+            <li><a href="fatturanuova.php"><i class="fa fa-plus"></i> Nuova fattura</a></li>
             <li><a href="#"><i class="fa fa-list"></i> Lista fatture</a></li>
         </ul>
     </li>
