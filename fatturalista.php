@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title> Fatturazione | DDT</title>
+        <title> Fatturazione | FATTURA</title>
         <!-- Tell the browser to be responsive to screen width -->
         <?php include 'link.php'; ?>
     </head>
@@ -84,12 +84,12 @@
                 ?>
                 <section class="content-header">
                     <h1>
-                        DDT
+                        FATTURA
                         <small>Lista</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li> Home</li>
-                        <li class="active">DDT</li>
+                        <li class="active">FATTURA</li>
                         <li class="active">Lista</li>
                     </ol>
                 </section>
@@ -102,11 +102,11 @@
                         <div class="col-md-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">LISTA DDT</h3>
+                                    <h3 class="box-title">LISTA FATTURE</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <?php include 'php/ddt.php'; DDTTabella(); ?>
+                                    <?php include 'php/fattura.php'; FATTabella(); ?>
                                 </div>
                                 <!-- /.box-body -->
                             </div>
@@ -126,7 +126,7 @@
     <!-- page script -->
     <script>
         $(function () {
-            $('#ddttabella').DataTable({
+            $('#fattabella').DataTable({
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
@@ -138,6 +138,8 @@
         });
     </script>
 </html>
+
+
 
 
 

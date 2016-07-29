@@ -1,0 +1,4 @@
+SELECT fattura.*, cliente.*, ddt.* FROM fattura INNER JOIN cliente ON fattura.fat_fkcliente = cliente.cli_id INNER JOIN ddt ON ddt.ddt_fkfattura = fattura.fat_id
+SELECT fattura.*, cliente.* FROM fattura INNER JOIN cliente ON fattura.fat_fkcliente = cliente.cli_id
+
+SELECT SUM(ddt_importo) FROM fattura INNER JOIN cliente ON fattura.fat_fkcliente = cliente.cli_id INNER JOIN ddt ON ddt.ddt_fkfattura = fattura.fat_id

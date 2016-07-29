@@ -125,7 +125,7 @@ function DDTTabella() {
         // Parte iniziale
         print "<table id='ddttabella' class='table table-bordered table-hover'>";
         print "<thead><tr>";
-        print "<th>#</th><th>Data</th><th>Numero</th><th>Cliente</th><th>Importo</th><th>Pagato</th>";
+        print "<th>#</th><th>Data</th><th>Numero</th><th>Cliente</th><th>Importo</th><th>Pagato</th><th>Fattura</th>";
         print "</tr></thead><tbody>";
         
         foreach ($result as $row) {
@@ -146,6 +146,11 @@ function DDTTabella() {
             
             print "<td>&euro; " . $row['ddt_importo'] . "</td>";
             if($row['ddt_pagato']) {
+                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
+            } else {
+                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";
+            }
+            if($row['ddt_fkfattura']) {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
             } else {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";

@@ -224,20 +224,7 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table id="example2" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Data</th>
-                                                <th>Numero</th>
-                                                <th>Cliente</th>
-                                                <th>Importo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php DDTTabella(); ?>
-                                        </tbody>
-                                    </table>
+                                    <?php DDTTabella(); ?>
                                 </div>
                                 <!-- /.box-body -->
                             </div>
