@@ -160,25 +160,11 @@
                     } else {
                         $ddt->ddt_scontrino = $_GET['scontrino'];
                     }
-                    
-                    /*
+
                     if (!isset($_GET['importo'])) {
                         $errorecreazione['importo'] = 'Importo';
                     } else {
                         $ddt->ddt_importo = $_GET['importo'];
-                    }
-                    */
-                    
-                    if (!isset($_GET['fatturazioneelettronica'])) {
-                        $ddt->ddt_fatturazioneelettronica = 0;;
-                    } else {
-                        $ddt->ddt_fatturazioneelettronica = 1;
-                    }
-                    
-                    if (!isset($_GET['pagato'])) {
-                        $ddt->ddt_pagato = 0;
-                    } else {
-                        $ddt->ddt_pagato = 1;
                     }
 
                     if (empty($errorecreazione)) {
@@ -224,7 +210,20 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <?php DDTTabella(); ?>
+                                    <table id="example2" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Data</th>
+                                                <th>Numero</th>
+                                                <th>Cliente</th>
+                                                <th>Importo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php DDTTabella(); ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <!-- /.box-body -->
                             </div>

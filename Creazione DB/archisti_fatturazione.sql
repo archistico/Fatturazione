@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.4
+-- version 4.0.10.14
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Giu 12, 2016 alle 02:03
--- Versione del server: 5.6.15-log
--- PHP Version: 5.5.8
+-- Host: localhost:3306
+-- Generato il: Nov 21, 2016 alle 19:49
+-- Versione del server: 10.0.27-MariaDB
+-- Versione PHP: 5.6.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `dbfatturazione`
+-- Database: `archisti_fatturazione`
 --
 
 -- --------------------------------------------------------
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `ddt` (
   `ddt_fkfattura` int(11) DEFAULT NULL,
   `ddt_annullato` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ddt_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
 -- Dump dei dati per la tabella `ddt`
@@ -81,7 +81,8 @@ CREATE TABLE IF NOT EXISTS `ddt` (
 INSERT INTO `ddt` (`ddt_id`, `ddt_numero`, `ddt_anno`, `ddt_data`, `ddt_fkcliente`, `ddt_destinazione`, `ddt_causale`, `ddt_trasporto`, `ddt_aspetto`, `ddt_colli`, `ddt_ritiro`, `ddt_scontrino`, `ddt_importo`, `ddt_fkfattura`, `ddt_annullato`) VALUES
 (1, 1, 2016, '2016-06-01', 2, '', 'Vendita', 'Destinatario', 'Sfuso', '1', '2016-06-12', '120', '50.00', 0, 0),
 (2, 2, 2016, '2016-06-13', 1, '', 'Vendita', 'Destinatario', 'Sfuso', '1', '2016-06-13', '20', '50.00', 0, 0),
-(3, 3, 2016, '2016-06-12', 1, '', 'Vendita', 'Mittente', 'Sfuso', '1', '2016-06-12', '12', '20.00', 0, 0);
+(3, 3, 2016, '2016-06-12', 1, '', 'Vendita', 'Mittente', 'Sfuso', '1', '2016-06-12', '12', '20.00', 0, 0),
+(4, 4, 2016, '2016-06-12', 1, '', 'Vendita', 'Destinatario', 'Sfuso', '1', '2016-06-12', '100', '15.00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -97,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `ddtdettaglio` (
   `ddd_tracciabilita` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ddd_annullato` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ddd_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
 
 --
 -- Dump dei dati per la tabella `ddtdettaglio`
@@ -106,7 +107,12 @@ CREATE TABLE IF NOT EXISTS `ddtdettaglio` (
 INSERT INTO `ddtdettaglio` (`ddd_id`, `ddd_fkddt`, `ddd_quantita`, `ddd_fkprodotto`, `ddd_tracciabilita`, `ddd_annullato`) VALUES
 (1, 2, '3.000', 2, '215', 0),
 (2, 2, '1.200', 4, '215', 0),
-(4, 2, '0.200', 8, '300', 0);
+(4, 2, '0.200', 8, '300', 0),
+(5, 3, '1.000', 6, '100', 0),
+(6, 1, '0.500', 6, '100', 0),
+(7, 4, '2.000', 12, '250', 0),
+(8, 4, '2.000', 6, '300', 0),
+(9, 4, '1.500', 5, '300', 0);
 
 -- --------------------------------------------------------
 
@@ -137,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   `pro_iva` decimal(5,2) NOT NULL,
   `pro_vecchio` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pro_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Dump dei dati per la tabella `prodotto`
@@ -151,7 +157,11 @@ INSERT INTO `prodotto` (`pro_id`, `pro_categoria`, `pro_descrizione`, `pro_prezz
 (5, 'Carne cinghiale', 'Coscia', '18.00', '10.00', 0),
 (6, 'Insaccati', 'Lardo Arnad Bertolin', '13.00', '10.00', 0),
 (7, 'Insaccati', 'Prosciutto cotto Bossolein', '22.00', '10.00', 0),
-(8, 'Carne bovina', 'Presalé', '11.00', '10.00', 0);
+(8, 'Carne bovina', 'Presalé', '11.00', '10.00', 0),
+(9, 'Formaggi', 'Fontina', '16.00', '4.00', 0),
+(10, 'Formaggi', 'Toma Gressoney', '13.00', '4.00', 0),
+(11, 'Formaggi', 'Toma', '11.00', '4.00', 0),
+(12, 'Carne coniglio', 'Rolata', '17.00', '10.00', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

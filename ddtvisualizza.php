@@ -171,37 +171,6 @@
                 }
                 //FINE AGGIUNGO
                 
-                // SE CANCELLA
-                if ($TipoOperazione == tipoOperazione::cancella) {
-                    // Carico le variabili
-                    if (!isset($_GET['ddt_id'])) {
-                        $errorecancella['ddt'] = 'ID DDT';
-                    } else {
-                        $ddd->ddd_fkddt = $_GET['ddt_id'];
-                        $ddt_id = $_GET['ddt_id'];
-                    }
-                    
-                    if (!isset($_GET['ddtdettaglio'])) {
-                        $errorecancella['ddtdettaglio'] = 'ID DDTDettaglio';
-                    } else {
-                        $ddd->ddd_id = $_GET['ddtdettaglio'];
-                    }
-                    
-                    if (empty($errorecancella) && $ddd->CancellaSQL()) {
-
-                        if ($ddt->CaricaSQL($ddt_id)) {
-                            // OK
-                        } else {
-                            $errorecancella['database'] = 'Database';
-                        }
-                    }
-
-                    if (!empty($errorecancella)) {
-                        print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom: 0!important;'><h4><i class='fa fa-ban'></i> Note:</h4>Errori " . implode(", ", $errorecancella) . "</div></div>";
-                    }
-                }
-                //FINE CANCELLA
-                
                 
                 ?>
                 <section class="content-header">
@@ -259,8 +228,7 @@
                             <b>Aspetto:</b> <?php echo $ddt->ddt_aspetto; ?><br>
                             <b>Trasporto:</b> <?php echo $ddt->ddt_trasporto; ?><br>
                             <b>Scontrino:</b> <?php echo $ddt->ddt_scontrino; ?><br>
-                            <b>Fatturazione Elettronica:</b> <?php echo $ddt->ddt_fatturazioneelettronica==1?'Sì':'No'; ?><br>
-                            <b>Pagato:</b> <?php echo $ddt->ddt_pagato==1?'Sì':'No'; ?><br>
+                            <b>Importo:</b> <?php echo $ddt->ddt_importo; ?>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -270,23 +238,26 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="box-body">
-                                <?php ddtdettaglio_tabella($ddt_id); ?>
+                                <table id="ddtdettagliotabella" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="no-print">#</th>
+                                            <th>Quantità</th>
+                                            <th>Prodotto</th>
+                                            <th>Tracciabilità</th>
+                                            <th>Importo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php ddtdettaglio_tabella($ddt_id); ?>
+                                    </tbody>
+                                </table>
                             </div>
                             <!-- /.box-body -->
                         </div>
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
-                    
-                    <div class="row">
-                        <div class="col-md-8">
-                        </div>
-                        <div class="col-md-4">
-                            <h4>Importo Totale: <b>&euro; <?php echo number_format($ddt->ddt_importo, 2, ',', ' '); ?></b></h4>
-                        </div>
-                    </div>
-                    
-                    <hr class="fatturazione">
                     <div class="row">
                         <form name="ddtForm" action="ddtvisualizza.php" method="get" class="no-print">
 
@@ -296,7 +267,7 @@
                                     <input type="number" min="0" max="1000" step="0.001" class="form-control" placeholder="Qt" value="0" name='quantita' required>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Prodotto</label>
                                     <select class="form-control select2" style="width: 100%;" name='prodotto' required>
@@ -314,7 +285,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <input type="hidden" name="ddt_id" value="<?php echo $_GET['ddt_id']; ?>">
                                     <input type="hidden" name="TipoOperazione" value="2">
@@ -356,6 +327,7 @@
         <!-- ./wrapper -->
 
         <?php include 'script.php'; ?>
+    </body>
     <!-- page script -->
     <script>
         $(function () {
@@ -370,6 +342,5 @@
             
         });
     </script>
-    </body>
 </html>
 

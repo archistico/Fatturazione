@@ -84,7 +84,7 @@
                 ?>
                 <section class="content-header">
                     <h1>
-                        DDT
+                        PRODOTTO
                         <small>Lista</small>
                     </h1>
                     <ol class="breadcrumb">
@@ -106,7 +106,20 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <?php include 'php/ddt.php'; DDTTabella(); ?>
+                                    <table id="ddttabella" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Data</th>
+                                                <th>Numero</th>
+                                                <th>Cliente</th>
+                                                <th>Importo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php include 'php/ddt.php'; DDTTabella(); ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <!-- /.box-body -->
                             </div>
