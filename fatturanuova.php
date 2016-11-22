@@ -92,7 +92,7 @@
         <!-- Main content -->
         <section class="content">
 
-            <form role="form" name="FatturaForm" action="fatturalista.php" method="get">
+            <form role="form" name="FatturaForm" action="fatturalista.php" method="get" onsubmit="return validateForm()">
 
                 <!-- **********************************DATI GENERALI****************************** -->
                 <div class="box box-primary">
@@ -152,7 +152,6 @@
                                 <table class='table table-bordered table-hover' id="tabellaDDT">
                                     <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>DDT</th>
                                     </tr>
                                     </thead>
@@ -218,9 +217,7 @@
         var select = document.getElementById("listaDDT");
         var row = table.insertRow(-1);
         var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        cell1.innerHTML = select.value;
-        cell2.innerHTML = select.options[select.selectedIndex].text;
+        cell1.innerHTML = select.options[select.selectedIndex].text;
 
         arr.push(select.value);
         DDT.value=JSON.stringify(arr);
@@ -239,15 +236,19 @@
     $(function () {
 
         //Date picker
-        $('#datepicker1').datepicker({
-            autoclose: true
-        });
+        $('#datepicker1').datepicker("update", new Date());
 
-        //Date picker
-        $('#datepicker2').datepicker({
-            autoclose: true
-        });
     });
+
+    function validateForm() {
+        if (document.getElementById('DDT').value != "") {
+            return true;
+        }
+        else {
+            alert('Inserire almeno un DDT');
+            return false;
+        }
+    }
 </script>
 </body>
 </html>
