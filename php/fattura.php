@@ -9,6 +9,8 @@ class Fattura {
     public $fat_fkcliente;
     public $fat_pagata;
     public $fat_annullata;
+    // DDT collegati
+    public $fat_ddt = array();
 
     public function AggiungiSQL() {
         try {
@@ -22,7 +24,7 @@ class Fattura {
             date_default_timezone_set('Europe/Rome');
             
             // Controlla numero ultima fattura e aggiungi 1
-            $result = $db->query("SELECT MAX(fat_numero) AS ultimo FROM fatture WHERE fat_anno = '" . $this->fat_anno . "'");
+            $result = $db->query("SELECT MAX(fat_numero) AS ultimo FROM fattura WHERE fat_anno = '" . $this->fat_anno . "'");
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $this->fat_numero = $row['ultimo'] + 1;
             
@@ -30,7 +32,21 @@ class Fattura {
             $data = $this->fat_data->format('Y-m-d');
             
             // INSERT INTO fattura VALUES (NULL, '1', '2016', '2016-07-29', '1', '0', '0');
-            $db->exec("INSERT INTO fattura VALUES (NULL, '$this->fat_numero','$this->fat_anno','$data', '$this->fat_fkcliente', '$this->fat_pagata', '0', '0');");
+            $sql = "INSERT INTO fattura VALUES (NULL, '$this->fat_numero','$this->fat_anno','$data', '$this->fat_fkcliente', '$this->fat_pagata', '0');";        
+            $db->exec($sql);
+
+
+            // DEVO AGGIUNGERE I DETTAGLI DEI DDT COLLEGATI
+            
+
+
+
+
+
+
+
+
+
 
             // chiude il database
             $db = NULL;
@@ -42,7 +58,7 @@ class Fattura {
     
     public function CaricaSQL($id) {
         try {
-            include "config.php";
+            /*include "config.php";
             
             $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -51,40 +67,40 @@ class Fattura {
 
             date_default_timezone_set('Europe/Rome');
             
-            $result = $db->query("SELECT ddt.*, cliente.*, fattura.* FROM ddt INNER JOIN cliente ON ddt.ddt_fkcliente = cliente.cli_id WHERE ddt.ddt_annullato = 0 AND ddt_id = $id");
+            $result = $db->query("SELECT fattura.*, cliente.*, fattura.* FROM ddt INNER JOIN cliente ON fattura.fat_fkcliente = cliente.cli_id WHERE fattura.fat_annullato = 0 AND fat_id = $id");
             $row = $result->fetch(PDO::FETCH_ASSOC);
                                   
-            $this->ddt_id = $row['ddt_id'];
-            $this->ddt_numero = $row['ddt_numero'];
-            $this->ddt_numero_formattato = sprintf("%04d", $this->ddt_numero);
-            $this->ddt_anno = $row['ddt_anno'];
-            $this->ddt_data = DateTime::createFromFormat('Y-m-d', $row['ddt_data']);
-            $this->ddt_data_stringa = $this->ddt_data->format('d/m/Y');
-            $this->ddt_fkcliente = $row['ddt_fkcliente'];
-            $this->ddt_fkcliente_denominazione = $row['cli_denominazione'];
-            $this->ddt_fkcliente_indirizzo = $row['cli_indirizzo'];
-            $this->ddt_fkcliente_cap = $row['cli_cap'];
-            $this->ddt_fkcliente_comune = $row['cli_comune'];
-            $this->ddt_fkcliente_piva = $row['cli_piva'];
-            $this->ddt_fkcliente_telefono = $row['cli_telefono'];
-            $this->ddt_fkcliente_fax = $row['cli_fax'];
-            $this->ddt_fkcliente_email = $row['cli_email'];
-            $this->ddt_destinazione = $row['ddt_destinazione'];
-            $this->ddt_causale = $row['ddt_causale'];
-            $this->ddt_trasporto = $row['ddt_trasporto'];
-            $this->ddt_aspetto = $row['ddt_aspetto'];
-            $this->ddt_colli = $row['ddt_colli'];
-            $this->ddt_ritiro = DateTime::createFromFormat('Y-m-d', $row['ddt_ritiro']);
-            $this->ddt_ritiro_stringa = $this->ddt_ritiro->format('d/m/Y');
-            $this->ddt_scontrino = $row['ddt_scontrino'];
-            $this->ddt_importo = $row['ddt_importo'];
-            $this->ddt_fatturazioneelettronica = $row['ddt_fatturazioneelettronica'];
-            $this->ddt_pagato = $row['ddt_pagato'];
-            $this->ddt_fkfattura = $row['ddt_fkfattura'];
-            $this->ddt_annullato = $row['ddt_annullato'];
+            $this->fat_id = $row['fat_id'];
+            $this->fat_numero = $row['fat_numero'];
+            $this->fat_numero_formattato = sprintf("%04d", $this->fat_numero);
+            $this->fat_anno = $row['fat_anno'];
+            $this->fat_data = DateTime::createFromFormat('Y-m-d', $row['fat_data']);
+            $this->fat_data_stringa = $this->fat_data->format('d/m/Y');
+            $this->fat_fkcliente = $row['fat_fkcliente'];
+            $this->fat_fkcliente_denominazione = $row['cli_denominazione'];
+            $this->fat_fkcliente_indirizzo = $row['cli_indirizzo'];
+            $this->fat_fkcliente_cap = $row['cli_cap'];
+            $this->fat_fkcliente_comune = $row['cli_comune'];
+            $this->fat_fkcliente_piva = $row['cli_piva'];
+            $this->fat_fkcliente_telefono = $row['cli_telefono'];
+            $this->fat_fkcliente_fax = $row['cli_fax'];
+            $this->fat_fkcliente_email = $row['cli_email'];
+            $this->fat_destinazione = $row['fat_destinazione'];
+            $this->fat_causale = $row['fat_causale'];
+            $this->fat_trasporto = $row['fat_trasporto'];
+            $this->fat_aspetto = $row['fat_aspetto'];
+            $this->fat_colli = $row['fat_colli'];
+            $this->fat_ritiro = DateTime::createFromFormat('Y-m-d', $row['fat_ritiro']);
+            $this->fat_ritiro_stringa = $this->fat_ritiro->format('d/m/Y');
+            $this->fat_scontrino = $row['fat_scontrino'];
+            $this->fat_importo = $row['fat_importo'];
+            $this->fat_fatturazioneelettronica = $row['fat_fatturazioneelettronica'];
+            $this->fat_pagato = $row['fat_pagato'];
+            $this->fat_fkfattura = $row['fat_fkfattura'];
+            $this->fat_annullato = $row['fat_annullato'];
             
             // chiude il database
-            $db = NULL;
+            $db = NULL;*/
             return true;
         } catch (PDOException $e) {
             return false;
@@ -102,7 +118,7 @@ function FATTabella() {
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
 
-        $result = $db->query('SELECT ddt.*, cliente.* FROM ddt INNER JOIN cliente ON ddt.ddt_fkcliente = cliente.cli_id WHERE ddt.ddt_annullato = 0');
+        $result = $db->query('SELECT fattura.*, cliente.* FROM fattura INNER JOIN cliente ON fattura.fat_fkcliente = cliente.cli_id WHERE fattura.fat_annullata = 0');
         
         // Parte iniziale
         print "<table id='fattabella' class='table table-bordered table-hover'>";
@@ -112,12 +128,11 @@ function FATTabella() {
         
         foreach ($result as $row) {
             $row = get_object_vars($row);
-            $numero_padded = sprintf("%04d", $row['ddt_numero']);
-            $dataEmissione = DateTime::createFromFormat('Y-m-d', $row['ddt_data'])->format('d/m/Y');
-            $dataRitiro = DateTime::createFromFormat('Y-m-d', $row['ddt_ritiro'])->format('d/m/Y');
-            
+            $numero_padded = sprintf("%04d", $row['fat_numero']);
+            $dataEmissione = DateTime::createFromFormat('Y-m-d', $row['fat_data'])->format('d/m/Y');
+                        
             print "<tr>";
-            print "<td><a class='btn btn-xs btn-info' href='ddtvisualizza.php?ddt_id=".$row['ddt_id']."&TipoOperazione=1' role='button' style='margin-right: 5px'><i class = 'fa fa-eye'></i></a><a class='btn btn-xs btn-danger' href='ddtcancella.php?ddt_id=".$row['ddt_id']."' role='button'><i class = 'fa fa-remove'></i></a></td>";
+            print "<td><a class='btn btn-xs btn-info' href='fatturavisualizza.php?fat_id=".$row['fat_id']."&TipoOperazione=1' role='button' style='margin-right: 5px'><i class = 'fa fa-eye'></i></a><a class='btn btn-xs btn-danger' href='fatturacancella.php?fat_id=".$row['fat_id']."' role='button'><i class = 'fa fa-remove'></i></a></td>";
             print "<td>$dataEmissione</td>";
             print "<td>".$numero_padded."</td>";
             if($row['cli_comune']) {
@@ -126,8 +141,8 @@ function FATTabella() {
                  print "<td>".$row['cli_denominazione']."</td>";
             }
             
-            print "<td>&euro; " . $row['ddt_importo'] . "</td>";
-            if($row['ddt_pagato']) {
+            print "<td>&euro; " . $row['fat_importo'] . "</td>";
+            if($row['fat_pagato']) {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
             } else {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";

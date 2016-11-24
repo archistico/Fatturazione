@@ -133,6 +133,7 @@
           <!-- /.box -->
 
           <input type="hidden" id="DDT" name="DDT" value="">
+          <input type="hidden" id="operazione" name="operazione" value="aggiungi">
 
           <div class="box box-primary">
             <div class="box-header with-border">
