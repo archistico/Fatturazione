@@ -35,22 +35,45 @@ class Fattura {
             $sql = "INSERT INTO fattura VALUES (NULL, '$this->fat_numero','$this->fat_anno','$data', '$this->fat_fkcliente', '$this->fat_pagata', '0');";        
             $db->exec($sql);
 
+            // Cerca ID della fattura creata per mettera nei dettagli
+            $id = $this->CercaId($this->fat_numero);
 
             // DEVO AGGIUNGERE I DETTAGLI DEI DDT COLLEGATI
-            
-
-
-
-
-
-
-
-
-
+            foreach($this->fat_ddt as $ddt) {
+                $sql = "INSERT INTO fatturadettaglio VALUES (NULL, '$id', '$ddt', '0');";        
+                $db->exec($sql);
+            }
+          
 
             // chiude il database
             $db = NULL;
             return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function CercaId($fatturanumero) {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+            date_default_timezone_set('Europe/Rome');
+            
+            // Controlla numero ultima fattura e aggiungi 1
+            $result = $db->query("SELECT fattura.fat_id FROM fattura WHERE fat_numero = '" . $fatturanumero . "' LIMIT 1");
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            
+            
+            // chiude il database
+            $db = NULL;
+
+            return $row['fat_id'];
+
         } catch (PDOException $e) {
             return false;
         }

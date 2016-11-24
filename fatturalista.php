@@ -113,7 +113,8 @@
                     public $fat_data;
                     public $fat_fkcliente;
                     public $fat_pagata;
-                    public $fat_annullata;*/
+                    public $fat_annullata;
+                    public $fat_ddt = array();*/
 
 
 
@@ -134,7 +135,15 @@
                         $fattura->fat_data = DateTime::createFromFormat('d/m/Y', $_GET['dataEmissione']);
                         $fattura->fat_anno = $fattura->fat_data->format('Y');
                     }
-                                      
+
+                    if (!isset($_GET['DDT'])) {
+                        $errorecreazione['DDT'] = 'DDT';
+                    } else {
+                        $stringaDDT = $_GET['DDT'];
+                        $fattura->fat_ddt = json_decode($stringaDDT);
+                    }
+                                        
+                                                          
                     if (!isset($_GET['pagata'])) {
                         $fattura->fat_pagata = 0;
                     } else {
