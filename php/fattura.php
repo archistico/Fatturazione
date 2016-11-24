@@ -164,7 +164,15 @@ function FATTabella() {
                  print "<td>".$row['cli_denominazione']."</td>";
             }
             
-            print "<td>&euro; " . $row['fat_importo'] . "</td>";
+            // DEVO SCORRERE I DDT COLLEGATI PER AVERE LA SOMMA DEGLI IMPORTI
+            $importo = 0;
+            $resultDDT = $db->query("SELECT * FROM ddt INNER JOIN fatturadettaglio ON fatturadettaglio.fdt_fkfattura = ".$row['fat_id']." WHERE ddt.ddt_id = fatturadettaglio.fdt_fkddt");
+            foreach ($resultDDT as $rowddt) {
+                $rowddt = get_object_vars($rowddt);
+                $importo += $rowddt['ddt_importo'];
+            }
+
+            print "<td>&euro; " . number_format($importo, 2, ',', ' ') . "</td>";
             if($row['fat_pagato']) {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
             } else {
