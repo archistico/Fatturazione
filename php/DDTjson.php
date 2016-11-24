@@ -12,7 +12,10 @@ try {
 
     $sql = "SELECT ddt.*, cliente.* ".
         "FROM ddt INNER JOIN cliente ON ddt.ddt_fkcliente = cliente.cli_id ".
-        "WHERE ddt.ddt_annullato = 0 AND ddt.ddt_fkfattura IS NULL AND ddt.ddt_fatturazioneelettronica = 0 AND ddt.ddt_fkcliente = ".$cliente_id;
+        "WHERE ddt.ddt_annullato = 0 AND ddt.ddt_fkfattura IS NULL AND ddt.ddt_fatturazioneelettronica = 0 AND ddt.ddt_fkcliente = ".$cliente_id. " ".
+        "AND NOT EXISTS( SELECT * FROM fatturadettaglio WHERE ddt.ddt_id = fatturadettaglio.fdt_fkddt)";
+
+    //echo $sql; die();
 
     $result = $db->query($sql);
 
