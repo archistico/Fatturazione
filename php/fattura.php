@@ -91,11 +91,8 @@ class Fattura {
 
             date_default_timezone_set('Europe/Rome');
             
-            // Controlla numero ultima fattura e aggiungi 1
             $result = $db->query("SELECT fattura.fat_pagata FROM fattura WHERE fat_id = '" . $this->fat_id . "' LIMIT 1");
             $row = $result->fetch(PDO::FETCH_ASSOC);
-
-            //UPDATE `fattura` SET `fat_pagata` = '1' WHERE `fattura`.`fat_id` = 18;
 
             if($row['fat_pagata']==0) {
                 $sql = "UPDATE fattura SET fat_pagata = 1 WHERE fattura.fat_id = ".$this->fat_id;      
@@ -115,10 +112,43 @@ class Fattura {
             return false;
         }
     }
+
+    public function Cancella() {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+            date_default_timezone_set('Europe/Rome');
+
+            
+            $sql = "UPDATE fattura SET fat_annullata = 1 WHERE fattura.fat_id = ".$this->fat_id;      
+            $db->exec($sql);
+            
+            // cerca tutti i ddt con ddt.ddt_fkfattura = id e metti tutto a null
+            $resultDDT = $db->query("SELECT * FROM ddt WHERE ddt.ddt_fkfattura = ".$this->fat_id);
+            foreach ($resultDDT as $rowddt) {
+                $rowddt = get_object_vars($rowddt);
+                $sql = "UPDATE ddt SET ddt.ddt_fkfattura = null WHERE ddt.ddt_id = ".$rowddt['ddt_id'];      
+                $db->exec($sql);
+            }
+            
+            // chiude il database
+            $db = NULL;
+
+            return true;
+
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
     
     public function CaricaSQL($id) {
         try {
-            /*include "config.php";
+            include "config.php";
             
             $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -127,7 +157,7 @@ class Fattura {
 
             date_default_timezone_set('Europe/Rome');
             
-            $result = $db->query("SELECT fattura.*, cliente.*, fattura.* FROM ddt INNER JOIN cliente ON fattura.fat_fkcliente = cliente.cli_id WHERE fattura.fat_annullato = 0 AND fat_id = $id");
+            $result = $db->query("SELECT * FROM fattura WHERE fattura.fat_annullata = 0 AND fattura.fat_id = ".$id);
             $row = $result->fetch(PDO::FETCH_ASSOC);
                                   
             $this->fat_id = $row['fat_id'];
@@ -136,7 +166,7 @@ class Fattura {
             $this->fat_anno = $row['fat_anno'];
             $this->fat_data = DateTime::createFromFormat('Y-m-d', $row['fat_data']);
             $this->fat_data_stringa = $this->fat_data->format('d/m/Y');
-            $this->fat_fkcliente = $row['fat_fkcliente'];
+            /*$this->fat_fkcliente = $row['fat_fkcliente'];
             $this->fat_fkcliente_denominazione = $row['cli_denominazione'];
             $this->fat_fkcliente_indirizzo = $row['cli_indirizzo'];
             $this->fat_fkcliente_cap = $row['cli_cap'];
@@ -157,10 +187,10 @@ class Fattura {
             $this->fat_fatturazioneelettronica = $row['fat_fatturazioneelettronica'];
             $this->fat_pagato = $row['fat_pagato'];
             $this->fat_fkfattura = $row['fat_fkfattura'];
-            $this->fat_annullato = $row['fat_annullato'];
+            $this->fat_annullato = $row['fat_annullato'];*/
             
             // chiude il database
-            $db = NULL;*/
+            $db = NULL;
             return true;
         } catch (PDOException $e) {
             return false;

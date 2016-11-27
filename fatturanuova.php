@@ -185,7 +185,7 @@
 
           <div class="form-group row m-t-md">
             <div class="col-sm-12">
-              <button type="submit" class="btn btn-block btn-primary btn-lg">CREA FATTURA</button>
+              <button type="submit" class="btn btn-block btn-success btn-lg">CREA FATTURA</button>
             </div>
           </div>
 
