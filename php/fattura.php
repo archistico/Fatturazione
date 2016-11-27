@@ -79,6 +79,42 @@ class Fattura {
             return false;
         }
     }
+
+    public function Pagata() {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+            date_default_timezone_set('Europe/Rome');
+            
+            // Controlla numero ultima fattura e aggiungi 1
+            $result = $db->query("SELECT fattura.fat_pagata FROM fattura WHERE fat_id = '" . $this->fat_id . "' LIMIT 1");
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+
+            //UPDATE `fattura` SET `fat_pagata` = '1' WHERE `fattura`.`fat_id` = 18;
+
+            if($row['fat_pagata']==0) {
+                $sql = "UPDATE fattura SET fat_pagata = 1 WHERE fattura.fat_id = ".$this->fat_id;      
+                $db->exec($sql);
+            } else {
+                $sql = "UPDATE fattura SET fat_pagata = 0 WHERE fattura.fat_id = ".$this->fat_id;      
+                $db->exec($sql);
+            }
+            
+            
+            // chiude il database
+            $db = NULL;
+
+            return true;
+
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
     
     public function CaricaSQL($id) {
         try {
@@ -142,7 +178,7 @@ function FATTabella() {
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
 
-        $result = $db->query('SELECT fattura.*, cliente.* FROM fattura INNER JOIN cliente ON fattura.fat_fkcliente = cliente.cli_id WHERE fattura.fat_annullata = 0');
+        $result = $db->query('SELECT fattura.*, cliente.* FROM fattura INNER JOIN cliente ON fattura.fat_fkcliente = cliente.cli_id WHERE fattura.fat_annullata = 0 ORDER BY fattura.fat_numero ASC');
         
         // Parte iniziale
         print "<table id='fattabella' class='table table-bordered table-hover'>";
@@ -156,7 +192,16 @@ function FATTabella() {
             $dataEmissione = DateTime::createFromFormat('Y-m-d', $row['fat_data'])->format('d/m/Y');
                         
             print "<tr>";
-            print "<td><a class='btn btn-xs btn-info' href='fatturavisualizza.php?fat_id=".$row['fat_id']."&TipoOperazione=1' role='button' style='margin-right: 5px'><i class = 'fa fa-eye'></i></a><a class='btn btn-xs btn-danger' href='fatturacancella.php?fat_id=".$row['fat_id']."' role='button'><i class = 'fa fa-remove'></i></a></td>";
+            
+            print "<td>";
+            print "<a class='btn btn-xs btn-info' href='fatturavisualizza.php?fat_id=".$row['fat_id']."&TipoOperazione=1' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
+            
+            print "<a class='btn btn-xs btn-warning' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-euro'></i></a>";
+            print "<a class='btn btn-xs btn-success' href='fatturapdf.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-file-pdf-o'></i></a>";
+                        
+            print "<a class='btn btn-xs btn-danger' href='fatturacancella.php?fat_id=".$row['fat_id']."' role='button' style='margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            print "</td>";
+            
             print "<td>$dataEmissione</td>";
             print "<td> FAT ".$row['fat_anno']."-".$numero_padded."</td>";
             if($row['cli_comune']) {
@@ -183,7 +228,7 @@ function FATTabella() {
             print "<td>".$listaDDT."</td>";
 
             print "<td>&euro; " . number_format($importo, 2, ',', ' ') . "</td>";
-            if($row['fat_pagato']) {
+            if($row['fat_pagata']) {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
             } else {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";
