@@ -134,10 +134,18 @@ function DDTTabella() {
             $dataEmissione = DateTime::createFromFormat('Y-m-d', $row['ddt_data'])->format('d/m/Y');
             $dataRitiro = DateTime::createFromFormat('Y-m-d', $row['ddt_ritiro'])->format('d/m/Y');
             
+            // fa-file-pdf-o
+            // fa-pencil
+
             print "<tr>";
-            print "<td><a class='btn btn-xs btn-info' href='ddtvisualizza.php?ddt_id=".$row['ddt_id']."&TipoOperazione=1' role='button' style='margin-right: 5px'><i class = 'fa fa-eye'></i></a><a class='btn btn-xs btn-danger' href='ddtcancella.php?ddt_id=".$row['ddt_id']."' role='button'><i class = 'fa fa-remove'></i></a></td>";
+            print "<td>";
+            print "<a class='btn btn-xs btn-success' href='ddtpdf.php?ddt_id=".$row['ddt_id']."' role='button' style='margin-right: 5px'><i class = 'fa fa-file-pdf-o'></i></a>";
+            print "<a class='btn btn-xs btn-info' href='ddtvisualizza.php?ddt_id=".$row['ddt_id']."&TipoOperazione=1' role='button' style='margin-right: 5px'><i class = 'fa fa-eye'></i></a>";
+            print "<a class='btn btn-xs btn-warning' href='ddtmodifica.php?ddt_id=".$row['ddt_id']."' role='button' style='margin-right: 5px'><i class = 'fa fa-pencil'></i></a>";
+            print "<a class='btn btn-xs btn-danger' href='ddtcancella.php?ddt_id=".$row['ddt_id']."' role='button'><i class = 'fa fa-remove'></i></a>";
+            print "</td>";
             print "<td>$dataEmissione</td>";
-            print "<td>".$numero_padded."</td>";
+            print "<td>DDT ".$row['ddt_anno']."-".$numero_padded."</td>";
             if($row['cli_comune']) {
                  print "<td>".$row['cli_denominazione']." (".$row['cli_comune'].")</td>";
             } else {

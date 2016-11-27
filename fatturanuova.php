@@ -232,6 +232,14 @@
         $.each(data, function(i, d) {
           $('#listaDDT').append('<option value="' + d.ddt_id + '">' + d.descrizione + '</option>');
         });
+
+        // Se zero elementi allora blocca
+        if(select.childElementCount == 0) {
+          var btn = document.getElementById('btnaggiungi');
+          btn.className = "btn btn-info btn-block disabled";
+          select.disabled=true;
+        }
+
       }
     });
   }
@@ -242,6 +250,7 @@
   function aggiungiDDT() {
     var table = document.getElementById("tabellaDDT");
     var select = document.getElementById("listaDDT");
+        
     var row = table.insertRow(-1);
     var cell1 = row.insertCell(0);
     cell1.innerHTML = select.options[select.selectedIndex].text;
@@ -257,6 +266,7 @@
       btn.className = "btn btn-info btn-block disabled";
       select.disabled=true;
     }
+
   }
 
   $(function () {
