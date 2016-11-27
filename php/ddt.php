@@ -125,7 +125,7 @@ function DDTTabella() {
         // Parte iniziale
         print "<table id='ddttabella' class='table table-bordered table-hover'>";
         print "<thead><tr>";
-        print "<th>#</th><th>Data</th><th>Numero</th><th>Cliente</th><th>Importo</th><th>Pagato</th><th>Fattura</th>";
+        print "<th>#</th><th>Data</th><th>Numero</th><th>Cliente</th><th>Importo</th><th>Pagato</th><th>Fatturato / F. elettr.</th>";
         print "</tr></thead><tbody>";
         
         foreach ($result as $row) {
@@ -150,11 +150,19 @@ function DDTTabella() {
             } else {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";
             }
+            print "<td>";
             if($row['ddt_fkfattura']) {
-                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
+                print "<i class = 'fa fa-fw fa-circle' style = 'color:green'></i>";
             } else {
-                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";
+                print "<i class = 'fa fa-fw fa-circle' style = 'color:red'></i>";
             }
+            print " / ";
+            if($row['ddt_fatturazioneelettronica']) {
+                print "<i class = 'fa fa-fw fa-circle' style = 'color:green'></i>";
+            } else {
+                print "<i class = 'fa fa-fw fa-circle' style = 'color:red'></i>";
+            }
+            print "</td>";
             print "</tr>";
         }
         // chiude il database

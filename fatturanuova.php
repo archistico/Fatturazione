@@ -155,7 +155,7 @@
                 <div class="col-md-2">
                   <div class="form-group">
                     <label>&nbsp;</label>
-                    <a id="btnaggiungi" onclick="aggiungiDDT()" class="btn btn-info btn-block">Aggiungi</a>
+                    <a id="btnaggiungi" onclick="aggiungiDDT()" class="btn btn-info btn-block">Aggiungi DDT</a>
                   </div>
 
                 </div>
@@ -185,7 +185,7 @@
 
           <div class="form-group row m-t-md">
             <div class="col-sm-12">
-              <button type="submit" class="btn btn-block btn-primary btn-lg">INSERISCI</button>
+              <button type="submit" class="btn btn-block btn-primary btn-lg">CREA FATTURA</button>
             </div>
           </div>
 
