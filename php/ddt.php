@@ -163,7 +163,7 @@ function DDTTabella() {
             if($row['ddt_fkfattura']) {
                 print "<i class = 'fa fa-fw fa-circle' style = 'color:green'></i>";
                 list($numero, $anno) = CercaFattura($row['ddt_fkfattura']);
-                print "FATTURA ".$numero. " / ".$anno;
+                print "FAT ".$anno. "-".sprintf("%04d", $numero);
             } else {
                 print "<i class = 'fa fa-fw fa-circle' style = 'color:red'></i>";
             }

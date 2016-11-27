@@ -147,7 +147,7 @@ function FATTabella() {
         // Parte iniziale
         print "<table id='fattabella' class='table table-bordered table-hover'>";
         print "<thead><tr>";
-        print "<th>#</th><th>Data</th><th>Numero</th><th>Cliente</th><th>Importo</th><th>Pagato</th>";
+        print "<th>#</th><th>Data</th><th>Numero</th><th>Cliente</th><th>DDT</th><th>Importo</th><th>Pagato</th>";
         print "</tr></thead><tbody>";
         
         foreach ($result as $row) {
@@ -158,7 +158,7 @@ function FATTabella() {
             print "<tr>";
             print "<td><a class='btn btn-xs btn-info' href='fatturavisualizza.php?fat_id=".$row['fat_id']."&TipoOperazione=1' role='button' style='margin-right: 5px'><i class = 'fa fa-eye'></i></a><a class='btn btn-xs btn-danger' href='fatturacancella.php?fat_id=".$row['fat_id']."' role='button'><i class = 'fa fa-remove'></i></a></td>";
             print "<td>$dataEmissione</td>";
-            print "<td>".$numero_padded."</td>";
+            print "<td> FAT ".$row['fat_anno']."-".$numero_padded."</td>";
             if($row['cli_comune']) {
                  print "<td>".$row['cli_denominazione']." (".$row['cli_comune'].")</td>";
             } else {
@@ -167,11 +167,20 @@ function FATTabella() {
 
             // DEVO SCORRERE I DDT COLLEGATI PER AVERE LA SOMMA DEGLI IMPORTI
             $importo = 0;
+            $listaDDT = "";
+
             $resultDDT = $db->query("SELECT * FROM ddt WHERE ddt.ddt_fkfattura = ".$row['fat_id']);
             foreach ($resultDDT as $rowddt) {
                 $rowddt = get_object_vars($rowddt);
                 $importo += $rowddt['ddt_importo'];
+                $numeroDDT = sprintf("%04d", $rowddt['ddt_numero']);
+                if(empty($listaDDT)){
+                    $listaDDT = "DDT ".$rowddt['ddt_anno']."-".$numeroDDT;
+                } else {
+                    $listaDDT .= ", DDT ".$rowddt['ddt_anno']."-".$numeroDDT;
+                }
             }
+            print "<td>".$listaDDT."</td>";
 
             print "<td>&euro; " . number_format($importo, 2, ',', ' ') . "</td>";
             if($row['fat_pagato']) {
