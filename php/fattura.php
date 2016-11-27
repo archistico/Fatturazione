@@ -40,10 +40,11 @@ class Fattura {
 
             // DEVO AGGIUNGERE I DETTAGLI DEI DDT COLLEGATI
             foreach($this->fat_ddt as $ddt) {
-                $sql = "INSERT INTO fatturadettaglio VALUES (NULL, '$id', '$ddt', '0');";        
+                // $sql = "INSERT INTO fatturadettaglio VALUES (NULL, '$id', '$ddt', '0');";  
+                $sql = "UPDATE ddt SET ddt_fkfattura = ".$id." WHERE ddt.ddt_id = ".$ddt;      
                 $db->exec($sql);
             }
-          
+     
 
             // chiude il database
             $db = NULL;
@@ -163,10 +164,10 @@ function FATTabella() {
             } else {
                  print "<td>".$row['cli_denominazione']."</td>";
             }
-            
+
             // DEVO SCORRERE I DDT COLLEGATI PER AVERE LA SOMMA DEGLI IMPORTI
             $importo = 0;
-            $resultDDT = $db->query("SELECT * FROM ddt INNER JOIN fatturadettaglio ON fatturadettaglio.fdt_fkfattura = ".$row['fat_id']." WHERE ddt.ddt_id = fatturadettaglio.fdt_fkddt");
+            $resultDDT = $db->query("SELECT * FROM ddt WHERE ddt.ddt_fkfattura = ".$row['fat_id']);
             foreach ($resultDDT as $rowddt) {
                 $rowddt = get_object_vars($rowddt);
                 $importo += $rowddt['ddt_importo'];
