@@ -26,11 +26,39 @@ class Prodotto {
             return false;
         }
     }
+
+    public function CaricaSQL($id) {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+            $result = $db->query('SELECT * FROM prodotto WHERE pro_vecchio=0 AND pro_id='.$id.' LIMIT 1');
+            foreach ($result as $row) {
+                $row = get_object_vars($row);
+                
+                $this->pro_id = $row['pro_id'];
+                $this->pro_categoria = $row['pro_categoria'];
+                $this->pro_descrizione = convertiStringaToHTML($row['pro_descrizione']);
+                $this->pro_prezzo = $row['pro_prezzo'];
+                $this->pro_iva = $row['pro_iva'];
+            }
+
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
 }
 
 
-
-
+// --------- 
 
 function prodotto_select() {
     try {
