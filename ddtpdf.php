@@ -181,38 +181,11 @@
       $totaleiva10 =0;
       $totaleiva4 =0;
       
-      $imponibile10 =0;
-      $imponibile4 =0;
-
-      // TEMP
-
-      //$pdf->Cell(100,100,var_dump($listaDDD),1,0,'C');
-
-      /*
-      // Calcolo valori globali movimento
-      foreach($fat->libri as $l){
-        $riga_iva=0;
-        if($l->tipologia=="Carta") {
-          $riga_iva = 0;
-          $imponibilecarta +=$l->quantita*$l->prezzo*(1-$l->sconto/100);
-        } elseif($l->tipologia=="Ebook") {
-          $imponibileebook +=$l->quantita*$l->prezzo*(1-$l->sconto/100)/(1+$l->iva/100);
-          $riga_iva = $l->quantita*$l->prezzo*(1-$l->sconto/100)-$l->quantita*$l->prezzo*(1-$l->sconto/100)/(1+$l->iva/100);
-          $totaleivaebook+=$riga_iva;
-        } else {
-          $imponibilealtro +=$l->quantita*$l->prezzo*(1-$l->sconto/100)/(1+$l->iva/100);
-          $riga_iva = $l->quantita*$l->prezzo*(1-$l->sconto/100)-$l->quantita*$l->prezzo*(1-$l->sconto/100)/(1+$l->iva/100);
-          $totaleivaaltro+=$riga_iva;
-        }
-        $totalesconto+=$l->quantita*$l->sconto/100*$l->prezzo;
-        $totalenonscontato +=$l->quantita*$l->prezzo;
-      }
-
-      */
-
-
-
-
+      $totaleimponibile =0;
+      $totaleimponibile4 =0;
+      $totaleimponibile10 =0;
+      
+      
       // Inserimento Dettagli
       $linea = 0;
       for($contatore = ($paginacorrente-1)*$maxrighe+1; $contatore <= $paginacorrente*$maxrighe; $contatore++){
@@ -223,13 +196,22 @@
         $pdf->Cell(25,6,$lista[$contatore-1]->ddd_tracciabilita,1,0,'C');
         $pdf->Cell(15,6,EURO.number_format($lista[$contatore-1]->ddd_fkprodotto_prezzo, 2, ',', ' '),1,0,'R');
         $pdf->Cell(15,6,$lista[$contatore-1]->ddd_fkprodotto_iva,1,0,'C');
-        
-        $riga_iva = $lista[$contatore-1]->ddd_quantita*$lista[$contatore-1]->ddd_fkprodotto_prezzo*($lista[$contatore-1]->ddd_fkprodotto_iva/100);
+
+        $importotemp = $lista[$contatore-1]->ddd_quantita*$lista[$contatore-1]->ddd_fkprodotto_prezzo;
+        $ivatemp = ($lista[$contatore-1]->ddd_fkprodotto_iva/100);
+        $riga_iva = $importotemp - $importotemp/(1+$ivatemp);
         $pdf->Cell(15,6,EURO. number_format($riga_iva, 2, ',', ' '),1,0,'R');
-        
+
         // importo
-        $pdf->Cell(20,6,EURO. number_format($lista[$contatore-1]->ddd_quantita*$lista[$contatore-1]->ddd_fkprodotto_prezzo, 2, ',', ' '),1,0,'R');
+        $imponibile = $lista[$contatore-1]->ddd_quantita*$lista[$contatore-1]->ddd_fkprodotto_prezzo;
+        $totaleimponibile += $imponibile;
+        $pdf->Cell(20,6,EURO. number_format($imponibile, 2, ',', ' '),1,0,'R');
         $pdf->ln();
+
+        switch($lista[$contatore-1]->ddd_fkprodotto_iva) {
+          case 4: $totaleiva4 += $riga_iva; $totaleimponibile4 += $imponibile; break;
+          case 10: $totaleiva10 += $riga_iva; $totaleimponibile10 += $imponibile; break;
+        }
 
         $linea += 1;
 
@@ -253,15 +235,15 @@
         $linea+=1;
       }
 
-/*
 
-      // Info IVA
+
+      // Info 
       $ivaY = $listaY+25*6-3;
       $pdf->SetFont('Arial','',8);
       //$pdf->SetXY(0+$mx,$ivaY+$my);
       //$pdf->Cell(190,4,"Operazione non imponibile ai sensi dell'art. 41 comma 1 lettera a D.L. 331/1993 - Contributo ambientale CONAI assolto",0,0,'L');
       $pdf->SetXY(0+$mx,$ivaY+3.5+$my);
-      $pdf->Cell(190,4,"* Riferimenti di legge IVA ASSOLTA DALL'EDITORE ART. 74 D.P.R. 633/72",0,0,'L');
+      $pdf->Cell(190,4,"* Riferimenti di legge ---",0,0,'L');
 
       // Zona timbri vettore e cliente
       $fondoY = $ivaY + 9;
@@ -280,7 +262,7 @@
       // Scritta vettore
       $pdf->SetXY(0+$mx,$fondoY+0.5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell($fondoFirmeX,4,$fat->trasporto." - ".$fat->aspetto,0,0,'L');$pdf->ln();
+      $pdf->Cell($fondoFirmeX,4,$ddt->ddt_trasporto." - ".$ddt->ddt_aspetto,0,0,'L');$pdf->ln();
       $pdf->Cell($fondoFirmeX,4,"Firma vettore",0,0,'L');
 
       // Scritta cliente
@@ -295,101 +277,82 @@
       $pdf->Cell(20,7.5,"IMPONIBILE",1,0,'C');
       $pdf->Cell(18,7.5,"IMPOSTA",1,0,'C');$pdf->ln();
 
-      // LISTA IVA
-      list($aliquotaIVAcarta, $aliquotaIVAebook, $aliquotaIVAaltro) = listaIVA($mov_dataemissione);
 
-      // IVA CARTA
+      // IVA 4
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(22,5,"Carta: ".$aliquotaIVAcarta."%",1,0,'C');
-      $pdf->Cell(20,5,EURO.  number_format($imponibilecarta, 2, ',', ' '),1,0,'R');
-      $pdf->Cell(18,5,EURO.  number_format($totaleivacarta, 2, ',', ' '),1,0,'R');$pdf->ln();
+      $pdf->Cell(22,5,"4%",1,0,'C');
+      $pdf->Cell(20,5,EURO.  number_format($totaleimponibile4, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(18,5,EURO.  number_format($totaleiva4, 2, ',', ' '),1,0,'R');$pdf->ln();
 
-      // IVA EBOOK
+      // IVA 10
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(22,5,"Ebook: ".$aliquotaIVAebook."%",1,0,'C');
-      $pdf->Cell(20,5,EURO.  number_format($imponibileebook, 2, ',', ' '),1,0,'R');
-      $pdf->Cell(18,5,EURO.  number_format($totaleivaebook, 2, ',', ' '),1,0,'R');$pdf->ln();
+      $pdf->Cell(22,5,"10%",1,0,'C');
+      $pdf->Cell(20,5,EURO.  number_format($totaleimponibile10, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(18,5,EURO.  number_format($totaleiva10, 2, ',', ' '),1,0,'R');$pdf->ln();
 
-      // IVA ALTRO
+      // ALTRO
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(22,5,"Altro: ".$aliquotaIVAaltro."%",1,0,'C');
-      $pdf->Cell(20,5,EURO.  number_format($imponibilealtro, 2, ',', ' '),1,0,'R');
-      $pdf->Cell(18,5,EURO.  number_format($totaleivaaltro, 2, ',', ' '),1,0,'R');$pdf->ln();
+      $pdf->Cell(22,5,"",1,0,'C');
+      $pdf->Cell(20,5,"",1,0,'R');
+      $pdf->Cell(18,5,"",1,0,'R');$pdf->ln();
+
 
       // ZONA PAGAMENTO
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(22,7.5,"PAGAMENTO ",1,0,'R');
-      if($fat->pagato){
-        $pdf->Cell(38,7.5,"PAGATO",1,0,'L');
-      }
-      else {
-        $pdf->Cell(38,7.5,"NON PAGATO",1,0,'L');
-      }
+      $pdf->Cell(60,7.5,"PAGAMENTO ",1,0,'C');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+5+5+7.5+$my);
-      $pdf->SetFont('Arial','',8);
-      $pdf->Cell(22,5,"TERMINE:",1,0,'R');
-      $pdf->Cell(38,5,$fat->pagamentotermine,1,0,'L');
+      $pdf->SetFont('Arial','B',16);
+      $pdf->Cell(60,15,(!empty($ddt->ddt_pagato)?"PAGATO" : "NON PAGATO"),1,0,'C');
+
       $pdf->ln();
-      $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+5+5+7.5+5+$my);
-      $pdf->SetFont('Arial','',8);
-      $pdf->Cell(22,5,"PAGAMENTO:",1,0,'R');
-      $pdf->Cell(38,5,$fat->pagamentotipologia,1,0,'L');
-      $pdf->ln();
-      $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+5+5+7.5+5+5+$my);
-      $pdf->SetFont('Arial','',8);
-      $pdf->Cell(22,5,"EFFETTUATO:",1,0,'R');
-      $pdf->Cell(38,5,$fat->pagamentoeffettuato,1,0,'L');
-      $pdf->ln();
+      
 
       // TOTALI
       $fondoPagamentoX = 64;
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,7.5,"LORDO TOTALE ",1,0,'R');
-      $pdf->Cell(30,7.5,EURO. number_format($totalenonscontato, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(50,7.5,"IMPONIBILE LORDO ",1,0,'R');
+      $pdf->Cell(30,7.5,EURO. number_format($totaleimponibile, 2, ',', ' '),1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"SCONTO TOTALE ",1,0,'R');
-      $pdf->Cell(30,5,EURO.  number_format($totalesconto, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(50,5,"IVA TOTALE ",1,0,'R');
+      $pdf->Cell(30,5,EURO.  number_format($totaleiva4 + $totaleiva10, 2, ',', ' '),1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"IVA TOTALE ",1,0,'R');
-      $pdf->Cell(30,5,EURO.  number_format($totaleivaebook+$totaleivaaltro, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(50,5,"IMPONIBILE NETTO ",1,0,'R');
+      $pdf->Cell(30,5,EURO.  number_format($totaleimponibile-($totaleiva4 + $totaleiva10), 2, ',', ' '),1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"IMPORTO SCONTATO TOTALE ",1,0,'R');
-      $pdf->Cell(30,5,EURO.  number_format($totalenonscontato-$totalesconto, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(50,5,"",1,0,'R');
+      $pdf->Cell(30,5,"",1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,7.5,"SPEDIZIONE".EURO.  number_format($fat->spesespedizione, 2, ',', ' ')." SCONTO ".$fat->scontospedizione."%",1,0,'R');
-      $pdf->Cell(30,7.5,EURO.  number_format($fat->spesespedizione*(1-$fat->scontospedizione/100), 2, ',', ' '),1,0,'R');
+      $pdf->Cell(50,7.5,"",1,0,'R');
+      $pdf->Cell(30,7.5,"",1,0,'R');
       $pdf->ln();
+
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+7.5+$my);
       $pdf->SetFont('Arial','B',16);
 
-      if($fat->pagato){
-        $pdf->Cell(50,15,"PAGATO ",1,0,'R');
-      }
-      else {
-        $pdf->Cell(50,15,"DA PAGARE ",1,0,'R');
-      }
-      $pdf->Cell(30,15,EURO.  number_format($totalenonscontato-$totalesconto+($fat->spesespedizione*(1-$fat->scontospedizione/100)), 2, ',', ' '),1,0,'R');
+      $pdf->Cell(50,15,"TOTALE ",1,0,'R');
+
+      $pdf->Cell(30,15,EURO.  number_format($totaleimponibile, 2, ',', ' '),1,0,'R');
       $pdf->ln();
 
       // CONTROLLO LA CHIUSURA DEL MOVIMENTO
       if($fat->chiuso==1) {
         $pdf->Line(0,0,210,297);
         $pdf->Line(210,0,0,297);
-      }*/
+      }
       
 
     } // chiusura per ogni pagina
@@ -397,7 +360,8 @@
 
 
     // Chiudo il PDF
-    $pdf->Output(I, $fat->numero." ".str_replace(".", "", $fat->cliente->denominazione).".pdf");
+    //
+    $pdf->Output(I, 'DDT-'.$ddt->ddt_anno.'-'.$ddt->ddt_numero_formattato." ".str_replace(".", "", $ddt->ddt_fkcliente_denominazione).".pdf");
 
     ?>
 
