@@ -16,14 +16,22 @@ toggle CTRL + SHIFT + ENTER
 * [X] ~~*Creazione*~~
 * [ ] Modifica
 * [ ] Elimina
+* [X] ~~*Lista*~~
+* [ ] Lista DDT non pagati
+* [ ] Cerca DDT
 
 ## Fatture
 * [X] ~~*Creazione*~~
 * [ ] Modifica
 * [X] ~~*Lista*~~
+* [ ] Lista fatture non pagate
 
 ## Prodotti
 * [ ] Creazione
 * [ ] Modifica
 * [ ] Elimina
 * [X] ~~*Lista*~~
+
+## Statistiche
+* [ ] Lista prodotti più venduti
+* [ ] Lista migliori clienti

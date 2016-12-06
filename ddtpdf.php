@@ -61,36 +61,7 @@
     $ddt = new DDT();
     $ddt->CaricaSQL($ddt_id);
 
-    /*$this->ddt_id = $row['ddt_id'];
-    $this->ddt_numero = $row['ddt_numero'];
-    $this->ddt_numero_formattato = sprintf("%04d", $this->ddt_numero);
-    $this->ddt_anno = $row['ddt_anno'];
-    $this->ddt_data = DateTime::createFromFormat('Y-m-d', $row['ddt_data']);
-    $this->ddt_data_stringa = $this->ddt_data->format('d/m/Y');
-    $this->ddt_fkcliente = $row['ddt_fkcliente'];
-    $this->ddt_fkcliente_denominazione = $row['cli_denominazione'];
-    $this->ddt_fkcliente_indirizzo = $row['cli_indirizzo'];
-    $this->ddt_fkcliente_cap = $row['cli_cap'];
-    $this->ddt_fkcliente_comune = $row['cli_comune'];
-    $this->ddt_fkcliente_piva = $row['cli_piva'];
-    $this->ddt_fkcliente_telefono = $row['cli_telefono'];
-    $this->ddt_fkcliente_fax = $row['cli_fax'];
-    $this->ddt_fkcliente_email = $row['cli_email'];
-    $this->ddt_destinazione = $row['ddt_destinazione'];
-    $this->ddt_causale = $row['ddt_causale'];
-    $this->ddt_trasporto = $row['ddt_trasporto'];
-    $this->ddt_aspetto = $row['ddt_aspetto'];
-    $this->ddt_colli = $row['ddt_colli'];
-    $this->ddt_ritiro = DateTime::createFromFormat('Y-m-d', $row['ddt_ritiro']);
-    $this->ddt_ritiro_stringa = $this->ddt_ritiro->format('d/m/Y');
-    $this->ddt_scontrino = $row['ddt_scontrino'];
-    $this->ddt_importo = $row['ddt_importo'];
-    $this->ddt_fatturazioneelettronica = $row['ddt_fatturazioneelettronica'];
-    $this->ddt_pagato = $row['ddt_pagato'];
-    $this->ddt_fkfattura = $row['ddt_fkfattura'];
-    $this->ddt_annullato = $row['ddt_annullato'];*/
     
-
     // CARICA I DDT DETTAGLIO
     $DDD = new DDTDettaglio();
     $lista = $DDD->CaricaSQL($ddt_id);
@@ -331,8 +302,8 @@
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"",1,0,'R');
-      $pdf->Cell(30,5,"",1,0,'R');
+      $pdf->Cell(50,5,"IMPORTO SCONTRINO ",1,0,'R');
+      $pdf->Cell(30,5,EURO.  number_format($ddt->ddt_scontrino, 2, ',', ' '),1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+$my);
       $pdf->SetFont('Arial','',8);
