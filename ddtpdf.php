@@ -187,7 +187,7 @@
       //$pdf->SetXY(0+$mx,$ivaY+$my);
       //$pdf->Cell(190,4,"Operazione non imponibile ai sensi dell'art. 41 comma 1 lettera a D.L. 331/1993 - Contributo ambientale CONAI assolto",0,0,'L');
       $pdf->SetXY(0+$mx,$ivaY+3.5+$my);
-      $pdf->Cell(190,4,"* Riferimenti di legge ---",0,0,'L');
+      $pdf->Cell(190,4,"* Riferimenti di legge (D.d.t.) D.P.R. 472 del 14/08/1996 - D.P.R. 696 del 21/12/1996",0,0,'L');
 
       // Zona timbri vettore e cliente
       $fondoY = $ivaY + 9;

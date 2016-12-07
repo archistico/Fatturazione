@@ -236,10 +236,10 @@
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
                             Destinatario:
-                            <h2><?php echo convertiStringaToHTML($ddt->ddt_fkcliente_denominazione); ?></h2>
+                            <h2><?php echo convertiStringaToHTML(utf8_decode($ddt->ddt_fkcliente_denominazione)); ?></h2>
                             <address>
-                                <?php echo convertiStringaToHTML($ddt->ddt_fkcliente_indirizzo); ?><br>
-                                <?php echo $ddt->ddt_fkcliente_cap ." ". convertiStringaToHTML($ddt->ddt_fkcliente_comune); ?><br>
+                                <?php echo convertiStringaToHTML(utf8_decode($ddt->ddt_fkcliente_indirizzo)); ?><br>
+                                <?php echo $ddt->ddt_fkcliente_cap ." ". convertiStringaToHTML(utf8_decode($ddt->ddt_fkcliente_comune)); ?><br>
                                 Tel: <?php echo $ddt->ddt_fkcliente_telefono; ?><br>
                                 Email: <?php echo $ddt->ddt_fkcliente_email; ?><br>
                                 P.IVA: <?php echo $ddt->ddt_fkcliente_piva; ?><br>

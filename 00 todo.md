@@ -10,11 +10,10 @@ toggle CTRL + SHIFT + ENTER
 * [ ] Gestione login tutte le pagine
 
 ## Clienti
-* [ ] Creazione cliente
+* [X] ~~*Creazione cliente*~~
 * [ ] Modifica cliente
-* [ ] Lista Clienti
+* [X] ~~*Lista Clienti*~~
 * [ ] Cancellazione cliente
-* [ ] Visualizzazione cliente
 
 ## DDT
 * [X] ~~*Creazione*~~

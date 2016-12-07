@@ -65,3 +65,50 @@ function cliente_select() {
     }
 }
 
+function ClienteTabella() {
+    try {
+        include 'config.php';
+        
+        $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+        $result = $db->query('SELECT cliente.* FROM cliente ORDER BY cliente.cli_denominazione ASC');
+        
+        // Parte iniziale
+        print "<table id='clientetabella' class='table table-bordered table-hover'>";
+        print "<thead><tr>";
+        print "<th>#</th><th>Denominazione</th><th>Indirizzo</th><th>Recapiti</th><th>Email</th><th>Fiscali</th>";
+        print "</tr></thead><tbody>";
+        
+        foreach ($result as $row) {
+            $row = get_object_vars($row);
+                                    
+            print "<tr>";
+            
+            print "<td>";
+                        
+            print "<a class='btn btn-xs btn-danger' href='clientecancella.php?cli_id=".$row['cli_id']."' role='button' style='margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            print "</td>";
+            
+            print "<td>".$row['cli_denominazione']."</td>";
+            print "<td>".$row['cli_indirizzo']. " - " .$row['cli_cap']. " " .$row['cli_comune']."</td>";
+            print "<td>".$row['cli_telefono']. " / " .$row['cli_fax']. "</td>";
+            print "<td>".$row['cli_email']."</td>";
+            print "<td>".$row['cli_piva']."</td>";
+
+            
+            print "</tr>";
+        }
+        // chiude il database
+        $db = NULL;
+        
+        // Parte finale
+        print "</tbody></table>";
+        
+    } catch (PDOException $e) {
+        throw new PDOException("Error  : " . $e->getMessage());
+    }
+}
+
