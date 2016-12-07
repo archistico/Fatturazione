@@ -11,34 +11,7 @@
 
     define('EURO', " ".chr(128)." ");
 
-    /*class Cliente {
-      public $cli_id;
-      public $cli_denominazione;
-      public $cli_indirizzo;
-      public $cli_cap;
-      public $cli_comune;
-      public $cli_telefono;
-      public $cli_fax;
-      public $cli_email;
-      public $cli_piva;
-      public $cli_vecchio;
-
-      public function __construct($denominazione, $indirizzo, $cap, $comune, $telefono, $fax, $email, $piva){
-        $this->cli_denominazione=utf8_decode($denominazione);
-        $this->cli_indirizzo=utf8_decode($indirizzo);
-        $this->cli_cap=$cap;
-        $this->cli_comune=utf8_decode($comune);
-        $this->cli_telefono=$telefono;
-        $this->cli_fax=$fax;
-        $this->cli_email=$email;
-        $this->cli_piva=$piva;
-      }
-    }*/
-
-
-
-
-
+    
     require('numeropagine.php');
     require('fpdf.php');
     include 'php/config.php';
@@ -108,13 +81,13 @@
       $pdf->SetXY(0+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(28,5,"ALTRO ",1,0,'R');$pdf->ln();
 
       $pdf->SetFont('Arial','B',14);
-      $pdf->SetXY(28+$mx,$clienteY+$my);$pdf->Cell(115,7,$ddt->ddt_fkcliente_denominazione,1);$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+$my);$pdf->Cell(115,7, utf8_decode($ddt->ddt_fkcliente_denominazione),1);$pdf->ln();
       $pdf->SetFont('Arial','',10);
-      $pdf->SetXY(28+$mx,$clienteY+7+$my);$pdf->Cell(115,5, $ddt->ddt_fkcliente_indirizzo." - ".$ddt->ddt_fkcliente_cap." ".$ddt->ddt_fkcliente_comune,1,0,'L');$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+7+$my);$pdf->Cell(115,5, utf8_decode($ddt->ddt_fkcliente_indirizzo." - ".$ddt->ddt_fkcliente_cap." ".$ddt->ddt_fkcliente_comune),1,0,'L');$pdf->ln();
       
       $pdf->SetXY(28+$mx,$clienteY+7+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_telefono)?"tel: ".$ddt->ddt_fkcliente_telefono." " : "").(!empty($ddt->ddt_fkcliente_fax)?"fax: ".$ddt->ddt_fkcliente_fax : ""),1,0,'L');$pdf->ln();
-      $pdf->SetXY(28+$mx,$clienteY+7+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_piva)?"PIVA: ".$ddt->ddt_fkcliente_piva." " : "").(!empty($ddt->ddt_fkcliente_email)?"email: ".$ddt->ddt_fkcliente_email : ""),1,0,'L');$pdf->ln();
-      $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+$my);$pdf->Cell(115,5,$ddt->ddt_destinazione,1,0,'L');$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+7+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_piva)?"P.IVA / C.F.: ".$ddt->ddt_fkcliente_piva." " : "").(!empty($ddt->ddt_fkcliente_email)?"email: ".$ddt->ddt_fkcliente_email : ""),1,0,'L');$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+$my);$pdf->Cell(115,5,utf8_decode($ddt->ddt_destinazione),1,0,'L');$pdf->ln();
       $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(115,5,"",1,0,'L');$pdf->ln();
       
       // Dati fattura
@@ -163,7 +136,7 @@
         $pdf->SetFont('Arial','',8);
         $pdf->SetXY(0+$mx,$listaY+$my+$linea*6);
         $pdf->Cell(20,6,$lista[$contatore-1]->ddd_quantita . " kg",1,0,'C');
-        $pdf->Cell(80,6,$lista[$contatore-1]->ddd_fkprodotto_categoria . " - " . $lista[$contatore-1]->ddd_fkprodotto_descrizione ,1,0,'L');
+        $pdf->Cell(80,6,utf8_decode($lista[$contatore-1]->ddd_fkprodotto_categoria) . " - " . utf8_decode($lista[$contatore-1]->ddd_fkprodotto_descrizione) ,1,0,'L');
         $pdf->Cell(25,6,$lista[$contatore-1]->ddd_tracciabilita,1,0,'C');
         $pdf->Cell(15,6,EURO.number_format($lista[$contatore-1]->ddd_fkprodotto_prezzo, 2, ',', ' '),1,0,'R');
         $pdf->Cell(15,6,$lista[$contatore-1]->ddd_fkprodotto_iva,1,0,'C');
@@ -239,6 +212,7 @@
       // Scritta cliente
       $pdf->SetXY(0+$mx,$fondoY+22.5+0.5+$my);
       $pdf->SetFont('Arial','',8);
+      $pdf->Cell($fondoFirmeX,4,"Numero colli: " . $ddt->ddt_colli,0,0,'L');$pdf->ln();
       $pdf->Cell($fondoFirmeX,4,"Firma cliente",0,0,'L');
 
       // Scritta vettore
@@ -302,8 +276,8 @@
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"IMPORTO SCONTRINO ",1,0,'R');
-      $pdf->Cell(30,5,EURO.  number_format($ddt->ddt_scontrino, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(50,5,"NUMERO SCONTRINO ",1,0,'R');
+      $pdf->Cell(30,5,$ddt->ddt_scontrino,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+$my);
       $pdf->SetFont('Arial','',8);

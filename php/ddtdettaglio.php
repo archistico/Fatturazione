@@ -30,8 +30,8 @@ class DDTDettaglio {
             $dettaglio = new DDTDettaglio();
             $dettaglio->ddd_quantita = $row['ddd_quantita'];
             $dettaglio->ddd_tracciabilita = $row['ddd_tracciabilita'];
-            $dettaglio->ddd_fkprodotto_categoria = convertiStringaToHTML($row['pro_categoria']);
-            $dettaglio->ddd_fkprodotto_descrizione = convertiStringaToHTML($row['pro_descrizione']);
+            $dettaglio->ddd_fkprodotto_categoria = $row['pro_categoria'];
+            $dettaglio->ddd_fkprodotto_descrizione = $row['pro_descrizione'];
             $dettaglio->ddd_fkprodotto_prezzo = $row['pro_prezzo'];
             $dettaglio->ddd_fkprodotto_iva = $row['pro_iva'];
             
@@ -145,7 +145,7 @@ function ddtdettaglio_tabella($id) {
             print "<tr>";
             print "<td class='no-print'><a class='btn btn-xs btn-danger' href='ddtvisualizza.php?ddt_id=".$id."&ddtdettaglio=".$row['ddd_id']."&TipoOperazione=3' role='button'><i class = 'fa fa-remove'></i></a></td>";
             print "<td>".$row['ddd_quantita']."</td>";
-            print "<td>". $row['pro_categoria'] . " - " . convertiStringaToHTML($row['pro_descrizione'])." (&euro; ".$row['pro_prezzo'].")</td>";
+            print "<td>". $row['pro_categoria'] . " - " . convertiStringaToHTML(utf8_decode($row['pro_descrizione']))." (&euro; ".$row['pro_prezzo'].")</td>";
             print "<td>".$row['ddd_tracciabilita']."</td>";
             $importo = $row['ddd_quantita']*$row['pro_prezzo'];
             print "<td>&euro; " . number_format($importo, 2, ',', ' ') . "</td>";

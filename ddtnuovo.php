@@ -309,6 +309,15 @@
                     autoclose: true
                 });
             });
+
+            $(function () {
+
+                //Date picker
+                $('#datepicker1').datepicker("update", new Date());
+
+                //Date picker
+                $('#datepicker2').datepicker("update", new Date());
+            });
         </script>
     </body>
 </html>

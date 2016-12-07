@@ -11,8 +11,8 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-plus"></i> Nuovo cliente</a></li>
-            <li><a href="#"><i class="fa fa-list"></i> Lista clienti</a></li>
+            <li><a href="clientenuovo.php"><i class="fa fa-plus"></i> Nuovo cliente</a></li>
+            <li><a href="clientelista.php"><i class="fa fa-list"></i> Lista clienti</a></li>
         </ul>
     </li>
     <li class="treeview">
