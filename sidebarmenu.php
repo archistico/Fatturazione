@@ -1,11 +1,11 @@
 <ul class="sidebar-menu">
     <li class="header">Menu</li>
-    <li class="active treeview">
+    <li class="<?php echo ($menugenerale)?'active':''; ?> treeview">
         <a href="index.php">
             <i class="fa fa-dashboard"></i> <span>Generale</span>
         </a>
     </li>
-    <li class="treeview">
+    <li class="<?php echo ($menuclienti)?'active':''; ?> treeview">
         <a href="#">
             <i class="fa fa-user"></i> <span>Clienti</span>
             <i class="fa fa-angle-left pull-right"></i>
@@ -15,7 +15,7 @@
             <li><a href="clientelista.php"><i class="fa fa-list"></i> Lista clienti</a></li>
         </ul>
     </li>
-    <li class="treeview">
+    <li class="<?php echo ($menuprodotti)?'active':''; ?> treeview">
         <a href="#">
             <i class="fa fa-barcode"></i> <span>Prodotti</span>
             <i class="fa fa-angle-left pull-right"></i>
@@ -25,7 +25,7 @@
             <li><a href="prodottolista.php"><i class="fa fa-list"></i> Lista prodotti</a></li>
         </ul>
     </li>
-    <li class="treeview">
+    <li class="<?php echo ($menuddt)?'active':''; ?> treeview">
         <a href="#">
             <i class="fa fa-truck"></i> <span>DDT</span>
             <i class="fa fa-angle-left pull-right"></i>
@@ -35,7 +35,7 @@
             <li><a href="ddtlista.php"><i class="fa fa-list"></i> Lista DDT</a></li>
         </ul>
     </li>
-    <li class="treeview">
+    <li class="<?php echo ($menufatture)?'active':''; ?> treeview">
         <a href="#">
             <i class="fa fa-table"></i> <span>Fatture</span>
             <i class="fa fa-angle-left pull-right"></i>
