@@ -11,9 +11,9 @@ toggle CTRL + SHIFT + ENTER
 
 ## Clienti
 * [X] ~~*Creazione cliente*~~
-* [ ] Modifica cliente
+* [X] ~~*Modifica cliente*~~
 * [X] ~~*Lista Clienti*~~
-* [ ] Cancellazione cliente
+* [ ] Cancellazione cliente solo se non ha nessun DDT collegato
 
 ## DDT
 * [X] ~~*Creazione*~~
@@ -34,7 +34,7 @@ toggle CTRL + SHIFT + ENTER
 * [X] ~~*Lista*~~
 * [ ] Lista fatture non pagate
 * [ ] Invia per email
-* [ ] Calcolo numero fattura errato - togliere quelle con flag fat_annullata
+* [X] ~~*Calcolo numero fattura errato - togliere quelle con flag fat_annullata*~~
 * [ ] Dopo cancellazione fattura reinvio automatico alla lista fatture
 
 ## Prodotti

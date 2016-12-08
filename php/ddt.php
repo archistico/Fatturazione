@@ -41,7 +41,7 @@ class DDT {
 
             date_default_timezone_set('Europe/Rome');
             
-            $result = $db->query("SELECT MAX(ddt_numero) AS ultimo FROM ddt WHERE ddt_anno = '" . $this->ddt_anno . "'");
+            $result = $db->query("SELECT MAX(ddt_numero) AS ultimo FROM ddt WHERE ddt_annullato=0 AND ddt_anno = '" . $this->ddt_anno . "'");
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $this->ddt_numero = $row['ultimo'] + 1;
             

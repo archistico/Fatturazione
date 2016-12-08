@@ -138,7 +138,9 @@
         <?php include 'script.php'; ?>
     </body>
     <!-- page script -->
-
+    <script>
+        setTimeout(function () { window.location.href= 'fatturalista.php'; },3500); // 3.5 secondi
+    </script>
 </html>
 
 

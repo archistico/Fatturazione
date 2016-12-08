@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title> Fatturazione | FATTURA</title>
+        <title> Fatturazione | CLIENTE</title>
         <!-- Tell the browser to be responsive to screen width -->
         <?php include 'link.php'; ?>
     </head>
@@ -72,13 +72,13 @@
 
                 <section class="content-header">
                     <h1>
-                        FATTURA
-                        <small>Pagata</small>
+                        CLIENTE
+                        <small>Modifica</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li> Home</li>
-                        <li class="active">FATTURA</li>
-                        <li class="active">Pagata</li>
+                        <li class="active">Cliente</li>
+                        <li class="active">Modifica</li>
                     </ol>
                 </section>
 
@@ -88,7 +88,7 @@
                     <?php 
                     include 'php/utilita.php';
                     include 'php/config.php';
-                    include 'php/fattura.php';
+                    include 'php/cliente.php';
                     
                     // RECUPERO DATI E AGGIUNGO
                     define('CHARSET', 'UTF-8');
@@ -96,26 +96,81 @@
 
                     $errore = array();
                     
-                    $fattura = new Fattura();
+                    $cliente = new Cliente();
 
                     // Carico le variabili
-                    if (!isset($_GET['fat_id'])) {
-                        $errore['fat_id'] = 'ID fattura';
+                    
+                    if (!isset($_GET['id'])) {
+                        $errore['id'] = 'id';
                     } else {
-                        $fattura->fat_id = $_GET['fat_id'];
+                        $cliente->cli_id = $_GET['id'];
                     }
 
-                    if (empty($errore)) {
+                    if (!isset($_GET['denominazione'])) {
+                        $errore['denominazione'] = 'denominazione';
+                    } else {
+                        $cliente->cli_denominazione = $_GET['denominazione'];
+                    }
 
-                        if ($fattura->Pagata()) {
-                            echo "<div class='callout callout-success'><h4>Fattura pagata</h4><p>Modifica inserita nel database</p></div>";
-                        } else {
-                            $errore['creazione'] = 'Database';
-                        }
+                    if (!isset($_GET['nome'])) {
+                        // nessun errore - non obbligatorio
+                    } else {
+                        $cliente->cli_denominazione .= " ". $_GET['nome'];
+                    }
+
+                    if (!isset($_GET['indirizzo'])) {
+                        $errore['indirizzo'] = 'indirizzo';
+                    } else {
+                        $cliente->cli_indirizzo = $_GET['indirizzo'];
+                    }
+
+                    if (!isset($_GET['cap'])) {
+                        $errore['cap'] = 'cap';
+                    } else {
+                        $cliente->cli_cap = $_GET['cap'];
+                    }
+
+                    if (!isset($_GET['comune'])) {
+                        $errore['comune'] = 'comune';
+                    } else {
+                        $cliente->cli_comune = $_GET['comune'];
+                    }
+
+                    if (!isset($_GET['telefono'])) {
+                        $cliente->cli_telefono = "";
+                    } else {
+                        $cliente->cli_telefono = $_GET['telefono'];
+                    }
+
+                    if (!isset($_GET['fax'])) {
+                        $cliente->cli_fax = "";
+                    } else {
+                        $cliente->cli_fax = $_GET['fax'];
+                    }
+
+                    if (!isset($_GET['email'])) {
+                        $cliente->cli_email = "";
+                    } else {
+                        $cliente->cli_email = $_GET['email'];
+                    }
+
+                    if (!isset($_GET['piva'])) {
+                        $errore['piva'] = 'piva';
+                    } else {
+                        $cliente->cli_piva = $_GET['piva'];
+                    }
+                    
+                    if (!$cliente->ModificaSQL()){
+                        $errore['database'] = 'Errore SQL';
+                    }
+
+
+                    if (empty($errore)) {
+                        echo "<div class='callout callout-success'><h4>Cliente modificato</h4><p>Modifiche alla base dati effettuata correttamente</p></div>";
                     }
 
                     if (!empty($errore)) {
-                        echo "<div class='callout callout-danger'><h4>Errore modifica 'pagato' della fattura</h4><p>Ricontrollare i dati inseriti o chiamare l'amministratore</p></div>";
+                        echo "<div class='callout callout-danger'><h4>Errore nella modifica</h4><p>Ricontrollare i dati inseriti o chiamare l'amministratore</p></div>";
                     }
                     
 
@@ -126,8 +181,6 @@
                     
                     
                     ?>
-
-                    <a href="fatturalista.php">Vai alla lista delle fatture</a>
 
                 </section>
                 <!-- /.content -->
@@ -141,13 +194,6 @@
     </body>
     <!-- page script -->
     <script>
-        setTimeout(function () {
-            window.location.href= 'fatturalista.php'; 
-        },3500); // 5 secondi
+        setTimeout(function () { window.location.href= 'clientelista.php'; },3500); // 3.5 secondi
     </script>
 </html>
-
-
-
-
-

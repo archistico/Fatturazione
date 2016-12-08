@@ -24,7 +24,7 @@ class Fattura {
             date_default_timezone_set('Europe/Rome');
             
             // Controlla numero ultima fattura e aggiungi 1
-            $result = $db->query("SELECT MAX(fat_numero) AS ultimo FROM fattura WHERE fat_anno = '" . $this->fat_anno . "'");
+            $result = $db->query("SELECT MAX(fat_numero) AS ultimo FROM fattura WHERE fat_annullata=0 AND fat_anno = '" . $this->fat_anno . "'");
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $this->fat_numero = $row['ultimo'] + 1;
             
