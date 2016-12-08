@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title> Fatturazione | FATTURA</title>
+        <title> Fatturazione | CLIENTE</title>
         <!-- Tell the browser to be responsive to screen width -->
         <?php include 'link.php'; ?>
     </head>
@@ -72,12 +72,12 @@
 
                 <section class="content-header">
                     <h1>
-                        FATTURA
+                        Cliente
                         <small>Cancella</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li> Home</li>
-                        <li class="active">FATTURA</li>
+                        <li class="active">Cliente</li>
                         <li class="active">Cancella</li>
                     </ol>
                 </section>
@@ -88,7 +88,7 @@
                     <?php 
                     include 'php/utilita.php';
                     include 'php/config.php';
-                    include 'php/fattura.php';
+                    include 'php/cliente.php';
                     
                     // RECUPERO DATI E AGGIUNGO
                     define('CHARSET', 'UTF-8');
@@ -96,57 +96,26 @@
 
                     $errore = array();
                     
-                    $fattura = new Fattura();
+                    $cliente = new Cliente();
 
                     // Carico le variabili
-                    if (!isset($_GET['fat_id'])) {
-                        $errore['fat_id'] = 'ID fattura';
+                    if (!isset($_GET['cli_id'])) {
+                        $errore['cli_id'] = 'ID';
                     } else {
-                        $fattura->fat_id = $_GET['fat_id'];
+                        $id = $_GET['cli_id'];
+                    }
+                    
+                    if (!$cliente->Cancella($id)){
+                        $errore['database'] = 'Errore SQL';
                     }
 
-                    if (empty($errore)) {
-                        if($fattura->CaricaSQL($_GET['fat_id'])) {
-
-                        } else {
-                            $errore['caricamento'] = 'Caricamento dati';
-                        }
-
-                    }
 
                     if (empty($errore)) {
-                        
-                        echo "<div class='box box-primary'>";
-                        
-                        echo "<div class='box-header with-border'>";
-                        echo "<h3 class='box-title'>ATTENZIONE</h3>";
-                        echo "</div>";
-                       
-                        echo "<div class='box-body'>";
-
-                        echo "<div class='row'>";
-                        echo "<div class='col-md-12'>";
-                        echo "<p>La fattura verrà cancellata e i ddt associati verranno messi tra quelli ancora da fatturare</p>";
-                        echo "<p><em>Se la fattura cancellata non è l'ultima in ordine temporale ci saranno buchi nella numerazione</em></p>";
-                        echo "<h1>".$fattura->fat_anno."-".$fattura->fat_numero_formattato." del ".$fattura->fat_data_stringa."</h1>";
-                        echo "</div>";
-                        echo "</div>"; // div row
-
-                        echo "<div class='row'>";
-                        echo "<div class='col-md-6'>";
-                        echo "<a class='btn btn-block btn-default btn-lg' href='fatturalista.php'>Annulla</a>";
-                        echo "</div>";
-                        echo "<div class='col-md-6'>";
-                        echo "<a class='btn btn-block btn-danger btn-lg' href='fatturacancellasql.php?fat_id=".$fattura->fat_id."'>Cancella fattura</a>";
-                        echo "</div>";
-                        echo "</div>"; // div row
-                        
-                        echo "</div>"; // div box body
-                        echo "</div>"; // div box
+                        echo "<div class='callout callout-success'><h4>Cliente cancellato</h4><p>Modifiche alla base dati effettuata correttamente</p></div>";
                     }
 
                     if (!empty($errore)) {
-                        echo "<div class='callout callout-danger'><h4>Errore id della fattura</h4><p>Ricontrollare i dati inseriti o chiamare l'amministratore</p></div>";
+                        echo "<div class='callout callout-danger'><h4>Errore nella cancellazione del cliente</h4><p>Ricontrollare i dati inseriti o chiamare l'amministratore</p></div>";
                     }
                     
 
@@ -169,5 +138,12 @@
         <?php include 'script.php'; ?>
     </body>
     <!-- page script -->
-
+    <script>
+        setTimeout(function () { window.location.href= 'clientelista.php'; },3500); // 3.5 secondi
+    </script>
 </html>
+
+
+
+
+

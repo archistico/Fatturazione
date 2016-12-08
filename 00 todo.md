@@ -13,7 +13,7 @@ toggle CTRL + SHIFT + ENTER
 * [X] ~~*Creazione cliente*~~
 * [X] ~~*Modifica cliente*~~
 * [X] ~~*Lista Clienti*~~
-* [ ] Cancellazione cliente solo se non ha nessun DDT collegato
+* [X] ~~*Cancellazione cliente solo se non ha nessun DDT collegato*~~
 
 ## DDT
 * [X] ~~*Creazione*~~

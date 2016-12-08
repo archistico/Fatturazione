@@ -57,6 +57,7 @@ class Cliente {
             $row = $result->fetch(PDO::FETCH_ASSOC);
 
             if ($result->rowCount() == 0) {
+                $db = NULL;
                 return false;
             }
 
@@ -98,7 +99,71 @@ class Cliente {
             return false;
         }
     }
+
+    public function ControllaDDT($id) {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+            
+            // Controllo nei DDT se ci sono presenti documenti del cliente
+            $result = $db->query("SELECT ddt_id FROM ddt WHERE ddt.ddt_fkcliente=$id;");
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+
+            if (!($result->rowCount() == 0)) {
+                $db = NULL;
+                return false;
+            } 
+
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function Cancella($id) {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+                        
+            if ($this->ControllaDDT($id)) {
+
+                // Se non ci sono DDT collegati al cliente posso cancellarlo
+                $sql = "DELETE FROM cliente WHERE cliente.cli_id = $id;";
+                $db->exec($sql);
+
+            } else {
+                $db = NULL;
+                return false;
+            }        
+
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }
+
+
+
+
+
+// ------------------------------------------------------------------------
+
+
+
+// Funzioni HTML
 
 function cliente_select() {
     try {
@@ -151,7 +216,7 @@ function ClienteTabella() {
             print "</td>";
             
             print "<td>".$row['cli_denominazione']."</td>";
-            print "<td>".$row['cli_indirizzo']. " - " .$row['cli_cap']. " " .$row['cli_comune']."</td>";
+            print "<td>".$row['cli_comune']. " (" .$row['cli_cap']. ") - " .$row['cli_indirizzo']."</td>";
             print "<td>".$row['cli_telefono']. " / " .$row['cli_fax']. "</td>";
             print "<td>".$row['cli_email']."</td>";
             print "<td>".$row['cli_piva']."</td>";
