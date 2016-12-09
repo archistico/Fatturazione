@@ -72,7 +72,7 @@ function prodotto_select() {
         $result = $db->query('SELECT * FROM prodotto WHERE pro_vecchio=0 ORDER BY pro_descrizione ASC');
         foreach ($result as $row) {
             $row = get_object_vars($row);
-            print "<option value='" . $row['pro_id'] . "'>". $row['pro_categoria'] . " - " . convertiStringaToHTML($row['pro_descrizione'])." (&euro; ".$row['pro_prezzo'].")</option>\n";
+            print "<option value='" . $row['pro_id'] . "'>". convertiStringaToHTML(utf8_decode($row['pro_categoria'])) . " - " . convertiStringaToHTML(utf8_decode($row['pro_descrizione']))." (&euro; ".$row['pro_prezzo'].")</option>\n";
         }
         // chiude il database
         $db = NULL;
@@ -96,8 +96,8 @@ function prodotto_tabella() {
                         
             print "<tr>";
             print "<td><a class='btn btn-xs btn-danger' href='ddtcancella.php?ddt_id=".$row['pro_id']."' role='button'><i class = 'fa fa-remove'></i></a></td>";
-            print "<td>".convertiStringaToHTML($row['pro_categoria'])."</td>";
-            print "<td>".convertiStringaToHTML($row['pro_descrizione'])."</td>";
+            print "<td>".convertiStringaToHTML(utf8_decode($row['pro_categoria']))."</td>";
+            print "<td>".convertiStringaToHTML(utf8_decode($row['pro_descrizione']))."</td>";
             print "<td>&euro; ".$row['pro_prezzo']."</td>";
             print "<td>".$row['pro_iva']." &percnt;</td>";
             if(!$row['pro_vecchio']) {

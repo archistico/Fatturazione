@@ -14,6 +14,7 @@ toggle CTRL + SHIFT + ENTER
 * [X] ~~*Modifica cliente*~~
 * [X] ~~*Lista Clienti*~~
 * [X] ~~*Cancellazione cliente solo se non ha nessun DDT collegato*~~
+* [ ] Creazione, modifica e cancella vanno su pagine temporanee per evitare refresh
 
 ## DDT
 * [X] ~~*Creazione*~~
@@ -27,6 +28,7 @@ toggle CTRL + SHIFT + ENTER
 * [ ] Invia per email
 * [ ] Controllare e inserire fattura elettronica
 * [ ] Inserire nel DDT la fattura a cui è collegato
+* [ ] Creazione, modifica e cancella vanno su pagine temporanee per evitare refresh
 
 ## Fatture
 * [X] ~~*Creazione*~~
@@ -36,13 +38,16 @@ toggle CTRL + SHIFT + ENTER
 * [ ] Invia per email
 * [X] ~~*Calcolo numero fattura errato - togliere quelle con flag fat_annullata*~~
 * [ ] Dopo cancellazione fattura reinvio automatico alla lista fatture
+* [ ] Creazione, modifica e cancella vanno su pagine temporanee per evitare refresh
 
 ## Prodotti
-* [ ] Creazione
+* [X] ~~*Creazione*~~
 * [ ] Modifica
 * [ ] Elimina
 * [X] ~~*Lista*~~
+* [ ] Creazione, modifica e cancella vanno su pagine temporanee per evitare refresh
 
 ## Statistiche
-* [ ] Lista prodotti più venduti
-* [ ] Lista migliori clienti
+* [ ] Aggiungere statistiche in menu
+* [ ] Lista prodotti più venduti (maggior vendita da ddtdettaglio)
+* [ ] Lista migliori clienti (maggior fatturato da ddt e ddtdettaglio)
