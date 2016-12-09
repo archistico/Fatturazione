@@ -132,6 +132,33 @@ class Prodotto {
         }
     }
 
+    public function Vecchio() {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+                        
+            $result = $db->query("SELECT pro_vecchio FROM prodotto WHERE pro_id = '" . $this->pro_id . "' LIMIT 1");
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+
+            if($row['pro_vecchio']==0) {
+                $sql = "UPDATE prodotto SET pro_vecchio = 1 WHERE pro_id = ".$this->pro_id;      
+                $db->exec($sql);
+            } else {
+                $sql = "UPDATE prodotto SET pro_vecchio = 0 WHERE pro_id = ".$this->pro_id;      
+                $db->exec($sql);
+            }
+
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 
 }
 
