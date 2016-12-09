@@ -153,6 +153,35 @@ class Cliente {
             return false;
         }
     }
+
+
+    public function Vecchio() {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+                        
+            $result = $db->query("SELECT cli_vecchio FROM cliente WHERE cli_id = '" . $this->cli_id . "' LIMIT 1");
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+
+            if($row['cli_vecchio']==0) {
+                $sql = "UPDATE cliente SET cli_vecchio = 1 WHERE cli_id = ".$this->cli_id;      
+                $db->exec($sql);
+            } else {
+                $sql = "UPDATE cliente SET cli_vecchio = 0 WHERE cli_id = ".$this->cli_id;      
+                $db->exec($sql);
+            }
+
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }
 
 
@@ -199,7 +228,7 @@ function ClienteTabella() {
         // Parte iniziale
         print "<table id='clientetabella' class='table table-bordered table-hover'>";
         print "<thead><tr>";
-        print "<th>#</th><th>Denominazione</th><th>Indirizzo</th><th>Recapiti</th><th>Email</th><th>Fiscali</th>";
+        print "<th>#</th><th>Denominazione</th><th>Indirizzo</th><th>Recapiti</th><th>Email</th><th>Fiscali</th><th>Vecchio</th>";
         print "</tr></thead><tbody>";
         
         foreach ($result as $row) {
@@ -209,8 +238,8 @@ function ClienteTabella() {
             
             print "<td>";
             
-            print "<a class='btn btn-xs btn-warning' href='clientemodifica.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px; margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
-                        
+            print "<a class='btn btn-xs btn-warning' href='clientemodifica.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px; margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
+            print "<a class='btn btn-xs btn-warning' href='clientevecchio.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";
             print "<a class='btn btn-xs btn-danger' href='clientecancella.php?cli_id=".$row['cli_id']."' role='button' style='margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";         
             
             print "</td>";
@@ -221,7 +250,12 @@ function ClienteTabella() {
             print "<td>".$row['cli_email']."</td>";
             print "<td>".$row['cli_piva']."</td>";
 
-            
+            if(!$row['cli_vecchio']) {
+                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
+            } else {
+                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";
+            }
+
             print "</tr>";
         }
         // chiude il database

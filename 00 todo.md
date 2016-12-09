@@ -14,13 +14,15 @@
 * [X] ~~*Modifica cliente*~~
 * [X] ~~*Lista Clienti*~~
 * [X] ~~*Cancellazione cliente solo se non ha nessun DDT collegato*~~
+* [X] ~~*Cliente vecchio*~~
 * [ ] Creazione, modifica e cancella vanno su pagine temporanee per evitare refresh
 
 ## Prodotti
 * [X] ~~*Creazione*~~
-* [ ] Modifica
+* [X] ~~*Modifica*~~
 * [X] ~~*Elimina*~~
 * [X] ~~*Lista*~~
+* [ ] Vecchio
 * [ ] Creazione, modifica e cancella vanno su pagine temporanee per evitare refresh
 
 
