@@ -23,3 +23,8 @@ Segnalazione nella lista delle fatture non pagate
 ## Statistiche
 
 Visualizzazione statistiche dei migliori clienti, prodotti
+
+## Licenza
+
+Licenza MIT che trovate sotto il file licence
+Il tema utilizzato è [AdminLTE] (https://github.com/almasaeed2010/AdminLTE) (che ha licenza MIT)
