@@ -224,7 +224,7 @@ function FATTabella() {
             print "<tr>";
             
             print "<td>";
-            print "<a class='btn btn-xs btn-success' href='fatturavisualizza.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
+            print "<a class='btn btn-xs btn-info' href='fatturavisualizza.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
             print "</td>";
             
             print "<td>$dataEmissione</td>";
@@ -260,11 +260,11 @@ function FATTabella() {
             } else {
                 print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i>";
             }
-            print "<a class='btn btn-xs btn-warning' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-left: 15px'><i class = 'fa fa-euro'></i></a>";
+            print "<a class='btn btn-xs btn-info' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-left: 15px'><i class = 'fa fa-euro'></i></a>";
             print "</td>";
 
             print "<td>";
-            print "<a class='btn btn-xs btn-success' href='fatturapdf.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-file-pdf-o'></i></a>";
+            print "<a class='btn btn-xs btn-info' href='fatturapdf.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-file-pdf-o'></i></a>";
             print "</td>";
 
             print "<td>";
