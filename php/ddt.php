@@ -139,10 +139,10 @@ function DDTTabella() {
 
             print "<tr>";
             print "<td>";
-            print "<a class='btn btn-xs btn-success' href='ddtpdf.php?ddt_id=".$row['ddt_id']."' role='button' style='margin-right: 5px'><i class = 'fa fa-file-pdf-o'></i></a>";
-            print "<a class='btn btn-xs btn-info' href='ddtvisualizza.php?ddt_id=".$row['ddt_id']."&TipoOperazione=1' role='button' style='margin-right: 5px'><i class = 'fa fa-eye'></i></a>";
-            print "<a class='btn btn-xs btn-warning' href='ddtmodifica.php?ddt_id=".$row['ddt_id']."' role='button' style='margin-right: 5px'><i class = 'fa fa-pencil'></i></a>";
-            print "<a class='btn btn-xs btn-danger' href='ddtcancella.php?ddt_id=".$row['ddt_id']."' role='button'><i class = 'fa fa-remove'></i></a>";
+            print "<a class='btn btn-xs btn-success' href='ddtpdf.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-file-pdf-o'></i></a>";
+            print "<a class='btn btn-xs btn-success' href='ddtvisualizza.php?ddt_id=".$row['ddt_id']."&TipoOperazione=1' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
+            print "<a class='btn btn-xs btn-warning' href='ddtmodifica.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
+            print "<a class='btn btn-xs btn-danger' href='ddtcancella.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px;margin-right: 0px; margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
             print "</td>";
             print "<td>$dataEmissione</td>";
             print "<td>DDT ".$row['ddt_anno']."-".$numero_padded."</td>";

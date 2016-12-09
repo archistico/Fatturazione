@@ -240,7 +240,7 @@ function ClienteTabella() {
             
             print "<a class='btn btn-xs btn-warning' href='clientemodifica.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px; margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
             print "<a class='btn btn-xs btn-warning' href='clientevecchio.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";
-            print "<a class='btn btn-xs btn-danger' href='clientecancella.php?cli_id=".$row['cli_id']."' role='button' style='margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";         
+            print "<a class='btn btn-xs btn-danger' href='clientecancella.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px;margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";         
             
             print "</td>";
             

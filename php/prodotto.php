@@ -204,7 +204,7 @@ function prodotto_tabella() {
             
             print "<a class='btn btn-xs btn-warning' href='prodottomodifica.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px; margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
             print "<a class='btn btn-xs btn-warning' href='prodottovecchio.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";
-            print "<a class='btn btn-xs btn-danger' href='prodottocancella.php?pro_id=".$row['pro_id']."' role='button' style='margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            print "<a class='btn btn-xs btn-danger' href='prodottocancella.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px;margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
             
             print "</td>";
 
