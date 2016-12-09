@@ -88,7 +88,7 @@
                 <!-- Main content -->
                 <section class="content">
 
-                    <form role="form" name="ddtForm" action="clientemodificasql.php" method="get">
+                    <form role="form" name="Form" action="clientemodificasql.php" method="get">
 
                         <?php
                         include 'php/utilita.php';

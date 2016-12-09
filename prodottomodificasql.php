@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title> Fatturazione | Prodotto</title>
+        <title> Fatturazione | PRODOTTO</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <?php include 'link.php'; ?>
@@ -72,91 +72,95 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
 
-
-                <?php
-                include 'php/utilita.php';
-                ?>
-
-
                 <section class="content-header">
                     <h1>
                         PRODOTTO
-                        <small>NUOVO</small>
+                        <small>MODIFICA</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><i class="fa fa-dashboard"></i> Home</li>
-                        <li>PRODOTTO</li>
-                        <li class="active">Nuovo</li>
+                        <li>Prodotto</li>
+                        <li class="active">Modifica</li>
                     </ol>
                 </section>
 
                 <!-- Main content -->
                 <section class="content">
 
-                    <form role="form" name="ddtForm" action="prodottoaggiunto.php" method="get">
+                    <?php 
+                    include 'php/utilita.php';
+                    include 'php/config.php';
+                    include 'php/prodotto.php';
+                    
+                    // RECUPERO DATI E AGGIUNGO
+                    define('CHARSET', 'UTF-8');
+                    define('REPLACE_FLAGS', ENT_COMPAT | ENT_XHTML);
 
-                        <!-- **********************************PRODOTTO****************************** -->
-                        <div class="box box-primary">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">AGGIUNGI</h3>
-                            </div>
-                            <!-- /.box-header -->
-                            <div class="box-body">
+                    $errore = array();
+                    
+                    $prodotto = new Prodotto();
+
+                    // Carico le variabili
+                    
+                    if (!isset($_GET['id'])) {
+                        $errore['id'] = 'id';
+                    } else {
+                        $prodotto->pro_id = $_GET['id'];
+                    }
+
+                    if (!isset($_GET['categoria'])) {
+                        $errore['categoria'] = 'categoria';
+                    } else {
+                        $prodotto->pro_categoria = $_GET['categoria'];
+                    }
+
+                    if (!isset($_GET['descrizione'])) {
+                        $errore['descrizione'] = 'descrizione';
+                    } else {
+                        $prodotto->pro_descrizione = $_GET['descrizione'];
+                    }
+
+                    if (!isset($_GET['prezzo'])) {
+                        $errore['prezzo'] = 'prezzo';
+                    } else {
+                        $prodotto->pro_prezzo = $_GET['prezzo'];
+                    }
+
+                    if (!isset($_GET['iva'])) {
+                        $errore['iva'] = 'iva';
+                    } else {
+                        $prodotto->pro_iva = $_GET['iva'];
+                    }
+
+                    
+                    if (empty($errore)){
+                        if (!$prodotto->ModificaSQL()){
+                            $errore['database'] = 'Errore SQL';
+                        }
+                    }
 
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Categoria</label>
-                                            <input type="text" class="form-control" placeholder="Categoria: tipo Carne bovino, Insaccato, ..." name='categoria' required>
-                                        </div>
-                                    </div>
-                                    <!-- /.col -->
+                    if (empty($errore)) {
+                        echo "<div class='callout callout-success'><h4>Prodotto modificato</h4><p>Modifiche alla base dati effettuata correttamente</p></div>";
+                    }
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Descrizione</label>
-                                            <input type="text" class="form-control" placeholder="Descrizione: tipo Rolata, Sottofiletto, ..." name='descrizione' required>
-                                        </div>
-                                    </div>
-                                    <!-- /.col -->
-                                </div>
-                                <!-- /.row -->
+                    if (!empty($errore)) {
+                        echo "<div class='callout callout-danger'><h4>Errore nella modifica</h4><p>Ricontrollare i dati inseriti o chiamare l'amministratore</p></div>";
+                    }
+                    
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Prezzo (&euro;)</label>
-                                            <input type="number" min="0" max="1000000" step="0.01" class="form-control" placeholder="Prezzo" value="0" name='prezzo' required>
-                                        </div>
-                                    </div>
-                                    <!-- /.col -->
+                    
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>IVA (&percnt;)</label>
-                                            <input type="number" min="0" max="100" step="0.5" class="form-control" placeholder="IVA: tipo 10 o 4" value="10" name='iva' required>
-                                        </div>
-                                    </div>
-                                    <!-- /.col -->
-                                </div>
-                                <!-- /.row -->
-                            </div>
-                            <!-- /.box-body -->
 
-                        </div>
-                        <!-- /.box -->
+                    
+                    
+                    
+                    ?>
 
-                        <input type="hidden" name="TipoOperazione" value="1" />
 
-                        <div class="form-group row m-t-md">
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-block btn-primary btn-lg">INSERISCI</button>
-                            </div>
-                        </div>
 
-                    </form>
-                    <!-- /.form -->
+
+
                 </section>
                 <!-- /.content -->
             </div>
@@ -168,4 +172,8 @@
         <?php include 'script.php'; ?>
 
     </body>
+    <!-- page script -->
+    <script>
+        setTimeout(function () { window.location.href= 'prodottolista.php'; },3500); // 3.5 secondi
+    </script>
 </html>

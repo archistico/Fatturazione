@@ -111,6 +111,28 @@ class Prodotto {
     }
 
 
+    public function ModificaSQL() {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+            
+            $sql = "UPDATE prodotto SET pro_categoria = '$this->pro_categoria', pro_descrizione = '$this->pro_descrizione', pro_prezzo = '$this->pro_prezzo', pro_iva = '$this->pro_iva' WHERE pro_id = $this->pro_id;";
+            
+            $db->exec($sql);
+
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+
 }
 
 
@@ -146,7 +168,7 @@ function prodotto_tabella() {
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
 
-        $result = $db->query('SELECT * FROM prodotto');
+        $result = $db->query('SELECT * FROM prodotto ORDER BY pro_categoria ASC, pro_descrizione ASC');
         foreach ($result as $row) {
             $row = get_object_vars($row);
                         
