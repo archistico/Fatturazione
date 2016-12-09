@@ -42,7 +42,7 @@ class Prodotto {
                 
                 $this->pro_id = $row['pro_id'];
                 $this->pro_categoria = $row['pro_categoria'];
-                $this->pro_descrizione = convertiStringaToHTML($row['pro_descrizione']);
+                $this->pro_descrizione = convertiStringaToHTML(utf8_decode($row['pro_descrizione']));
                 $this->pro_prezzo = $row['pro_prezzo'];
                 $this->pro_iva = $row['pro_iva'];
             }
@@ -54,6 +54,62 @@ class Prodotto {
             return false;
         }
     }
+
+    public function ControllaProdotto($id) {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+            
+            // Controllo nella tabella DDTDETTAGLIO se ci sono prodotti associati
+            $result = $db->query("SELECT ddd_id FROM ddtdettaglio WHERE ddd_fkprodotto=$id;");
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+
+            if (!($result->rowCount() == 0)) {
+                $db = NULL;
+                return false;
+            } 
+
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+
+    public function Cancella($id) {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+            if ($this->ControllaProdotto($id)) {
+
+                // Se non ci sono DDT collegati al prodotto posso cancellarlo
+                $sql = "DELETE FROM prodotto WHERE prodotto.pro_id=$id;";
+                $db->exec($sql);
+
+            } else {
+                $db = NULL;
+                return false;
+            }
+
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
 
 }
 
@@ -95,7 +151,16 @@ function prodotto_tabella() {
             $row = get_object_vars($row);
                         
             print "<tr>";
-            print "<td><a class='btn btn-xs btn-danger' href='ddtcancella.php?ddt_id=".$row['pro_id']."' role='button'><i class = 'fa fa-remove'></i></a></td>";
+            print "<td>";
+            
+            print "<a class='btn btn-xs btn-warning' href='prodottomodifica.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px; margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
+
+            print "<a class='btn btn-xs btn-warning' href='prodottovecchio.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";
+                        
+            print "<a class='btn btn-xs btn-danger' href='prodottocancella.php?pro_id=".$row['pro_id']."' role='button' style='margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            
+            print "</td>";
+
             print "<td>".convertiStringaToHTML(utf8_decode($row['pro_categoria']))."</td>";
             print "<td>".convertiStringaToHTML(utf8_decode($row['pro_descrizione']))."</td>";
             print "<td>&euro; ".$row['pro_prezzo']."</td>";
