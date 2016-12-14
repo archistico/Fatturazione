@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/www.iml" filepath="$PROJECT_DIR$/.idea/www.iml" />
+      <module fileurl="file:$PROJECT_DIR$/../../..//$PROJECT_DIR$/.idea/Fatturazione.iml" filepath="$PROJECT_DIR$/.idea/Fatturazione.iml" />
+      <module fileurl="file:$PROJECT_DIR$/../../..////nas/web/Fatturazione/.idea/www.iml" filepath="nas/..////nas/web/Fatturazione/.idea/www.iml" />
     </modules>
   </component>
 </project>

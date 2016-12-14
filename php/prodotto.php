@@ -174,7 +174,7 @@ function prodotto_select() {
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
 
-        $result = $db->query('SELECT * FROM prodotto WHERE pro_vecchio=0 ORDER BY pro_descrizione ASC');
+        $result = $db->query('SELECT * FROM prodotto WHERE pro_vecchio=0 ORDER BY pro_categoria ASC, pro_descrizione ASC, pro_prezzo ASC');
         foreach ($result as $row) {
             $row = get_object_vars($row);
             print "<option value='" . $row['pro_id'] . "'>". convertiStringaToHTML(utf8_decode($row['pro_categoria'])) . " - " . convertiStringaToHTML(utf8_decode($row['pro_descrizione']))." (&euro; ".$row['pro_prezzo'].")</option>\n";
@@ -195,7 +195,7 @@ function prodotto_tabella() {
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
 
-        $result = $db->query('SELECT * FROM prodotto ORDER BY pro_categoria ASC, pro_descrizione ASC');
+        $result = $db->query('SELECT * FROM prodotto ORDER BY pro_categoria ASC, pro_descrizione ASC, pro_prezzo ASC');
         foreach ($result as $row) {
             $row = get_object_vars($row);
                         
