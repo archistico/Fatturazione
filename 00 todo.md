@@ -60,3 +60,6 @@
 inserimento CTRL + SHIFT + C
 toggle CTRL + SHIFT + ENTER
 -->
+
+http://jsfiddle.net/sqrrt/2/
+http://talkerscode.com/webtricks/add-edit-and-delete-rows-from-table-dynamically-using-javascript.php
