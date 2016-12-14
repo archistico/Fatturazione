@@ -28,6 +28,7 @@
 
 ## DDT
 * [X] ~~*Creazione*~~
+* [ ] Dopo creazione redirect automatico
 * [ ] Modifica
 * [ ] Elimina
 * [X] ~~*Lista*~~
@@ -36,6 +37,7 @@
 * [ ] Cerca DDT
 * [ ] Riprogettazione della pagina con JS
 * [ ] Invia per email
+* [ ] Modifica "tracciabilità" in ddtvisualizza
 * [ ] Controllare e inserire fattura elettronica
 * [ ] Inserire nel DDT la fattura a cui è collegato
 * [ ] Creazione, modifica e cancella vanno su pagine temporanee per evitare refresh

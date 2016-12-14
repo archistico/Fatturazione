@@ -95,6 +95,7 @@
                 include 'php/utilita.php';
                 include 'php/config.php';
                 include 'php/ddt.php';
+                include 'php/ddtdettaglio.php'; 
                 ?>
 
                 <?php
@@ -172,36 +173,33 @@
                 if (empty($errore)) {
                     
                     if ($ddt->AggiungiSQL()) {
-                        // print "Ultimo ID: ".$ddt->ddt_ultimoID."<br>";
-                        print "<div class='pad margin no-print'><div class='callout callout-success' style='margin-bottom:0!important;'><h4><i class='fa fa-check'></i> Risultato:</h4> Inserito</div></div>";
+                        // OK
                     } else {
-                        $errore['creazione'] = 'Database';
-                    }
-                    
-                    print "$ddt->ddt_fkcliente"."<br>";
-                    print  $ddt->ddt_data->format('d-m-Y H:i:s')."<br>";
-                    print "$ddt->ddt_anno"."<br>";
-                    print "$ddt->ddt_causale"."<br>";
-                    print "$ddt->ddt_destinazione"."<br>";
-                    print "$ddt->ddt_trasporto"."<br>";
-                    print "$ddt->ddt_aspetto"."<br>";
-                    print "$ddt->ddt_colli"."<br>";
-                    print  $ddt->ddt_ritiro->format('d-m-Y H:i:s')."<br>";
-                    print "$ddt->ddt_scontrino"."<br>";
-                    print "$ddt->ddt_importo"."<br>";
-                    print "$ddt->ddt_fatturazioneelettronica"."<br>";
-                    print "$ddt->ddt_pagato"."<br>";
-                    print ""."<br>";
-                    print "Prodotti"."<br>";
-                    print  $_GET['prodotti']."<br>";
-                    print ""."<br>";
-                    
-                    $prodotti = json_decode($_GET['prodotti']);
-                    for($c=0; $c<=count($prodotti) ; $c++) {
-                        print $prodotti[$c]->fkprodotto . " " . $prodotti[$c]->quantita . " " . $prodotti[$c]->tracciabilita . "<br>";
+                        $errore['creazioneDDT'] = 'Errore Database DDT';
                     }
 
-                    //  Testi completi 	ddd_id 	ddd_fkddt 	ddd_quantita 	ddd_fkprodotto 	ddd_tracciabilita 	ddd_annullato
+                    if (empty($errore)) {
+                        $prodotti = json_decode($_GET['prodotti']);
+                        for($c=0; $c<count($prodotti) ; $c++) {
+
+                            $ddd = new DDTDettaglio();
+
+                            $ddd->ddd_fkddt = $ddt->ddt_ultimoID;
+                            $ddd->ddd_quantita = $prodotti[$c]->quantita;
+                            $ddd->ddd_fkprodotto = $prodotti[$c]->fkprodotto;
+                            $ddd->ddd_tracciabilita = $prodotti[$c]->tracciabilita;
+
+                            if ($ddd->AggiungiSQL()) {
+                                // OK
+                            } else {
+                                $errore['creazioneDDD'] = 'Errore Database lista prodotti';
+                            }   
+                        }
+                    }
+
+                    if (empty($errore)) {
+                        print "<div class='pad margin no-print'><div class='callout callout-success' style='margin-bottom:0!important;'><h4><i class='fa fa-check'></i> Risultato:</h4> Inserito DDT</div></div>";
+                    }
 
                 }
                 if (!empty($errore)) {
