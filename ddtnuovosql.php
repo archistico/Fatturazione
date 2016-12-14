@@ -96,9 +96,7 @@
                 include 'php/config.php';
                 include 'php/ddt.php';
                 include 'php/ddtdettaglio.php'; 
-                ?>
-
-                <?php
+                
                 // RECUPERO DATI E AGGIUNGO
                 define('CHARSET', 'UTF-8');
                 define('REPLACE_FLAGS', ENT_COMPAT | ENT_XHTML);

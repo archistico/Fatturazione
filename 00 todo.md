@@ -22,7 +22,7 @@
 * [X] ~~*Modifica*~~
 * [X] ~~*Elimina*~~
 * [X] ~~*Lista*~~
-* [ ] Vecchio
+* [X] ~~*Vecchio*~~
 * [ ] Creazione, modifica e cancella vanno su pagine temporanee per evitare refresh
 
 

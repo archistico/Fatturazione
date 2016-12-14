@@ -311,7 +311,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Tracciabilita</label>
-                                    <input type="text" class="form-control" placeholder="Traccialibita" name='tracciabilita' required>
+                                    <input type="text" class="form-control" placeholder="Tracciabilità" name='tracciabilita' required>
                                 </div>
                             </div>
 
