@@ -93,7 +93,7 @@
         <!-- Main content -->
         <section class="content">
 
-            <form role="form" name="ddtForm" action="ddtaggiunto.php" method="get">
+            <form role="form" name="ddtForm" action="ddtnuovosql.php" method="get">
 
                 <!-- **********************************DATI GENERALI****************************** -->
                 <div class="box box-primary">
@@ -313,7 +313,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Tracciabilita</label>
-                                    <input type="text" class="form-control" placeholder="Traccialibita" name='tracciabilita' id='tracciabilita'>
+                                    <input type="text" class="form-control" placeholder="Tracciabilità" name='tracciabilita' id='tracciabilita'>
                                 </div>
                             </div>
 
@@ -378,7 +378,8 @@
 
 
 
-                <input type="hidden" name="TipoOperazione" value="1" />
+                <input type="hidden" name="prodotti" value="" id="prodotti" />
+                <input type="hidden" name="importo" value="0" id="importo" />
 
                 <div class="form-group row m-t-md">
                     <div class="col-sm-12">
@@ -445,7 +446,11 @@ $(document).ready(function () {
 		
         prodottoid = $("#lista").val();
         prodottotesto = $("#lista option:selected").text();
-        prodottotracciabilita = $("#tracciabilita").val(); 
+        prodottotracciabilita = $("#tracciabilita").val();
+
+        if(prodottotracciabilita == "") {
+            prodottotracciabilita = "-";
+        } 
 
         //cerca il prezzo del prodotto in base all'ID
         prezzo = parseFloat(cercaPrezzo(prodottoid));
@@ -475,6 +480,10 @@ $(document).ready(function () {
 
         jslista.push(jsprodotto);
 
+        // pulisce valori quantita e tracciabilità
+        $('#quantita').val("");
+        $('#tracciabilita').val("");
+
         visualizzaLista();
 
         // calcola il totale
@@ -486,7 +495,6 @@ $(document).ready(function () {
         // cancella dall'array l'oggetto selezionato da ID
         var tempID = $(this).closest("tr")[0].cells[0].textContent;
         jslista = jslista.filter(function(el) {
-            console.log(tempID);
             return el.id != tempID;
         });
         visualizzaLista();
@@ -512,7 +520,6 @@ function cercaPrezzo(id) {
 
 // visualizza lista prodotti
 function visualizzaLista() {
-    /*
     // crea la lista
     var listaprodotti = "";
 
@@ -521,8 +528,6 @@ function visualizzaLista() {
     }
 
     $("#prodotti").val(JSON.stringify(jslista));
-    $("#temp").text(JSON.stringify(jslista));
-    */
 }
 
 // Calcolo totale
@@ -533,6 +538,7 @@ function calculateGrandTotal() {
         importoTotale=importoTotale + jslista[index].quantita * jslista[index].prezzo;
     }
     $("#importoTotale").text(importoTotale.toFixed(2));
+    $("#importo").val(importoTotale.toFixed(2));
 }
 
 

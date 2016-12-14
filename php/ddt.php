@@ -29,6 +29,7 @@ class DDT {
     public $ddt_pagato;
     public $ddt_fkfattura;
     public $ddt_annullato;
+    public $ddt_ultimoID;
 
     public function AggiungiSQL() {
         try {
@@ -48,7 +49,11 @@ class DDT {
             $dataEmissione = $this->ddt_data->format('Y-m-d');
             $dataRitiro = $this->ddt_ritiro->format('Y-m-d');
             
-            $db->exec("INSERT INTO ddt VALUES (NULL, '$this->ddt_numero','$this->ddt_anno','$dataEmissione', '$this->ddt_fkcliente', '$this->ddt_destinazione', '$this->ddt_causale', '$this->ddt_trasporto', '$this->ddt_aspetto', '$this->ddt_colli', '$dataRitiro', '$this->ddt_scontrino', '0', '$this->ddt_fatturazioneelettronica', '$this->ddt_pagato', null, '0');");
+            $this->ddt_ultimoID = -1;
+              
+            $db->exec("INSERT INTO ddt VALUES (NULL, '$this->ddt_numero','$this->ddt_anno','$dataEmissione', '$this->ddt_fkcliente', '$this->ddt_destinazione', '$this->ddt_causale', '$this->ddt_trasporto', '$this->ddt_aspetto', '$this->ddt_colli', '$dataRitiro', '$this->ddt_scontrino', '$this->ddt_importo', '$this->ddt_fatturazioneelettronica', '$this->ddt_pagato', null, '0');");
+
+            $this->ddt_ultimoID = $db->lastInsertId();
 
             // chiude il database
             $db = NULL;
