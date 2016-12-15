@@ -658,6 +658,10 @@ function aggiungiRiga(tcontatore, tcategoria, tdescrizione, tquantita, tprezzo) 
 function validateForm() {
     // controlla che la lista prodotti iniziale sia uguale a quella finale
     // altrimenti avverti e invia sia iniziale che finale
+
+    // altrimenti potrei cancellare i ddd e ricrearli nuovamente
+    
+    // Se non ci sono state modifiche flagga una stringa così si evita la cancellazione e riscrittura
     return true;
 }
 
