@@ -123,7 +123,7 @@
             ?>
 
 
-            <form role="form" name="ddtForm" action="ddtmodificasql.php" method="get">
+            <form role="form" name="ddtForm" action="ddtmodificasql.php" onsubmit="return validateForm()" method="get">
 
                 <!-- **********************************DATI GENERALI****************************** -->
                 <div class="box box-primary">
@@ -342,6 +342,7 @@
                                 <div class="form-group">
                                     <label>Prodotto</label>
                                     <select class="form-control select2" style="width: 100%;" name='lista' id='lista'>
+                                        <option disabled selected>Seleziona un prodotto</option>
                                     </select>
                                 </div>
                             </div>
@@ -467,6 +468,7 @@ $(document).ready(function () {
                 option += '<option value="'+ dbProdotti[i].fkprodotto + '">' + dbProdotti[i].categoria + " - " + dbProdotti[i].descrizione + ' (&euro; '+(dbProdotti[i].prezzo).toFixed(2)+')' + '</option>';
             }
             $('#lista').append(option);
+            $(".select2").select2(); 
         }
     });
 
@@ -651,6 +653,12 @@ function aggiungiRiga(tcontatore, tcategoria, tdescrizione, tquantita, tprezzo) 
     
     newRow.append(cols);
     $("table.order-list").append(newRow);
+}
+
+function validateForm() {
+    // controlla che la lista prodotti iniziale sia uguale a quella finale
+    // altrimenti avverti e invia sia iniziale che finale
+    return true;
 }
 
 $(function () {
