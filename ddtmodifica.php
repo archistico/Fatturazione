@@ -186,7 +186,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Destinazione</label>
-                                    <input type="text" class="form-control" placeholder="Destinazione se diversa" name='destinazione'>
+                                    <input type="text" class="form-control" placeholder="Destinazione se diversa" name='destinazione' value="<?php print $ddt->ddt_destinazione; ?>">
                                 </div>
                             </div>
                             <!-- /.col -->
@@ -198,9 +198,9 @@
                                 <div class="form-group">
                                     <label>Trasporto</label>
                                     <select class="form-control select2" style="width: 100%;" name='trasporto' required>
-                                        <option value="Mittente">Mittente</option>
-                                        <option value="Destinatario">Destinatario</option>
-                                        <option value="Vettore">Vettore</option>
+                                        <option value="Mittente" <?php print $ddt->ddt_trasporto=="Mittente"?"selected":""; ?>>Mittente</option>
+                                        <option value="Destinatario" <?php print $ddt->ddt_trasporto=="Destinatario"?"selected":""; ?>>Destinatario</option>
+                                        <option value="Vettore" <?php print $ddt->ddt_trasporto=="Vettore"?"selected":""; ?>>Vettore</option>
                                     </select>
                                 </div>
                             </div>
@@ -210,8 +210,8 @@
                                 <div class="form-group">
                                     <label>Aspetto</label>
                                     <select class="form-control select2" style="width: 100%;" name='aspetto' required>
-                                        <option value="Sfuso">Sfuso</option>
-                                        <option value="Sfuso">Pacco</option>
+                                        <option value="Sfuso" <?php print $ddt->ddt_aspetto=="Sfuso"?"selected":""; ?>>Sfuso</option>
+                                        <option value="Pacco" <?php print $ddt->ddt_aspetto=="Pacco"?"selected":""; ?>>Pacco</option>
                                     </select>
                                 </div>
                             </div>
@@ -223,16 +223,16 @@
                                 <div class="form-group">
                                     <label>Numero colli</label>
                                     <select class="form-control select2" style="width: 100%;"  name='colli' required>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="5">6</option>
-                                        <option value="5">7</option>
-                                        <option value="5">8</option>
-                                        <option value="5">9</option>
-                                        <option value="5">10</option>
+                                        <option value="1" <?php print $ddt->ddt_colli=="1"?"selected":""; ?>>1</option>
+                                        <option value="2" <?php print $ddt->ddt_colli=="2"?"selected":""; ?>>2</option>
+                                        <option value="3" <?php print $ddt->ddt_colli=="3"?"selected":""; ?>>3</option>
+                                        <option value="4" <?php print $ddt->ddt_colli=="4"?"selected":""; ?>>4</option>
+                                        <option value="5" <?php print $ddt->ddt_colli=="5"?"selected":""; ?>>5</option>
+                                        <option value="6" <?php print $ddt->ddt_colli=="6"?"selected":""; ?>>6</option>
+                                        <option value="7" <?php print $ddt->ddt_colli=="7"?"selected":""; ?>>7</option>
+                                        <option value="8" <?php print $ddt->ddt_colli=="8"?"selected":""; ?>>8</option>
+                                        <option value="9" <?php print $ddt->ddt_colli=="9"?"selected":""; ?>>9</option>
+                                        <option value="10" <?php print $ddt->ddt_colli=="10"?"selected":""; ?>>10</option>
                                     </select>
                                 </div>
                             </div>
@@ -280,7 +280,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Numero scontrino</label>
-                                    <input type="text" class="form-control" placeholder="Numero scontrino" name='scontrino' required>
+                                    <input type="text" class="form-control" placeholder="Numero scontrino" name='scontrino' value="<?php print $ddt->ddt_scontrino; ?>" required>
                                 </div>
                             </div>
                             <!-- /.col -->
@@ -289,7 +289,7 @@
                                 <br>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" placeholder="Fatturazione elettronica" name='fatturazioneelettronica' > Fatturazione elettronica
+                                        <input type="checkbox" placeholder="Fatturazione elettronica" name='fatturazioneelettronica' <?php print $ddt->ddt_fatturazioneelettronica?"checked":""; ?>> Fatturazione elettronica
                                     </label>
                                 </div>
                             </div>
@@ -299,7 +299,7 @@
                                 <br>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" placeholder="Pagato" name='pagato' > DDT pagato
+                                        <input type="checkbox" placeholder="Pagato" name='pagato' <?php print $ddt->ddt_pagato?"checked":""; ?>> DDT pagato
                                     </label>
                                 </div>
                             </div>
@@ -440,6 +440,7 @@
 var jslista = [];
 var dbProdotti = [];
 var counter = 0;
+var jsonListaProdotti = [];
 
 // function principale
 $(document).ready(function () {
@@ -469,7 +470,55 @@ $(document).ready(function () {
         }
     });
 
-    // --------------------------------------------
+    // --------------CARICA DDD GIA ESISTENTI----------------------
+
+    $.ajax({
+        dataType: "json",
+        url: 'php/dddjson.php?ddt_id=<?php echo $id?>',
+        success: function (data) {
+            for (var key in data) {
+                if (data.hasOwnProperty(key)) {
+                    var item = data[key];
+                    jsonListaProdotti.push({
+                        "id": parseInt(item.id),
+                        "fkprodotto": parseInt(item.fkprodotto),
+                        "quantita": parseFloat(item.quantita),
+                        "categoria": item.categoria,
+                        "descrizione": item.descrizione,
+                        "tracciabilita": item.tracciabilita,
+                        "prezzo": parseFloat(item.prezzo)
+                    });
+
+                }
+            } // chiudo il for
+
+            // inserisco le righe alla tabella e creo array prodotti
+            for (c = 0; c <= jsonListaProdotti.length -1; c++) {
+                // aggiungo
+                aggiungiRiga(jsonListaProdotti[c].id, jsonListaProdotti[c].categoria, jsonListaProdotti[c].descrizione, jsonListaProdotti[c].quantita, jsonListaProdotti[c].prezzo);
+
+                
+                var jsprodotto = {
+                    "id": jsonListaProdotti[c].id,
+                    "fkprodotto": jsonListaProdotti[c].fkprodotto,
+                    "quantita": jsonListaProdotti[c].quantita,
+                    "prezzo": jsonListaProdotti[c].prezzo,
+                    "tracciabilita": jsonListaProdotti[c].tracciabilita
+                };
+                
+                jslista.push(jsprodotto);    
+            }
+
+            counter = jsonListaProdotti.length;
+            visualizzaLista();
+
+            // calcola il totale
+            calculateGrandTotal();
+        }
+    });
+
+
+    // -------------FUNZIONI AGGIUNTA E MODIFICA-------------------
 
     $("#btnaggiungi").on("click", function () {
         
@@ -576,6 +625,21 @@ function calculateGrandTotal() {
     $("#importo").val(importoTotale.toFixed(2));
 }
 
+
+function aggiungiRiga(tcontatore, tcategoria, tdescrizione, tquantita, tprezzo) {
+    var newRow = $("<tr>");
+    var cols = "";
+	
+    cols += '<td>'+ tcontatore + '</td>';
+    cols += '<td><span name="prodotto">' + tcategoria + ' - ' + tdescrizione + ' (&euro; ' + tprezzo.toFixed(2) + ')</span></td>';
+    cols += '<td><span type="text" name="quantita' + tcontatore + '">' + tquantita.toFixed(3) + '</span></td>';
+    cols += '<td><span type="text" name="prezzo' + tcontatore + '">&euro; ' + tprezzo.toFixed(2) + '</span></td>';
+    cols += '<td><span type="text" name="subtotale' + tcontatore + '"><strong>&euro; ' + (tquantita*tprezzo).toFixed(2) +'</strong></span></td>';
+    cols += '<td><input type="button" class="ibtnDel btn btn-default btn-block"  value="X"></td>';
+    
+    newRow.append(cols);
+    $("table.order-list").append(newRow);
+}
 
 $(function () {
     //Date picker
