@@ -486,7 +486,8 @@ $(document).ready(function () {
                         "categoria": item.categoria,
                         "descrizione": item.descrizione,
                         "tracciabilita": item.tracciabilita,
-                        "prezzo": parseFloat(item.prezzo)
+                        "prezzo": parseFloat(item.prezzo),
+                        "ddd_id": parseInt(item.ddd_id)
                     });
 
                 }
@@ -522,6 +523,12 @@ $(document).ready(function () {
 
     $("#btnaggiungi").on("click", function () {
         
+        // Controlla che i tre dati quantita select e tracciabilità siano stati inseriti
+        if(isEmpty($("#lista").val()) || isEmpty($('#quantita').val()) || isEmpty($("#tracciabilita").val()) ) {
+            alert("Inserire tutti i dati");
+            return;
+        }
+
         counter++;
         quantitatesto = $('#quantita').val();
 		quantita = parseFloat(quantitatesto.replace(",","."));
@@ -592,6 +599,11 @@ $(document).ready(function () {
 
 
 });
+
+// verifica che la stringa sia vuota
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
 
 // cerca prezzo
 function cercaPrezzo(id) {

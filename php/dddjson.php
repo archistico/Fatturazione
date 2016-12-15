@@ -24,7 +24,7 @@ try {
         $row = get_object_vars($row);
         $numero_padded = sprintf("%04d", $row['ddt_numero']);
         
-        $listaDDD[] = array('id'=>$counter, 'fkprodotto'=>$row['ddd_fkprodotto'], 'quantita'=>$row['ddd_quantita'], 'prezzo'=>$row['pro_prezzo'], 'tracciabilita'=>$row['ddd_tracciabilita'], 'categoria'=>$row['pro_categoria'], 'descrizione'=>$row['pro_descrizione']);
+        $listaDDD[] = array('id'=>$counter, 'fkprodotto'=>$row['ddd_fkprodotto'], 'quantita'=>$row['ddd_quantita'], 'prezzo'=>$row['pro_prezzo'], 'tracciabilita'=>$row['ddd_tracciabilita'], 'categoria'=>$row['pro_categoria'], 'descrizione'=>$row['pro_descrizione'], 'ddd_id'=>$row['ddd_id']);
 
         $counter++;
     }
