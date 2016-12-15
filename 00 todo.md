@@ -41,6 +41,7 @@
 * [ ] Controllare e inserire fattura elettronica
 * [ ] Inserire nel DDT la fattura a cui è collegato
 * [ ] Creazione, modifica e cancella vanno su pagine temporanee per evitare refresh
+* [ ] Blocca inserimento prodotto senza selezione
 
 ## Fatture
 * [X] ~~*Creazione*~~

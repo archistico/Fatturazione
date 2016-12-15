@@ -94,6 +94,7 @@
             include 'php/config.php';
             include 'php/ddt.php';
             include 'php/ddtdettaglio.php';
+            include "php/cliente.php";
 
             // RECUPERO DATI E AGGIUNGO
             define('CHARSET', 'UTF-8');
@@ -136,7 +137,7 @@
                                 <div class="form-group">
                                     <label>Cliente</label>
                                     <select class="form-control select2" style="width: 100%;" name='cliente' required>
-                                        <?php include "php/cliente.php"; cliente_selectbyID($ddt->ddt_fkcliente); ?>
+                                        <?php cliente_selectbyID($ddt->ddt_fkcliente); ?>
                                     </select>
                                 </div>
                             </div>
@@ -151,7 +152,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control pull-right" id="datepicker1" name='dataEmissione' required>
+                                        <input type="text" class="form-control pull-right" id="datepicker1" name='dataEmissione' value="<?php print $ddt->ddt_data_stringa; ?>" required>
                                     </div>
                                 </div>
                             </div>
@@ -160,9 +161,9 @@
                                 <div class="form-group">
                                     <label>Causale</label>
                                     <select class="form-control select2" style="width: 100%;" name='causale' required>
-                                        <option value="Vendita">Vendita</option>
-                                        <option value="Tentata vendita">Tentata vendita</option>
-                                        <option value="Omaggio">Omaggio</option>
+                                        <option value="Vendita" <?php print $ddt->ddt_causale=="Vendita"?"selected":""; ?> >Vendita</option>
+                                        <option value="Tentata vendita" <?php print $ddt->ddt_causale=="Tentata vendita"?"selected":""; ?>>Tentata vendita</option>
+                                        <option value="Omaggio" <?php print $ddt->ddt_causale=="Omaggio"?"selected":""; ?>>Omaggio</option>
                                     </select>
                                 </div>
                             </div>
@@ -244,7 +245,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control pull-right" id="datepicker2" name='ritirato' required>
+                                        <input type="text" class="form-control pull-right" id="datepicker2" name='ritirato' value="<?php print $ddt->ddt_ritiro_stringa; ?>" required>
                                     </div>
                                 </div>
                             </div>
@@ -585,12 +586,6 @@ $(function () {
     $('#datepicker2').datepicker({
         autoclose: true
     });
-});
-$(function () {
-    //Date picker
-    $('#datepicker1').datepicker("update", new Date());
-    //Date picker
-    $('#datepicker2').datepicker("update", new Date());
 });
 
 </script>
