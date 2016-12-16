@@ -45,4 +45,15 @@
             <li><a href="fatturalista.php"><i class="fa fa-list"></i> Lista fatture</a></li>
         </ul>
     </li>
+    <li class="<?php echo ($menustatistiche)?'active':''; ?> treeview">
+        <a href="#">
+            <i class="fa fa-pie-chart"></i> <span>Report</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="reportprodotto.php"><i class="fa fa-line-chart"></i> Top prodotti</a></li>
+            <li><a href="reportcategoria.php"><i class="fa fa-bar-chart"></i> Top categorie</a></li>
+            <li><a href="reportcliente.php"><i class="fa fa-money"></i> Top clienti</a></li>
+        </ul>
+    </li>
 </ul>
