@@ -55,9 +55,9 @@
 * [ ] Lista fatture non pagate emesse da più di 30 giorni
 
 ## Statistiche
-* [ ] Aggiungere statistiche in menu
-* [ ] Lista prodotti più venduti (maggior vendita da ddtdettaglio)
-* [ ] Lista migliori clienti (maggior fatturato da ddt e ddtdettaglio)
+* [X] ~~*Aggiungere statistiche in menu*~~
+* [X] ~~*Lista prodotti più venduti (maggior vendita da ddtdettaglio)*~~
+* [X] ~~*Lista migliori clienti (maggior fatturato da ddt e ddtdettaglio)*~~
 
 <!---
 inserimento CTRL + SHIFT + C

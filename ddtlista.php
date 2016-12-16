@@ -132,6 +132,7 @@
                 "lengthChange": false,
                 "searching": false,
                 "ordering": true,
+                "order": [[ 2, 'desc' ]],
                 "info": true,
                 "autoWidth": true
             });

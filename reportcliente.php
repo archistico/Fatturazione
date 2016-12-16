@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title> Fatturazione | FATTURA</title>
+        <title> Fatturazione | Report</title>
         <!-- Tell the browser to be responsive to screen width -->
         <?php include 'link.php'; ?>
     </head>
@@ -60,7 +60,7 @@
                 <section class="sidebar">
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <?php
-                    $menugenerale = 0; $menuclienti = 0; $menuprodotti = 0; $menuddt = 0; $menufatture = 1; $menustatistiche = 0;
+                    $menugenerale = 0; $menuclienti = 0; $menuprodotti = 0; $menuddt = 0; $menufatture = 0; $menustatistiche = 1;
                     include 'sidebarmenu.php';
                     ?>
                 </section>
@@ -70,127 +70,52 @@
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
-
+                
                 <section class="content-header">
                     <h1>
-                        FATTURA
-                        <small>Lista</small>
+                        REPORT
+                        <small>Clienti</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li> Home</li>
-                        <li class="active">FATTURA</li>
-                        <li class="active">Lista</li>
+                        <li class="active">Report</li>
+                        <li class="active">Clienti</li>
                     </ol>
                 </section>
 
                 <!-- Main content -->
                 <section class="content">
-                    
-                    <?php 
+                    <?php
                     include 'php/utilita.php';
                     include 'php/config.php';
-                    include 'php/fattura.php';
-                    
+                    include 'php/report.php';
+
                     // RECUPERO DATI E AGGIUNGO
                     define('CHARSET', 'UTF-8');
                     define('REPLACE_FLAGS', ENT_COMPAT | ENT_XHTML);
 
-                    $errorecreazione = array();
-                    $erroreaggiunta = array();
-                    $erroremodifica = array(); 
-                    $errorecancella = array();
-
-                    // Definisci il tipo di operazione
-                    if (isset($_GET['operazione'])) {
-                        $operazione = $_GET['operazione'];
-                    }
-                    
-
-
-                    /*public $fat_id;
-                    public $fat_numero;
-                    public $fat_numero_formattato;
-                    public $fat_anno;
-                    public $fat_data;
-                    public $fat_fkcliente;
-                    public $fat_pagata;
-                    public $fat_annullata;
-                    public $fat_ddt = array();*/
-
-
-
-                    $fattura = new Fattura();
-
-                    // SE CREO IL DDT
-                    if ($operazione == "aggiungi") {
-                    // Carico le variabili
-                    if (!isset($_GET['cliente'])) {
-                        $errorecreazione['cliente'] = 'ID cliente';
-                    } else {
-                        $fattura->fat_fkcliente = $_GET['cliente'];
-                    }
-
-                    if (!isset($_GET['dataEmissione'])) {
-                        $errorecreazione['data'] = 'Data di emissione';
-                    } else {
-                        $fattura->fat_data = DateTime::createFromFormat('d/m/Y', $_GET['dataEmissione']);
-                        $fattura->fat_anno = $fattura->fat_data->format('Y');
-                    }
-
-                    if (!isset($_GET['DDT'])) {
-                        $errorecreazione['DDT'] = 'DDT';
-                    } else {
-                        $stringaDDT = $_GET['DDT'];
-                        $fattura->fat_ddt = json_decode($stringaDDT);
-                    }
-                                        
-                                                          
-                    if (!isset($_GET['pagata'])) {
-                        $fattura->fat_pagata = 0;
-                    } else {
-                        $fattura->fat_pagata = 1;
-                    }
-
-                    if (empty($errorecreazione)) {
-
-                        if ($fattura->AggiungiSQL()) {
-                            echo "<div class='callout callout-success'><h4>Fattura aggiunta</h4><p>Documento inserito nel database</p></div>";
-                        } else {
-                            $errorecreazione['creazione'] = 'Database';
-                        }
-                    }
-
-                    if (!empty($errorecreazione)) {
-                        echo "<div class='callout callout-danger'><h4>Errore inserimento della fattura</h4><p>Ricontrollare i dati inseriti o chiamare l'amministratore</p></div>";
-                    }
-                }
-                //FINE CREAZIONE FATTURA
-
-
-
-
-
-
-
-
-
-
-
-
-                    
-                    
-                    
                     ?>
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="box box-primary">
+                            <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">LISTA FATTURE</h3>
+                                    <h3 class="box-title">Migliori clienti</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <?php FATTabella(); ?>
+                                    <table id="reportcliente" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Cliente</th>
+                                                <th>Totale &euro;</th>
+                                                <th>Totale Kg</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php report_cliente_tabella(); ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <!-- /.box-body -->
                             </div>
@@ -210,12 +135,12 @@
     <!-- page script -->
     <script>
         $(function () {
-            $('#fattabella').DataTable({
+            $('#reportcliente').DataTable({
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
                 "ordering": true,
-                "order": [[ 2, 'desc' ]],
+                "order": [[ 1, 'desc' ]],
                 "info": true,
                 "autoWidth": true
             });
@@ -223,8 +148,6 @@
         });
     </script>
 </html>
-
-
 
 
 

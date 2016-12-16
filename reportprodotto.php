@@ -100,7 +100,7 @@
                         <div class="col-md-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Report prodotti più venduti</h3>
+                                    <h3 class="box-title">Prodotti più venduti</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">

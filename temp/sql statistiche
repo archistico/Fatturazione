@@ -30,3 +30,13 @@ INNER JOIN cliente ON ddt.ddt_fkcliente = cliente.cli_id
 WHERE pro_vecchio = 0 AND ddtdettaglio.ddd_annullato = 0 AND cliente.cli_vecchio = 0
 GROUP BY cliente.cli_denominazione
 ORDER BY Totale DESC, cliente.cli_denominazione ASC
+
+---DIVISIONE PER MESI---
+
+SELECT ddt.ddt_anno, MONTH(ddt.ddt_data), SUM(prodotto.pro_prezzo * ddtdettaglio.ddd_quantita) As Totale 
+FROM prodotto
+INNER JOIN ddtdettaglio ON ddtdettaglio.ddd_fkprodotto = prodotto.pro_id
+INNER JOIN ddt ON ddtdettaglio.ddd_fkddt = ddt.ddt_id
+WHERE pro_vecchio = 0 AND ddtdettaglio.ddd_annullato = 0
+GROUP BY ddt.ddt_anno, MONTH(ddt.ddt_data)
+ORDER BY ddt.ddt_anno DESC, MONTH(ddt.ddt_data) ASC

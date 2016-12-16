@@ -54,6 +54,7 @@
             <li><a href="reportprodotto.php"><i class="fa fa-line-chart"></i> Top prodotti</a></li>
             <li><a href="reportcategoria.php"><i class="fa fa-bar-chart"></i> Top categorie</a></li>
             <li><a href="reportcliente.php"><i class="fa fa-money"></i> Top clienti</a></li>
+            <li><a href="reportmensile.php"><i class="fa fa-bar-chart"></i> Mensile vendite</a></li>
         </ul>
     </li>
 </ul>
