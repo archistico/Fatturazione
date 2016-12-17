@@ -22,7 +22,7 @@
 <script src="dist/js/app.min.js"></script>
 <script src="dist/js/demo.js"></script>
 <!-- ChartJS 1.0.1 -->
-<!-- <script src="plugins/chartjs/Chart.min.js"></script> -->
+<script src="plugins/chartjs/Chart.min.js"></script>
 <!-- Select2 Select2 is a jQuery-based replacement for select boxes. -->
 
 <!-- DataTables -->

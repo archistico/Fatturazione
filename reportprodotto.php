@@ -109,6 +109,7 @@
                                             <tr>
                                                 <th>Categoria</th>
                                                 <th>Descrizione</th>
+                                                <th>&euro;/Kg</th>
                                                 <th>Totale &euro;</th>
                                                 <th>Totale Kg</th>
                                             </tr>
@@ -141,7 +142,7 @@
                 "lengthChange": false,
                 "searching": false,
                 "ordering": true,
-                "order": [[ 2, 'desc' ]],
+                "order": [[ 3, 'desc' ]],
                 "info": true,
                 "autoWidth": true
             });
