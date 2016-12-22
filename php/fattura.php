@@ -80,6 +80,37 @@ class Fattura {
         }
     }
 
+    
+    public function CercaDDT($id) {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+          
+            // Cerca tutti i numeri di fattura e mettili in un array che restituisci
+            $sql="SELECT ddt.ddt_id FROM ddt WHERE ddt.ddt_fkfattura=$id";
+            $result = $db->query($sql);
+
+            $lista = array();
+
+            foreach ($result as $row) {
+                $row = get_object_vars($row);
+                $lista[] = $row['ddt_id'];      
+            }
+
+            // chiude il database
+            $db = NULL;
+
+            return $lista;
+
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     public function Pagata() {
         try {
             include "config.php";
@@ -196,6 +227,8 @@ class Fattura {
             return false;
         }
     }
+
+
 }
 
 
@@ -252,7 +285,7 @@ function FATTabella() {
             }
             print "<td>".$listaDDT."</td>";
             
-            print "<td>&euro; " . number_format($importo, 2, ',', ' ') . "</td>";
+            print "<td>&euro; " . number_format($importo, 2, '.', '') . "</td>";
 
             print "<td>";
             if($row['fat_pagata']) {

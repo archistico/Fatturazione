@@ -48,7 +48,6 @@ class DDTDettaglio {
         }
     }
 
-
     public function AggiungiSQL() {
         try {
             include "config.php";
