@@ -64,15 +64,15 @@
     } 
     
     // Cerco il numero totale di prodotti venduti da inserire
-    $numrighe=count($ddds);
+    $numrighe=count($ddds)+count($ddts);
     $pagine = new Pagine($maxrighe, $numrighe);
 
     $pagineTotali = $pagine->PagineTotali();
 
     /*
     print "<pre>";
-    //print_r($ddts);
-    print_r($fat);
+    print_r($ddts);
+    print_r($ddds);
     print "</pre>";
     print "<br>";
     print "DDD 0: ".$ddds[0]->ddd_quantita."<br>";
@@ -84,9 +84,6 @@
     $mx = 10;
     $my = 10;
 
-    $contatoreDDT = 0;
-    $contatoreDDD = 0;
-    
     ob_end_clean ();
     $pdf = new FPDF('P','mm','A4');
     $pdf->SetAutoPageBreak(true, $my);
@@ -119,10 +116,9 @@
       $pdf->SetXY(0+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(28,5,"ALTRO ",1,0,'R');$pdf->ln();
 
       $pdf->SetFont('Arial','B',14);
-      $pdf->SetXY(28+$mx,$clienteY+$my);$pdf->Cell(115,7, utf8_decode($ddt->ddt_fkcliente_denominazione),1);$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+$my);$pdf->Cell(115,7, utf8_decode($fat->ddt_fkcliente_denominazione),1);$pdf->ln();
       $pdf->SetFont('Arial','',10);
       $pdf->SetXY(28+$mx,$clienteY+7+$my);$pdf->Cell(115,5, utf8_decode($ddt->ddt_fkcliente_indirizzo." - ".$ddt->ddt_fkcliente_cap." ".$ddt->ddt_fkcliente_comune),1,0,'L');$pdf->ln();
-      
       $pdf->SetXY(28+$mx,$clienteY+7+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_telefono)?"tel: ".$ddt->ddt_fkcliente_telefono." " : "").(!empty($ddt->ddt_fkcliente_fax)?"fax: ".$ddt->ddt_fkcliente_fax : ""),1,0,'L');$pdf->ln();
       $pdf->SetXY(28+$mx,$clienteY+7+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_piva)?"P.IVA / C.F.: ".$ddt->ddt_fkcliente_piva." " : "").(!empty($ddt->ddt_fkcliente_email)?"email: ".$ddt->ddt_fkcliente_email : ""),1,0,'L');$pdf->ln();
       $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+$my);$pdf->Cell(115,5,utf8_decode($ddt->ddt_destinazione),1,0,'L');$pdf->ln();
@@ -165,38 +161,56 @@
       $totaleimponibile =0;
       $totaleimponibile4 =0;
       $totaleimponibile10 =0;
-      
+      $fkddt_vecchio = 0;
       
       // Inserimento Dettagli
       $linea = 0;
       for($contatore = ($paginacorrente-1)*$maxrighe+1; $contatore <= $paginacorrente*$maxrighe; $contatore++){
+        
+        // SE DDT
+        //  || ($ddds[$contatore-1]->ddd_fkddt != $fkddt_vecchio)
+
+        // ATTENZIONE NUMERAZIONE CONTATORE DDT E DDD
+        if(($linea == 0)) {
+          $pdf->SetFont('Arial','',8);
+          $pdf->SetXY(0+$mx,$listaY+$my+$linea*6);
+          $pdf->Cell(190,6,"DDT",1,0,'R');
+          $linea += 1;
+          if($contatore == $numrighe) { break; }
+          continue;
+        }
+
+        $fkddt_vecchio = $ddds[$contatore-1]->ddd_fkddt;
+
+        // SE DDD
         $pdf->SetFont('Arial','',8);
         $pdf->SetXY(0+$mx,$listaY+$my+$linea*6);
-        $pdf->Cell(20,6,$lista[$contatore-1]->ddd_quantita . " kg",1,0,'C');
-        $pdf->Cell(80,6,utf8_decode($lista[$contatore-1]->ddd_fkprodotto_categoria) . " - " . utf8_decode($lista[$contatore-1]->ddd_fkprodotto_descrizione) ,1,0,'L');
-        $pdf->Cell(25,6,$lista[$contatore-1]->ddd_tracciabilita,1,0,'C');
-        $pdf->Cell(15,6,EURO.number_format($lista[$contatore-1]->ddd_fkprodotto_prezzo, 2, ',', ' '),1,0,'R');
-        $pdf->Cell(15,6,$lista[$contatore-1]->ddd_fkprodotto_iva,1,0,'C');
+        $pdf->Cell(20,6,$ddds[$contatore-1]->ddd_quantita . " kg",1,0,'C');
+        $pdf->Cell(80,6,utf8_decode($ddds[$contatore-1]->ddd_fkprodotto_categoria) . " - " . utf8_decode($ddds[$contatore-1]->ddd_fkprodotto_descrizione) ,1,0,'L');
+        $pdf->Cell(25,6,$ddds[$contatore-1]->ddd_tracciabilita,1,0,'C');
+        $pdf->Cell(15,6,EURO.number_format($ddds[$contatore-1]->ddd_fkprodotto_prezzo, 2, ',', ' '),1,0,'R');
+        $pdf->Cell(15,6,$ddds[$contatore-1]->ddd_fkprodotto_iva,1,0,'C');
 
-        $importotemp = $lista[$contatore-1]->ddd_quantita*$lista[$contatore-1]->ddd_fkprodotto_prezzo;
-        $ivatemp = ($lista[$contatore-1]->ddd_fkprodotto_iva/100);
+        $importotemp = $ddds[$contatore-1]->ddd_quantita*$ddds[$contatore-1]->ddd_fkprodotto_prezzo;
+        $ivatemp = ($ddds[$contatore-1]->ddd_fkprodotto_iva/100);
         $riga_iva = $importotemp - $importotemp/(1+$ivatemp);
         $pdf->Cell(15,6,EURO. number_format($riga_iva, 2, ',', ' '),1,0,'R');
 
         // importo
-        $imponibile = $lista[$contatore-1]->ddd_quantita*$lista[$contatore-1]->ddd_fkprodotto_prezzo;
+        $imponibile = $ddds[$contatore-1]->ddd_quantita*$ddds[$contatore-1]->ddd_fkprodotto_prezzo;
         $totaleimponibile += $imponibile;
         $pdf->Cell(20,6,EURO. number_format($imponibile, 2, ',', ' '),1,0,'R');
         $pdf->ln();
 
-        switch($lista[$contatore-1]->ddd_fkprodotto_iva) {
+        switch($ddds[$contatore-1]->ddd_fkprodotto_iva) {
           case 4: $totaleiva4 += $riga_iva; $totaleimponibile4 += $imponibile; break;
           case 10: $totaleiva10 += $riga_iva; $totaleimponibile10 += $imponibile; break;
         }
-
+        
+        // Aggiorno contatore linea
         $linea += 1;
 
-        if($contatore == count($lista)) { break; }
+        if($contatore == $numrighe) { break; }
       }
 
       // DISEGNO LE LINEE RIMANENTI
