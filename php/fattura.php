@@ -197,6 +197,7 @@ class Fattura {
             $this->fat_anno = $row['fat_anno'];
             $this->fat_data = DateTime::createFromFormat('Y-m-d', $row['fat_data']);
             $this->fat_data_stringa = $this->fat_data->format('d/m/Y');
+            $this->fat_pagata = $row['fat_pagata'];
             /*$this->fat_fkcliente = $row['fat_fkcliente'];
             $this->fat_fkcliente_denominazione = $row['cli_denominazione'];
             $this->fat_fkcliente_indirizzo = $row['cli_indirizzo'];
@@ -216,7 +217,6 @@ class Fattura {
             $this->fat_scontrino = $row['fat_scontrino'];
             $this->fat_importo = $row['fat_importo'];
             $this->fat_fatturazioneelettronica = $row['fat_fatturazioneelettronica'];
-            $this->fat_pagato = $row['fat_pagato'];
             $this->fat_fkfattura = $row['fat_fkfattura'];
             $this->fat_annullato = $row['fat_annullato'];*/
             

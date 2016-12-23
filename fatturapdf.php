@@ -116,7 +116,7 @@
       $pdf->SetXY(0+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(28,5,"ALTRO ",1,0,'R');$pdf->ln();
 
       $pdf->SetFont('Arial','B',14);
-      $pdf->SetXY(28+$mx,$clienteY+$my);$pdf->Cell(115,7, utf8_decode($fat->ddt_fkcliente_denominazione),1);$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+$my);$pdf->Cell(115,7, utf8_decode($ddt->ddt_fkcliente_denominazione),1);$pdf->ln();
       $pdf->SetFont('Arial','',10);
       $pdf->SetXY(28+$mx,$clienteY+7+$my);$pdf->Cell(115,5, utf8_decode($ddt->ddt_fkcliente_indirizzo." - ".$ddt->ddt_fkcliente_cap." ".$ddt->ddt_fkcliente_comune),1,0,'L');$pdf->ln();
       $pdf->SetXY(28+$mx,$clienteY+7+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_telefono)?"tel: ".$ddt->ddt_fkcliente_telefono." " : "").(!empty($ddt->ddt_fkcliente_fax)?"fax: ".$ddt->ddt_fkcliente_fax : ""),1,0,'L');$pdf->ln();
@@ -161,56 +161,64 @@
       $totaleimponibile =0;
       $totaleimponibile4 =0;
       $totaleimponibile10 =0;
-      $fkddt_vecchio = 0;
+      $fkddt_vecchio = -1;
+      
+      $contatoreDDT = 0;
+      $contatoreDDD = 0;
       
       // Inserimento Dettagli
       $linea = 0;
       for($contatore = ($paginacorrente-1)*$maxrighe+1; $contatore <= $paginacorrente*$maxrighe; $contatore++){
         
-        // SE DDT
-        //  || ($ddds[$contatore-1]->ddd_fkddt != $fkddt_vecchio)
-
         // ATTENZIONE NUMERAZIONE CONTATORE DDT E DDD
-        if(($linea == 0)) {
-          $pdf->SetFont('Arial','',8);
+        if(!($ddds[$contatoreDDD]->ddd_fkddt == $fkddt_vecchio)) {
+          $fkddt_vecchio = $ddds[$contatoreDDD]->ddd_fkddt;
+
+          $pdf->SetFont('Arial','B',10);
           $pdf->SetXY(0+$mx,$listaY+$my+$linea*6);
-          $pdf->Cell(190,6,"DDT",1,0,'R');
-          $linea += 1;
+          $pdf->Cell(190,6," DDT-". $ddts[$contatoreDDT]->ddt_anno."-".$ddts[$contatoreDDT]->ddt_numero_formattato." del ".$ddts[$contatoreDDT]->ddt_data_stringa,1,0,'L');
+
           if($contatore == $numrighe) { break; }
+
+          $linea += 1;
+          $contatoreDDT += 1;
+
           continue;
         }
 
-        $fkddt_vecchio = $ddds[$contatore-1]->ddd_fkddt;
+        $fkddt_vecchio = $ddds[$contatoreDDD]->ddd_fkddt;
 
         // SE DDD
         $pdf->SetFont('Arial','',8);
         $pdf->SetXY(0+$mx,$listaY+$my+$linea*6);
-        $pdf->Cell(20,6,$ddds[$contatore-1]->ddd_quantita . " kg",1,0,'C');
-        $pdf->Cell(80,6,utf8_decode($ddds[$contatore-1]->ddd_fkprodotto_categoria) . " - " . utf8_decode($ddds[$contatore-1]->ddd_fkprodotto_descrizione) ,1,0,'L');
-        $pdf->Cell(25,6,$ddds[$contatore-1]->ddd_tracciabilita,1,0,'C');
-        $pdf->Cell(15,6,EURO.number_format($ddds[$contatore-1]->ddd_fkprodotto_prezzo, 2, ',', ' '),1,0,'R');
-        $pdf->Cell(15,6,$ddds[$contatore-1]->ddd_fkprodotto_iva,1,0,'C');
+        $pdf->Cell(20,6,$ddds[$contatoreDDD]->ddd_quantita . " kg",1,0,'C');
+        $pdf->Cell(80,6,utf8_decode($ddds[$contatoreDDD]->ddd_fkprodotto_categoria) . " - " . utf8_decode($ddds[$contatoreDDD]->ddd_fkprodotto_descrizione) ,1,0,'L');
+        $pdf->Cell(25,6,$ddds[$contatoreDDD]->ddd_tracciabilita,1,0,'C');
+        $pdf->Cell(15,6,EURO.number_format($ddds[$contatoreDDD]->ddd_fkprodotto_prezzo, 2, ',', ' '),1,0,'R');
+        $pdf->Cell(15,6,$ddds[$contatoreDDD]->ddd_fkprodotto_iva,1,0,'C');
 
-        $importotemp = $ddds[$contatore-1]->ddd_quantita*$ddds[$contatore-1]->ddd_fkprodotto_prezzo;
-        $ivatemp = ($ddds[$contatore-1]->ddd_fkprodotto_iva/100);
+        $importotemp = $ddds[$contatoreDDD]->ddd_quantita*$ddds[$contatoreDDD]->ddd_fkprodotto_prezzo;
+        $ivatemp = ($ddds[$contatoreDDD]->ddd_fkprodotto_iva/100);
         $riga_iva = $importotemp - $importotemp/(1+$ivatemp);
         $pdf->Cell(15,6,EURO. number_format($riga_iva, 2, ',', ' '),1,0,'R');
 
         // importo
-        $imponibile = $ddds[$contatore-1]->ddd_quantita*$ddds[$contatore-1]->ddd_fkprodotto_prezzo;
+        $imponibile = $ddds[$contatoreDDD]->ddd_quantita*$ddds[$contatoreDDD]->ddd_fkprodotto_prezzo;
         $totaleimponibile += $imponibile;
         $pdf->Cell(20,6,EURO. number_format($imponibile, 2, ',', ' '),1,0,'R');
         $pdf->ln();
 
-        switch($ddds[$contatore-1]->ddd_fkprodotto_iva) {
+        switch($ddds[$contatoreDDD]->ddd_fkprodotto_iva) {
           case 4: $totaleiva4 += $riga_iva; $totaleimponibile4 += $imponibile; break;
           case 10: $totaleiva10 += $riga_iva; $totaleimponibile10 += $imponibile; break;
         }
         
+        // Se arrivo al numero delle righe chiudo
+        if($contatore == $numrighe) { break; }
+
         // Aggiorno contatore linea
         $linea += 1;
-
-        if($contatore == $numrighe) { break; }
+        $contatoreDDD += 1;
       }
 
       // DISEGNO LE LINEE RIMANENTI
@@ -238,7 +246,7 @@
       //$pdf->SetXY(0+$mx,$ivaY+$my);
       //$pdf->Cell(190,4,"Operazione non imponibile ai sensi dell'art. 41 comma 1 lettera a D.L. 331/1993 - Contributo ambientale CONAI assolto",0,0,'L');
       $pdf->SetXY(0+$mx,$ivaY+3.5+$my);
-      $pdf->Cell(190,4,"* Riferimenti di legge (D.d.t.) D.P.R. 472 del 14/08/1996 - D.P.R. 696 del 21/12/1996",0,0,'L');
+      $pdf->Cell(190,4,"",0,0,'L');
 
       // Zona timbri vettore e cliente
       $fondoY = $ivaY + 9;
@@ -257,16 +265,15 @@
       // Scritta vettore
       $pdf->SetXY(0+$mx,$fondoY+0.5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell($fondoFirmeX,4,$ddt->ddt_trasporto." - ".$ddt->ddt_aspetto,0,0,'L');$pdf->ln();
-      $pdf->Cell($fondoFirmeX,4,"Firma vettore",0,0,'L');
+      $pdf->Cell($fondoFirmeX,4,"Firma emittente",0,0,'L');$pdf->ln();
 
       // Scritta cliente
       $pdf->SetXY(0+$mx,$fondoY+22.5+0.5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell($fondoFirmeX,4,"Numero colli: " . $ddt->ddt_colli,0,0,'L');$pdf->ln();
-      $pdf->Cell($fondoFirmeX,4,"Firma cliente",0,0,'L');
+      $pdf->Cell($fondoFirmeX,4,"Firma cliente",0,0,'L');$pdf->ln();
+      
 
-      // Scritta vettore
+      // Scritta Aliquote
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(22,7.5,"ALIQUOTA IVA",1,0,'C');
@@ -303,7 +310,7 @@
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+5+5+7.5+$my);
       $pdf->SetFont('Arial','B',16);
-      $pdf->Cell(60,15,(!empty($ddt->ddt_pagato)?"PAGATO" : "NON PAGATO"),1,0,'C');
+      $pdf->Cell(60,15,(!empty($fat->fat_pagata)?"PAGATO" : "NON PAGATO"),1,0,'C');
 
       $pdf->ln();
       
@@ -327,8 +334,8 @@
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"NUMERO SCONTRINO ",1,0,'R');
-      $pdf->Cell(30,5,$ddt->ddt_scontrino,1,0,'R');
+      $pdf->Cell(50,5,"",1,0,'R');
+      $pdf->Cell(30,5,"",1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+$my);
       $pdf->SetFont('Arial','',8);
