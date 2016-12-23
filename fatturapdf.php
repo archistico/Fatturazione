@@ -71,7 +71,8 @@
 
     /*
     print "<pre>";
-    print_r($ddds);
+    //print_r($ddts);
+    print_r($fat);
     print "</pre>";
     print "<br>";
     print "DDD 0: ".$ddds[0]->ddd_quantita."<br>";
@@ -83,6 +84,9 @@
     $mx = 10;
     $my = 10;
 
+    $contatoreDDT = 0;
+    $contatoreDDD = 0;
+    
     ob_end_clean ();
     $pdf = new FPDF('P','mm','A4');
     $pdf->SetAutoPageBreak(true, $my);
@@ -90,7 +94,6 @@
     // Per ogni pagina
     for($paginacorrente = 1; $paginacorrente <= $pagineTotali; $paginacorrente++) {
       $pdf->AddPage();
-
 
       // Logo
       $pdf->SetFont('Arial','B',16);
@@ -127,12 +130,11 @@
       
       // Dati fattura
       $pdf->SetFont('Arial','B',12);
-      $pdf->SetXY(143+$mx,$clienteY+$my);$pdf->Cell(47,7,$ddt->ddt_data_stringa,1,0,'C');$pdf->ln();
-      $pdf->SetFont('Arial','B',8);
-      $pdf->SetXY(143+$mx,$clienteY+7+$my);$pdf->Cell(47,5,"FATTURA",1,0,'C');$pdf->ln();
-      $pdf->SetXY(143+$mx,$clienteY+7+5+$my);$pdf->Cell(47,5,"CAUSALE: ".strtoupper($ddt->ddt_causale),1,0,'C');$pdf->ln();
+      $pdf->SetXY(143+$mx,$clienteY+$my);$pdf->Cell(47,7,$fat->fat_data_stringa,1,0,'C');$pdf->ln();
+      $pdf->SetFont('Arial','B',20);
+      $pdf->SetXY(143+$mx,$clienteY+7+$my);$pdf->Cell(47,10,"FATTURA",1,0,'C');$pdf->ln();
       $pdf->SetFont('Arial','B',16);
-      $pdf->SetXY(143+$mx,$clienteY+7+5+5+$my);$pdf->Cell(47,10,'FAT-'.$ddt->ddt_anno.'-'.$ddt->ddt_numero_formattato,1,0,'C');$pdf->ln();
+      $pdf->SetXY(143+$mx,$clienteY+7+5+5+$my);$pdf->Cell(47,10,'FAT-'.$fat->fat_anno.'-'.$fat->fat_numero_formattato,1,0,'C');$pdf->ln();
       $pdf->SetFont('Arial','',8);
       $pdf->SetXY(143+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(47,5,"PAGINA ".$paginacorrente."/".$pagineTotali,1,0,'C');$pdf->ln();
 
@@ -341,7 +343,7 @@
 
     // Chiudo il PDF
     //
-    $pdf->Output(I, 'DDT-'.$ddt->ddt_anno.'-'.$ddt->ddt_numero_formattato." ".str_replace(".", "", $ddt->ddt_fkcliente_denominazione).".pdf");
+    $pdf->Output(I, 'FAT-'.$fat->fat_anno.'-'.$fat->fat_numero_formattato." ".str_replace(".", "", $ddt->ddt_fkcliente_denominazione).".pdf");
 
     ?>
 

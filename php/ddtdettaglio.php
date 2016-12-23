@@ -28,8 +28,10 @@ class DDTDettaglio {
             $row = get_object_vars($row);
 
             $dettaglio = new DDTDettaglio();
+            $dettaglio->ddd_fkddt = $row['ddd_fkddt'];
             $dettaglio->ddd_quantita = $row['ddd_quantita'];
             $dettaglio->ddd_tracciabilita = $row['ddd_tracciabilita'];
+            $dettaglio->ddd_fkprodotto = $row['ddd_fkprodotto'];
             $dettaglio->ddd_fkprodotto_categoria = $row['pro_categoria'];
             $dettaglio->ddd_fkprodotto_descrizione = $row['pro_descrizione'];
             $dettaglio->ddd_fkprodotto_prezzo = $row['pro_prezzo'];
