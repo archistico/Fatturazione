@@ -89,6 +89,30 @@
 
                 <!-- Main content -->
                 <section class="content">
+
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">INFORMAZIONI</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="col-md-6 col-xs-12">
+                                        <h1>
+                                            MACELLERIA PEAQUIN <small>snc</small>
+                                        </h1>
+                                    </div>
+                                    <div class="col-md-6 col-xs-12">
+                                        <h1>
+                                            <span id="orario" class="pull-right"></span>
+                                        </h1>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+                    </div>
                                         
                     <div class="row">
                         <div class="col-md-4 col-xs-12">
@@ -97,8 +121,8 @@
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Totale venduto</span>
-                                    <span class="info-box-text"><small>(anno in corso)</small></span>
-                                    <span class="info-box-number">&euro; 1000.00</span>
+                                    <span class="info-box-number">2016</span>
+                                    <span class="info-box-number"><small>&euro; 1000.00</small></span>
                                 </div>
                             <!-- /.info-box-content -->
                             </div>
@@ -161,14 +185,7 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12">
-                            <h1 id="orario" class="pull-right"></h1>
-                        </div>
-                    </div>
-                    
-                    
+
                 </section>
                 <!-- /.content -->
             </div>
@@ -201,8 +218,7 @@
             var s = today.getSeconds();
             m = checkTime(m);
             s = checkTime(s);
-            document.getElementById('orario').innerHTML =
-            oggi + " " + h + ":" + m + ":" + s;
+            document.getElementById('orario').innerHTML = oggi + " - " + h + ":" + m + ":" + s;
             var t = setTimeout(startTime, 500);
         }
         function checkTime(i) {
