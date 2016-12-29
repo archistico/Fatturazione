@@ -8,7 +8,7 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <?php include 'link.php'; ?>
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini" onload="startTime()">
         <div class="wrapper">
 
             <header class="main-header">
@@ -89,17 +89,73 @@
 
                 <!-- Main content -->
                 <section class="content">
-               
-                    
+                                        
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-green"><i class="ion ion-calculator"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Totale venduto</span>
+                                    <span class="info-box-text"><small>(anno in corso)</small></span>
+                                    <span class="info-box-number">&euro; 1000.00</span>
+                                </div>
+                            <!-- /.info-box-content -->
+                            </div>
+                        <!-- /.info-box -->
+                        </div>
+
+                        <div class="col-md-4 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-aqua"><i class="ion ion-ribbon-b"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Migliore cliente</span>
+                                    <span class="info-box-number">Emilie Rollandin</span>
+                                    <span class="info-box-number"><small>&euro; 1000.00</small></span>
+                                </div>
+                            <!-- /.info-box-content -->
+                            </div>
+                        <!-- /.info-box -->
+                        </div>
+
+                        <div class="col-md-4 col-xs-12">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red"><i class="ion ion-trophy"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Migliore prodotto</span>
+                                    <span class="info-box-number">Bovino - Affettato</span>
+                                    <span class="info-box-number"><small>&euro; 1000.00</small></span>
+                                </div>
+                            <!-- /.info-box-content -->
+                            </div>
+                        <!-- /.info-box -->
+                        </div>
+
+
+                    </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">LISTA DDT</h3>
+                                    <h3 class="box-title">MENU RAPIDO</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <?php include 'php/ddt.php'; DDTTabella(); ?>
+                                    <a class="btn btn-app" href="clientenuovo.php">
+                                        <i class="fa fa-user"></i> + Cliente
+                                    </a>
+                                    <a class="btn btn-app" href="prodottonuovo.php">
+                                        <i class="fa fa-barcode"></i> + Prodotto
+                                    </a>
+                                    <a class="btn btn-app" href="ddtnuovo.php">
+                                        <i class="fa fa-truck"></i> + DDT
+                                    </a>
+                                    <a class="btn btn-app" href="fatturanuova.php">
+                                        <i class="fa fa-table"></i> + Fattura
+                                    </a>
                                 </div>
                                 <!-- /.box-body -->
                             </div>
@@ -107,33 +163,11 @@
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="box">
-                                <div class="box-header">
-                                    <h3 class="box-title">LISTA PRODOTTI</h3>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <table id="prodottitabella" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Categoria</th>
-                                                <th>Descrizione</th>
-                                                <th>Prezzo</th>
-                                                <th>Iva</th>
-                                                <th>Vecchio</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php include 'php/prodotto.php';  prodotto_tabella(); ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.box-body -->
-                            </div>
+                        <div class="col-md-12 col-xs-12">
+                            <h1 id="orario" class="pull-right"></h1>
                         </div>
                     </div>
+                    
                     
                 </section>
                 <!-- /.content -->
@@ -147,24 +181,34 @@
     </body>
     <!-- page script -->
     <script>
-        $(function () {
-            $('#ddttabella').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true
-            });
-            $('#prodottitabella').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true
-            });
-        });
+        function startTime() {
+            var today = new Date();
+
+            var dd = today.getDate();
+        	var mm = today.getMonth()+1; //January is 0!
+        
+        	var yyyy = today.getFullYear();
+        	if(dd<10){
+            	dd='0'+dd;
+        	} 
+        	if(mm<10){
+               mm='0'+mm;
+        	} 
+        	var oggi = dd+'/'+mm+'/'+yyyy;
+
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('orario').innerHTML =
+            oggi + " " + h + ":" + m + ":" + s;
+            var t = setTimeout(startTime, 500);
+        }
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+            return i;
+        }
     </script>
 </html>
 
