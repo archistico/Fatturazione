@@ -74,6 +74,7 @@
                 
                 <?php
                 include 'php/utilita.php';
+                include 'php/report.php';
                 ?>
                 
                 <section class="content-header">
@@ -120,9 +121,9 @@
                                 <span class="info-box-icon bg-green"><i class="ion ion-calculator"></i></span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Totale venduto</span>
-                                    <span class="info-box-number">2016</span>
-                                    <span class="info-box-number"><small>&euro; 1000.00</small></span>
+                                    <span class="info-box-text">Totale DDT</span>
+                                    <span class="info-box-number"><?php echo date('Y'); ?></span>
+                                    <span class="info-box-number"><small>&euro; <?php echo number_format(DistribuitoAnnoInCorso(), 2, '.', ''); ?></small></span>
                                 </div>
                             <!-- /.info-box-content -->
                             </div>
@@ -135,8 +136,8 @@
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Migliore cliente</span>
-                                    <span class="info-box-number">Emilie Rollandin</span>
-                                    <span class="info-box-number"><small>&euro; 1000.00</small></span>
+                                    <span class="info-box-number"><?php echo MiglioreClienteDenominazione(); ?></span>
+                                    <span class="info-box-number"><small>&euro; <?php echo number_format(MiglioreClienteImporto(), 2, '.', ''); ?></small></span>
                                 </div>
                             <!-- /.info-box-content -->
                             </div>

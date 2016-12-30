@@ -213,3 +213,99 @@ function VenditeMensiliGrafico() {
         throw new PDOException("Error  : " . $e->getMessage());
     }
 }
+
+
+// Distribuito
+
+function DistribuitoAnnoInCorso() {
+    try {
+        include 'config.php';
+        $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+        
+        $curYear = date('Y');
+
+        $sql =  "SELECT SUM(prodotto.pro_prezzo * ddtdettaglio.ddd_quantita) As distribuito ".
+                "FROM prodotto ".
+                "INNER JOIN ddtdettaglio ON ddtdettaglio.ddd_fkprodotto = prodotto.pro_id ".
+                "INNER JOIN ddt ON ddtdettaglio.ddd_fkddt = ddt.ddt_id ".
+                "WHERE ddtdettaglio.ddd_annullato = 0 AND ddt.ddt_anno = ".$curYear;
+
+        $result = $db->query($sql);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+
+        // chiude il database
+        $db = NULL;
+
+        return $row['distribuito'];
+
+    } catch (PDOException $e) {
+        throw new PDOException("Error  : " . $e->getMessage());
+    }
+}
+
+function MiglioreClienteDenominazione() {
+    try {
+        include 'config.php';
+        
+        $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+        $sql = "SELECT cliente.cli_denominazione, SUM(prodotto.pro_prezzo * ddtdettaglio.ddd_quantita) As TotaleVenduto ".
+               "FROM prodotto ".
+               "INNER JOIN ddtdettaglio ON ddtdettaglio.ddd_fkprodotto = prodotto.pro_id ".
+               "INNER JOIN ddt ON ddtdettaglio.ddd_fkddt = ddt.ddt_id ".
+               "INNER JOIN cliente ON ddt.ddt_fkcliente = cliente.cli_id ".
+               "WHERE pro_vecchio = 0 AND ddtdettaglio.ddd_annullato = 0 AND cliente.cli_vecchio = 0 ".
+               "GROUP BY cliente.cli_denominazione ".
+               "ORDER BY TotaleVenduto DESC, cliente.cli_denominazione ASC ".
+               "LIMIT 1";
+
+        $result = $db->query($sql);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+
+        // chiude il database
+        $db = NULL;
+
+        return $row['cli_denominazione'];
+
+    } catch (PDOException $e) {
+        throw new PDOException("Error  : " . $e->getMessage());
+    }
+}
+
+function MiglioreClienteImporto() {
+    try {
+        include 'config.php';
+        
+        $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+        $sql = "SELECT cliente.cli_denominazione, SUM(prodotto.pro_prezzo * ddtdettaglio.ddd_quantita) As TotaleVenduto ".
+               "FROM prodotto ".
+               "INNER JOIN ddtdettaglio ON ddtdettaglio.ddd_fkprodotto = prodotto.pro_id ".
+               "INNER JOIN ddt ON ddtdettaglio.ddd_fkddt = ddt.ddt_id ".
+               "INNER JOIN cliente ON ddt.ddt_fkcliente = cliente.cli_id ".
+               "WHERE pro_vecchio = 0 AND ddtdettaglio.ddd_annullato = 0 AND cliente.cli_vecchio = 0 ".
+               "GROUP BY cliente.cli_denominazione ".
+               "ORDER BY TotaleVenduto DESC, cliente.cli_denominazione ASC ".
+               "LIMIT 1";
+
+        $result = $db->query($sql);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+
+        // chiude il database
+        $db = NULL;
+
+        return $row['TotaleVenduto'];
+
+    } catch (PDOException $e) {
+        throw new PDOException("Error  : " . $e->getMessage());
+    }
+}

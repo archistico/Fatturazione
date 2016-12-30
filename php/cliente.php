@@ -252,7 +252,8 @@ function ClienteTabella() {
         // Parte iniziale
         print "<table id='clientetabella' class='table table-bordered table-hover'>";
         print "<thead><tr>";
-        print "<th>#</th><th>Denominazione</th><th>Indirizzo</th><th>Recapiti</th><th>Email</th><th>Fiscali</th><th>Vecchio</th>";
+        //<th>Email</th>
+        print "<th>#</th><th>Denominazione</th><th>Indirizzo</th><th>Recapiti</th><th>Fiscali</th><th>X</th>";
         print "</tr></thead><tbody>";
         
         foreach ($result as $row) {
@@ -263,22 +264,26 @@ function ClienteTabella() {
             print "<td>";
             
             print "<a class='btn btn-xs btn-warning' href='clientemodifica.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px; margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
-            print "<a class='btn btn-xs btn-warning' href='clientevecchio.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";
-            print "<a class='btn btn-xs btn-danger' href='clientecancella.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px;margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";         
+            //print "<a class='btn btn-xs btn-warning' href='clientevecchio.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";   
             
             print "</td>";
             
             print "<td>".$row['cli_denominazione']."</td>";
             print "<td>".$row['cli_comune']. " (" .$row['cli_cap']. ") - " .$row['cli_indirizzo']."</td>";
             print "<td>".$row['cli_telefono']. " / " .$row['cli_fax']. "</td>";
-            print "<td>".$row['cli_email']."</td>";
+            //print "<td>".$row['cli_email']."</td>";
             print "<td>".$row['cli_piva']."</td>";
 
+            /*
             if(!$row['cli_vecchio']) {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
             } else {
                 print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";
             }
+            */
+            print "<td>";
+            print "<a class='btn btn-xs btn-danger' href='clientecancella.php?cli_id=".$row['cli_id']."' role='button' style='width: 30px;margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            print "</td>";
 
             print "</tr>";
         }
