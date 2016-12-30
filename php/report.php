@@ -309,3 +309,34 @@ function MiglioreClienteImporto() {
         throw new PDOException("Error  : " . $e->getMessage());
     }
 }
+
+function MiglioreProdotto() {
+    try {
+        include 'config.php';
+        
+        $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+        $sql = "SELECT prodotto.pro_categoria, prodotto.pro_descrizione, ".
+               "SUM(prodotto.pro_prezzo * ddtdettaglio.ddd_quantita) As TotaleVenduto ". 
+               "FROM prodotto ".
+               "INNER JOIN ddtdettaglio ON ddtdettaglio.ddd_fkprodotto = prodotto.pro_id ".
+               "WHERE pro_vecchio = 0 AND ddtdettaglio.ddd_annullato = 0 ".
+               "GROUP BY prodotto.pro_categoria, prodotto.pro_descrizione ".
+               "ORDER BY TotaleVenduto DESC, prodotto.pro_categoria ASC, prodotto.pro_descrizione ASC ".
+               "LIMIT 1";
+
+        $result = $db->query($sql);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+
+        // chiude il database
+        $db = NULL;
+
+        return array($row['pro_categoria']." - ".$row['pro_descrizione'], $row['TotaleVenduto']);
+
+    } catch (PDOException $e) {
+        throw new PDOException("Error  : " . $e->getMessage());
+    }
+}

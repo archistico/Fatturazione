@@ -116,6 +116,7 @@
                                                 <th>Prezzo</th>
                                                 <th>Iva</th>
                                                 <th>Vecchio</th>
+                                                <th>X</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -143,11 +144,29 @@
         $(function () {
             $('#prodotto').DataTable({
                 "paging": true,
-                "lengthChange": false,
-                "searching": false,
+                "lengthChange": true,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tutti"]],
+                "searching": true,
                 "ordering": true,
+                "order": [[ 1, 'asc' ]],
                 "info": true,
-                "autoWidth": true
+                "autoWidth": true,
+                "language": {
+                    "lengthMenu": "Mostra _MENU_ prodotti per pagina",
+                    "zeroRecords": "Nessun prodotto",
+                    "info": "Pagina _PAGE_ di _PAGES_",
+                    "sSearch": "Cerca: ",
+                    "infoEmpty": "Nessun prodotto",
+                    "infoFiltered": "(filtrati _MAX_ prodotti)"
+                },
+                "oPaginate": {
+		            "sFirst": "Inizio",
+		            "sPrevious": "Precedente",
+		            "sNext": "Prossimo",
+		            "sLast": "Fine"
+	            },
+                "sLoadingRecords": "In caricamento...",
+	            "sProcessing": "In caricamento..."
             });
             
         });

@@ -150,8 +150,8 @@
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Migliore prodotto</span>
-                                    <span class="info-box-number">Bovino - Affettato</span>
-                                    <span class="info-box-number"><small>&euro; 1000.00</small></span>
+                                    <span class="info-box-number"><?php list($miglioreprodottonome, $miglioreprodottoimporto) = MiglioreProdotto(); echo $miglioreprodottonome; ?></span>
+                                    <span class="info-box-number"><small>&euro; <?php echo number_format($miglioreprodottoimporto, 2, '.', ''); ?></small></span>
                                 </div>
                             <!-- /.info-box-content -->
                             </div>

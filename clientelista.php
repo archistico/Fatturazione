@@ -123,11 +123,29 @@
         $(function () {
             $('#clientetabella').DataTable({
                 "paging": true,
-                "lengthChange": false,
-                "searching": false,
+                "lengthChange": true,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tutti"]],
+                "searching": true,
                 "ordering": true,
+                "order": [[ 1, 'asc' ]],
                 "info": true,
-                "autoWidth": true
+                "autoWidth": true,
+                "language": {
+                    "lengthMenu": "Mostra _MENU_ clienti per pagina",
+                    "zeroRecords": "Nessun cliente",
+                    "info": "Pagina _PAGE_ di _PAGES_",
+                    "sSearch": "Cerca: ",
+                    "infoEmpty": "Nessun cliente",
+                    "infoFiltered": "(filtrati _MAX_ prodotti)"
+                },
+                "oPaginate": {
+		            "sFirst": "Inizio",
+		            "sPrevious": "Precedente",
+		            "sNext": "Prossimo",
+		            "sLast": "Fine"
+	            },
+                "sLoadingRecords": "In caricamento...",
+	            "sProcessing": "In caricamento..."
             });
             
         });

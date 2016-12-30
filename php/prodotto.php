@@ -202,9 +202,7 @@ function prodotto_tabella() {
             print "<tr>";
             print "<td>";
             
-            print "<a class='btn btn-xs btn-warning' href='prodottomodifica.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px; margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
-            print "<a class='btn btn-xs btn-warning' href='prodottovecchio.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";
-            print "<a class='btn btn-xs btn-danger' href='prodottocancella.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px;margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            print "<a class='btn btn-xs btn-warning' href='prodottomodifica.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
             
             print "</td>";
 
@@ -213,10 +211,20 @@ function prodotto_tabella() {
             print "<td>&euro; ".$row['pro_prezzo']."</td>";
             print "<td>".$row['pro_iva']." &percnt;</td>";
             if(!$row['pro_vecchio']) {
-                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
+                print "<td>";
+                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
+                print "<a class='btn btn-xs btn-warning' href='prodottovecchio.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";
+                print "</td>";
             } else {
-                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";
+                print "<td><i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i></td>";
             }
+            
+            print "<td>";
+                                    
+            print "<a class='btn btn-xs btn-danger' href='prodottocancella.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px;margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            
+            print "</td>";
+
             print "</tr>";
         }
         // chiude il database
