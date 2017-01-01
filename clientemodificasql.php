@@ -110,55 +110,55 @@
                     if (!isset($_GET['denominazione'])) {
                         $errore['denominazione'] = 'denominazione';
                     } else {
-                        $cliente->cli_denominazione = $_GET['denominazione'];
+                        $cliente->cli_denominazione = pulisciStringa($_GET['denominazione']);
                     }
 
                     if (!isset($_GET['nome'])) {
                         // nessun errore - non obbligatorio
                     } else {
-                        $cliente->cli_denominazione .= " ". $_GET['nome'];
+                        $cliente->cli_denominazione .= " ". pulisciStringa($_GET['nome']);
                     }
 
                     if (!isset($_GET['indirizzo'])) {
                         $errore['indirizzo'] = 'indirizzo';
                     } else {
-                        $cliente->cli_indirizzo = $_GET['indirizzo'];
+                        $cliente->cli_indirizzo = pulisciStringa($_GET['indirizzo']);
                     }
 
                     if (!isset($_GET['cap'])) {
                         $errore['cap'] = 'cap';
                     } else {
-                        $cliente->cli_cap = $_GET['cap'];
+                        $cliente->cli_cap = pulisciStringa($_GET['cap']);
                     }
 
                     if (!isset($_GET['comune'])) {
                         $errore['comune'] = 'comune';
                     } else {
-                        $cliente->cli_comune = $_GET['comune'];
+                        $cliente->cli_comune = pulisciStringa($_GET['comune']);
                     }
 
                     if (!isset($_GET['telefono'])) {
                         $cliente->cli_telefono = "";
                     } else {
-                        $cliente->cli_telefono = $_GET['telefono'];
+                        $cliente->cli_telefono = pulisciStringa($_GET['telefono']);
                     }
 
                     if (!isset($_GET['fax'])) {
                         $cliente->cli_fax = "";
                     } else {
-                        $cliente->cli_fax = $_GET['fax'];
+                        $cliente->cli_fax = pulisciStringa($_GET['fax']);
                     }
 
                     if (!isset($_GET['email'])) {
                         $cliente->cli_email = "";
                     } else {
-                        $cliente->cli_email = $_GET['email'];
+                        $cliente->cli_email = pulisciStringa($_GET['email']);
                     }
 
                     if (!isset($_GET['piva'])) {
                         $errore['piva'] = 'piva';
                     } else {
-                        $cliente->cli_piva = $_GET['piva'];
+                        $cliente->cli_piva = pulisciStringa($_GET['piva']);
                     }
                     
                     if (!$cliente->ModificaSQL()){
@@ -195,6 +195,6 @@
     </body>
     <!-- page script -->
     <script>
-        setTimeout(function () { window.location.href= 'clientelista.php'; },3500); // 3.5 secondi
+        setTimeout(function () { window.location.href= 'clientelista.php'; },1000); // 3.5 secondi
     </script>
 </html>

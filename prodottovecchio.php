@@ -147,6 +147,6 @@
     </body>
     <!-- page script -->
     <script>
-        setTimeout(function () { window.location.href= 'prodottolista.php'; },3500); // 3.5 secondi
+        setTimeout(function () { window.location.href= 'prodottolista.php'; },1000); // 3.5 secondi
     </script>
 </html>

@@ -140,6 +140,6 @@
     </body>
     <!-- page script -->
     <script>
-        setTimeout(function () { window.location.href= 'clientelista.php'; },3500); // 3.5 secondi
+        setTimeout(function () { window.location.href= 'clientelista.php'; }, 1000); // 3.5 secondi
     </script>
 </html>

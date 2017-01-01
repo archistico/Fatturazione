@@ -111,13 +111,13 @@
                     if (!isset($_GET['categoria'])) {
                         $errore['categoria'] = 'categoria';
                     } else {
-                        $prodotto->pro_categoria = $_GET['categoria'];
+                        $prodotto->pro_categoria = pulisciStringa($_GET['categoria']);
                     }
 
                     if (!isset($_GET['descrizione'])) {
                         $errore['descrizione'] = 'descrizione';
                     } else {
-                        $prodotto->pro_descrizione = $_GET['descrizione'];
+                        $prodotto->pro_descrizione = pulisciStringa($_GET['descrizione']);
                     }
 
                     if (!isset($_GET['prezzo'])) {
@@ -174,6 +174,6 @@
     </body>
     <!-- page script -->
     <script>
-        setTimeout(function () { window.location.href= 'prodottolista.php'; },3500); // 3.5 secondi
+        setTimeout(function () { window.location.href= 'prodottolista.php'; },1000); // 3.5 secondi
     </script>
 </html>

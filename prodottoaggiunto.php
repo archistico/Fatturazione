@@ -110,13 +110,13 @@
                     if (!isset($_GET['categoria'])) {
                         $errorecreazione['categoria'] = 'categoria';
                     } else {
-                        $pro->pro_categoria = $_GET['categoria'];
+                        $pro->pro_categoria = pulisciStringa($_GET['categoria']);
                     }
                     
                     if (!isset($_GET['descrizione'])) {
                         $errorecreazione['descrizione'] = 'descrizione';
                     } else {
-                        $pro->pro_descrizione = $_GET['descrizione'];
+                        $pro->pro_descrizione = pulisciStringa($_GET['descrizione']);
                     }
                     
                     if (!isset($_GET['prezzo'])) {
