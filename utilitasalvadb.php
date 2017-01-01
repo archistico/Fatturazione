@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title> Fatturazione | CLIENTE</title>
+        <title> Fatturazione | SALVA DB</title>
         <!-- Tell the browser to be responsive to screen width -->
         <?php include 'link.php'; ?>
     </head>
@@ -60,7 +60,7 @@
                 <section class="sidebar">
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <?php
-                    $menugenerale = 0; $menuclienti = 1; $menuprodotti = 0; $menuddt = 0; $menufatture = 0; $menustatistiche = 0; $menuutilita = 0;
+                    $menugenerale = 0; $menuclienti = 0; $menuprodotti = 0; $menuddt = 0; $menufatture = 0; $menustatistiche = 0; $menuutilita = 1;
                     include 'sidebarmenu.php';
                     ?>
                 </section>
@@ -73,13 +73,13 @@
 
                 <section class="content-header">
                     <h1>
-                        CLIENTE
-                        <small>Nuovo</small>
+                        Utilit&agrave;
+                        <small>Salva DB</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li> Home</li>
-                        <li class="active">CLIENTE</li>
-                        <li class="active">Nuovo</li>
+                        <li class="active">Utilit&agrave;</li>
+                        <li class="active">Salva DB</li>
                     </ol>
                 </section>
 
@@ -89,94 +89,27 @@
                     <?php 
                     include 'php/utilita.php';
                     include 'php/config.php';
-                    include 'php/cliente.php';
-                    
-                    // RECUPERO DATI E AGGIUNGO
-                    define('CHARSET', 'UTF-8');
-                    define('REPLACE_FLAGS', ENT_COMPAT | ENT_XHTML);
 
-                    $errore = array();
-                    
-                    $cliente = new Cliente();
-
-                    // Carico le variabili
-                    if (!isset($_GET['denominazione'])) {
-                        $errore['denominazione'] = 'denominazione';
-                    } else {
-                        $cliente->cli_denominazione = pulisciStringa($_GET['denominazione']);
-                    }
-
-                    if (!isset($_GET['nome'])) {
-                        // nessun errore - non obbligatorio
-                    } else {
-                        $cliente->cli_denominazione .= " ". pulisciStringa($_GET['nome']);
-                    }
-
-                    if (!isset($_GET['indirizzo'])) {
-                        $errore['indirizzo'] = 'indirizzo';
-                    } else {
-                        $cliente->cli_indirizzo = pulisciStringa($_GET['indirizzo']);
-                    }
-
-                    if (!isset($_GET['cap'])) {
-                        $errore['cap'] = 'cap';
-                    } else {
-                        $cliente->cli_cap = pulisciStringa($_GET['cap']);
-                    }
-
-                    if (!isset($_GET['comune'])) {
-                        $errore['comune'] = 'comune';
-                    } else {
-                        $cliente->cli_comune = pulisciStringa($_GET['comune']);
-                    }
-
-                    if (!isset($_GET['telefono'])) {
-                        $cliente->cli_telefono = "";
-                    } else {
-                        $cliente->cli_telefono = pulisciStringa($_GET['telefono']);
-                    }
-
-                    if (!isset($_GET['fax'])) {
-                        $cliente->cli_fax = "";
-                    } else {
-                        $cliente->cli_fax = pulisciStringa($_GET['fax']);
-                    }
-
-                    if (!isset($_GET['email'])) {
-                        $cliente->cli_email = "";
-                    } else {
-                        $cliente->cli_email = pulisciStringa($_GET['email']);
-                    }
-
-                    if (!isset($_GET['piva'])) {
-                        $errore['piva'] = 'piva';
-                    } else {
-                        $cliente->cli_piva = pulisciStringa($_GET['piva']);
-                    }
-
-                    if (empty($errore)) {
-
-                        if ($cliente->AggiungiSQL()) {
-                            echo "<div class='callout callout-success'><h4>Aggiunta riuscita</h4><p>Inserito nel database</p></div>";
-                        } else {
-                            $errore['creazione'] = 'Database';
-                        }
-                    }
-
-                    if (!empty($errore)) {
-                        echo "<div class='callout callout-danger'><h4>Errore nell'inserimento nel database</h4><p>Ricontrollare i dati inseriti o chiamare l'amministratore</p></div>";
-                    }
-                    
-
-                    
-
-
-                    
-                    
-                    
                     ?>
 
-                    <a href="clientelista.php">Vai alla lista dei clienti</a>
+                    <div class='box box-primary'>
+
+                        <div class='box-header with-border'>
+                            <h3 class='box-title'>INFORMAZIONI</h3>
+                        </div>
+                        <div class='box-body'>
+                            <div class='row'>
+                                <div class='col-md-12'>
+                                    <p>Tutti i dati del database verranno salvati in un file di testo. Tienilo al sicuro e fai backup ogni tanto registrando il file su una chiavetta o mandatelo per email.</p>
+                                </div>
+                            </div>
+                            <div class='row'>
+                                <div class='col-md-12'>
+                                    <a class='btn btn-block btn-info btn-lg' href='salvadb.php'>Salva il database</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </section>
                 <!-- /.content -->
@@ -189,11 +122,5 @@
         <?php include 'script.php'; ?>
     </body>
     <!-- page script -->
-    <<script>
-        setTimeout(function () {
-            window.location.href= 'clientelista.php'; 
-        },1000); // 5 secondi
-    </script>
+
 </html>
-
-

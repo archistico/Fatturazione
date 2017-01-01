@@ -61,7 +61,7 @@
       <section class="sidebar">
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <?php
-        $menugenerale = 0; $menuclienti = 0; $menuprodotti = 0; $menuddt = 0; $menufatture = 1; $menustatistiche = 0;
+        $menugenerale = 0; $menuclienti = 0; $menuprodotti = 0; $menuddt = 0; $menufatture = 1; $menustatistiche = 0; $menuutilita = 0;
         include 'sidebarmenu.php';
         ?>
       </section>
