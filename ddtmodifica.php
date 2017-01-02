@@ -287,6 +287,13 @@
                 </div>
                 <!-- /.box -->
 
+                <div class="form-group row m-t-md">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-block btn-success btn-lg">MODIFICA DDT</button>
+                    </div>
+                </div>
+            </form>
+            <!-- /.form -->
 
 
 
@@ -309,9 +316,7 @@
                        <!-- INSERIMENTO NUOVI DETTAGLI -->
                     <div class="row">
                         <form name="ddtForm" action="dddaggiungi.php" method="get" class="no-print">
-
-                            <input type="hidden" name="ddt_id" value="<?php echo $ddt->id; ?>"/>
-
+                            
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Quantità</label>
@@ -339,7 +344,6 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <input type="hidden" name="ddt_id" value="<?php echo $_GET['ddt_id']; ?>">
-                                    <input type="hidden" name="TipoOperazione" value="2">
                                     <label>Aggiungi nuovo prodotto al DDT</label>
                                     <button type="submit" class="btn btn-primary btn-block" style="margin-right: 5px;">
                                         <i class="fa fa-download"></i> AGGIUNGI
@@ -378,25 +382,7 @@
 
                 </div>
                 <!-- /.box -->
-
-
-
-
-
-
-
-
-
-                
-
-                <div class="form-group row m-t-md">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-block btn-primary btn-lg">MODIFICA</button>
-                    </div>
-                </div>
-
-            </form>
-            <!-- /.form -->
+            
         </section>
         <!-- /.content -->
     </div>

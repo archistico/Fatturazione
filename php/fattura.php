@@ -36,12 +36,11 @@ class Fattura {
             $db->exec($sql);
 
             // Cerca ID della fattura creata per mettera nei dettagli
-            $id = $this->CercaId($this->fat_numero);
+            $fkfattura = $this->CercaId($this->fat_numero, $this->fat_anno);
 
             // DEVO AGGIUNGERE I DETTAGLI DEI DDT COLLEGATI
-            foreach($this->fat_ddt as $ddt) {
-                // $sql = "INSERT INTO fatturadettaglio VALUES (NULL, '$id', '$ddt', '0');";  
-                $sql = "UPDATE ddt SET ddt_fkfattura = ".$id." WHERE ddt.ddt_id = ".$ddt;      
+            foreach($this->fat_ddt as $ddt) { 
+                $sql = "UPDATE ddt SET ddt_fkfattura = '".$fkfattura."' WHERE ddt.ddt_id = '".$ddt."';";    
                 $db->exec($sql);
             }
      
@@ -54,7 +53,7 @@ class Fattura {
         }
     }
 
-    public function CercaId($fatturanumero) {
+    public function CercaId($fatturanumero, $fatturaanno) {
         try {
             include "config.php";
             
@@ -66,7 +65,11 @@ class Fattura {
             date_default_timezone_set('Europe/Rome');
             
             // Controlla numero ultima fattura e aggiungi 1
-            $result = $db->query("SELECT fattura.fat_id FROM fattura WHERE fat_numero = '" . $fatturanumero . "' LIMIT 1");
+            $sql = "SELECT fattura.fat_id ".
+                   "FROM fattura WHERE fat_numero = '" . $fatturanumero . "' AND fat_anno ='".$fatturaanno."' ".
+                   "LIMIT 1";
+
+            $result = $db->query($sql);
             $row = $result->fetch(PDO::FETCH_ASSOC);
             
             
