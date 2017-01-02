@@ -74,6 +74,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="col-md-6 col-xs-12">
+                                        <img src="logopiccolo.jpg" class="pull-left img-ridotta20">
                                         <h1>
                                             MACELLERIA PEAQUIN <small>snc</small>
                                         </h1>

@@ -130,7 +130,8 @@ function DDTTabella() {
         // Parte iniziale
         print "<table id='ddttabella' class='table table-bordered table-hover'>";
         print "<thead><tr>";
-        print "<th>#</th><th>Data</th><th>Numero</th><th>Cliente</th><th>Importo</th><th>Pagato</th><th>F. elettr. / Fatturato</th>";
+        print "<th>PDF</th><th>Data</th><th>Numero</th><th>Cliente</th><th>Importo</th><th>Pagato</th><th>F. elettr. / Fatturato</th><th>Modifica</th><th>Cancella</th>";
+        //print "<th>#</th><th>Data</th><th>Numero</th><th>Cliente</th><th>DDT</th><th>Importo</th><th>Pagato</th><th>PDF</th><th>Cancella</th>";
         print "</tr></thead><tbody>";
         
         foreach ($result as $row) {
@@ -145,9 +146,7 @@ function DDTTabella() {
             print "<tr>";
             print "<td>";
             print "<a class='btn btn-xs btn-success' href='ddtpdf.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-file-pdf-o'></i></a>";
-            print "<a class='btn btn-xs btn-success' href='ddtvisualizza.php?ddt_id=".$row['ddt_id']."&TipoOperazione=1' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
-            print "<a class='btn btn-xs btn-warning' href='ddtmodifica.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px;margin-right: 15px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
-            print "<a class='btn btn-xs btn-danger' href='ddtcancella.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px;margin-right: 0px; margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            //print "<a class='btn btn-xs btn-success' href='ddtvisualizza.php?ddt_id=".$row['ddt_id']."&TipoOperazione=1' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
             print "</td>";
             print "<td>$dataEmissione</td>";
             print "<td>DDT ".$row['ddt_anno']."-".$numero_padded."</td>";
@@ -159,29 +158,38 @@ function DDTTabella() {
             
             print "<td>&euro; " . $row['ddt_importo'] . "</td>";
             if($row['ddt_pagato']) {
-                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:green'></i></td>";
+                print "<td><i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i></td>";
             } else {
-                print "<td><i class = 'fa fa-fw fa-circle' style = 'color:red'></i></td>";
+                print "<td><i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i></td>";
             }
             print "<td>";
             
             if($row['ddt_fatturazioneelettronica']) {
-                print "<i class = 'fa fa-fw fa-circle' style = 'color:green'></i>";
+                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
             } else {
-                print "<i class = 'fa fa-fw fa-circle' style = 'color:red'></i>";
+                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i>";
             }
             
             print " / ";
             
             if($row['ddt_fkfattura']) {
-                print "<i class = 'fa fa-fw fa-circle' style = 'color:green'></i>";
+                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
                 list($numero, $anno) = CercaFattura($row['ddt_fkfattura']);
                 print "FAT ".$anno. "-".sprintf("%04d", $numero);
             } else {
-                print "<i class = 'fa fa-fw fa-circle' style = 'color:red'></i>";
+                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i>";
             }
 
             print "</td>";
+
+            print "<td>";
+            print "<a class='btn btn-xs btn-warning' href='ddtmodifica.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
+            print "</td>";
+
+            print "<td>";
+            print "<a class='btn btn-xs btn-danger' href='ddtcancella.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            print "</td>";
+
             print "</tr>";
         }
         // chiude il database

@@ -14,3 +14,9 @@ hr.fatturazione {
     border: 0px;
     border-top: 3px solid #ccc;
 }
+
+.img-ridotta20 {
+    display: block;
+    max-width: 20%;
+    height: auto;
+}
