@@ -319,7 +319,8 @@
                                             <tr>
                                                 <td>#</td>
                                                 <td>Prodotto</td>
-                                                <td>Quantit&agrave; (kg/cad)</td>
+                                                <td>Tracc.</td>
+                                                <td>Quantit&agrave;</td>
                                                 <td>Prezzo</td>
                                                 <td>Subtotale</td>
                                                 <td></td>
@@ -363,7 +364,7 @@
 
                 <div class="form-group row m-t-md">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-block btn-primary btn-lg">INSERISCI</button>
+                        <button type="submit" class="btn btn-block btn-success btn-lg">REGISTRA DDT</button>
                     </div>
                 </div>
 
@@ -411,6 +412,7 @@ $(document).ready(function () {
                 option += '<option value="'+ dbProdotti[i].fkprodotto + '">' + dbProdotti[i].categoria + " - " + dbProdotti[i].descrizione + ' (&euro; '+(dbProdotti[i].prezzo).toFixed(2)+')' + '</option>';
             }
             $('#lista').append(option);
+            $(".select2").select2(); 
         }
     });
 
@@ -440,8 +442,9 @@ $(document).ready(function () {
             quantita = 0;
         }
 
-        cols += '<td>'+ counter + '</td>';
+        cols += '<td><span class="text-grigio">'+ counter + '</span></td>';
         cols += '<td><span name="prodotto">' + prodottotesto + '</span></td>';
+        cols += '<td><span type="text" name="tracciabilita' + counter + '">' + prodottotracciabilita + '</span></td>';
         cols += '<td><span type="text" name="quantita' + counter + '">' + quantita.toFixed(3) + '</span></td>';
         cols += '<td><span type="text" name="prezzo' + counter + '">&euro; ' + prezzo.toFixed(2) + '</span></td>';
         cols += '<td><span type="text" name="subtotale' + counter + '"><strong>&euro; ' + (quantita*prezzo).toFixed(2) + '</strong></span></td>';
