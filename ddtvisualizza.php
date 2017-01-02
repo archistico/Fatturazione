@@ -240,28 +240,10 @@
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
+                    
+                    <hr class="visualizzafattura">
 
-                    <!-- Table row -->
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="box-body">
-                                <?php ddtdettaglio_tabella($ddt_id); ?>
-                            </div>
-                            <!-- /.box-body -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                    
-                    <div class="row">
-                        <div class="col-md-8">
-                        </div>
-                        <div class="col-md-4">
-                            <h4>Importo Totale: <b>&euro; <?php echo number_format($ddt->ddt_importo, 2, ',', ' '); ?></b></h4>
-                        </div>
-                    </div>
-                    
-                    <hr class="fatturazione">
+                    <!-- INSERIMENTO NUOVI DETTAGLI -->
                     <div class="row">
                         <form name="ddtForm" action="ddtvisualizza.php" method="get" class="no-print">
 
@@ -303,24 +285,30 @@
 
                         </form>
                     </div>
-                    <!-- this row will not appear when printing -->
-                    <div class="row no-print">
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-primary btn-block" style="margin-right: 5px;">
-                                <i class="fa fa-download"></i> CREA PDF
-                            </button>
+
+                    <!-- TABELLA DETTAGLIO -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="box-body">
+                                <?php ddtdettaglio_tabella($ddt_id); ?>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                    
+                    <div class="row">
+                        <div class="col-md-8">
                         </div>
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-primary btn-block" style="margin-right: 5px;">
-                                <i class="fa fa-download"></i> INVIA EMAIL MITTENTE
-                            </button>
-                        </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-primary btn-block" style="margin-right: 5px;">
-                                <i class="fa fa-download"></i> INVIA EMAIL DESTINATARIO
-                            </button>
+                            <h4>Importo Totale: <b>&euro; <?php echo number_format($ddt->ddt_importo, 2, ',', ' '); ?></b></h4>
                         </div>
                     </div>
+                    
+                    
+                    
+                    
                     
                 </section>
                 <!-- /.content -->

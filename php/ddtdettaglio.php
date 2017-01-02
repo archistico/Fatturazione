@@ -118,12 +118,7 @@ class DDTDettaglio {
 }
 
 
-
-
-
-
-
-
+/*
 function ddtdettaglio_tabella($id) {
     try {
         include 'config.php';
@@ -136,7 +131,7 @@ function ddtdettaglio_tabella($id) {
         // Parte iniziale
         print "<table id='ddtdettagliotabella' class='table table-bordered table-hover'>";
         print "<thead><tr>";
-        print "<th class='no-print'>#</th><th>Quantit&agrave;</th><th>Prodotto</th><th>Tracciabilit&agrave;</th><th>Importo</th>";
+        print "<th>Quantit&agrave;</th><th>Prodotto</th><th>Tracciabilit&agrave;</th><th>Importo</th><th class='no-print'>#</th>";
         print "</tr></thead><tbody>";
         
         $result = $db->query('SELECT ddtdettaglio.*, prodotto.* FROM ddtdettaglio INNER JOIN prodotto ON ddtdettaglio.ddd_fkprodotto = prodotto.pro_id WHERE ddtdettaglio.ddd_annullato = 0 AND ddtdettaglio.ddd_fkddt = '. $id);
@@ -144,12 +139,54 @@ function ddtdettaglio_tabella($id) {
             $row = get_object_vars($row);
                         
             print "<tr>";
-            print "<td class='no-print'><a class='btn btn-xs btn-danger' href='ddtvisualizza.php?ddt_id=".$id."&ddtdettaglio=".$row['ddd_id']."&TipoOperazione=3' role='button'><i class = 'fa fa-remove'></i></a></td>";
             print "<td>".$row['ddd_quantita']."</td>";
             print "<td>". $row['pro_categoria'] . " - " . convertiStringaToHTML(utf8_decode($row['pro_descrizione']))." (&euro; ".$row['pro_prezzo'].")</td>";
             print "<td>".$row['ddd_tracciabilita']."</td>";
             $importo = $row['ddd_quantita']*$row['pro_prezzo'];
             print "<td>&euro; " . number_format($importo, 2, ',', ' ') . "</td>";
+            print "<td class='no-print'><a class='btn btn-xs btn-danger' href='ddtvisualizza.php?ddt_id=".$id."&ddtdettaglio=".$row['ddd_id']."&TipoOperazione=3' role='button'><i class = 'fa fa-remove'></i></a></td>";
+            print "</tr>";
+        }
+        
+        // Parte finale
+        print "</tbody></table>";
+        
+        // chiude il database
+        $db = NULL;
+    } catch (PDOException $e) {
+        throw new PDOException("Error  : " . $e->getMessage());
+    }
+}
+*/
+
+
+// Della pagina modifica
+function ddtdettaglio_tabella($id) {
+    try {
+        include 'config.php';
+        
+        $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+        
+        // Parte iniziale
+        print "<table id='ddtdettagliotabella' class='table table-bordered table-hover'>";
+        print "<thead><tr>";
+        print "<th>Quantit&agrave;</th><th>Prodotto</th><th>Tracciabilit&agrave;</th><th>Importo</th><th class='no-print'>#</th>";
+        print "</tr></thead><tbody>";
+        
+        $result = $db->query('SELECT ddtdettaglio.*, prodotto.* FROM ddtdettaglio INNER JOIN prodotto ON ddtdettaglio.ddd_fkprodotto = prodotto.pro_id WHERE ddtdettaglio.ddd_annullato = 0 AND ddtdettaglio.ddd_fkddt = '. $id);
+        foreach ($result as $row) {
+            $row = get_object_vars($row);
+                        
+            print "<tr>";
+            print "<td>".$row['ddd_quantita']."</td>";
+            print "<td>". $row['pro_categoria'] . " - " . convertiStringaToHTML(utf8_decode($row['pro_descrizione']))." (&euro; ".$row['pro_prezzo'].")</td>";
+            print "<td>".$row['ddd_tracciabilita']."</td>";
+            $importo = $row['ddd_quantita']*$row['pro_prezzo'];
+            print "<td>&euro; " . number_format($importo, 2, ',', ' ') . "</td>";
+            print "<td class='no-print'><a class='btn btn-danger btn-block' href='dddcancella.php?ddt_id=".$id."&ddtdettaglio=".$row['ddd_id']."' role='button'><i class = 'fa fa-remove'></i></a></td>";
             print "</tr>";
         }
         

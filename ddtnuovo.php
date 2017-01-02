@@ -434,6 +434,10 @@ $(document).ready(function () {
             prodottotracciabilita = "-";
         } 
 
+        // pulisco stringa tracciabilita
+        prodottotracciabilita = prodottotracciabilita.replace("'", " ");
+        prodottotracciabilita = prodottotracciabilita.replace('"', " ");
+
         //cerca il prezzo del prodotto in base all'ID
         prezzo = parseFloat(cercaPrezzo(prodottoid));
 

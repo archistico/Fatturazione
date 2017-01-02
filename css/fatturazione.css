@@ -15,6 +15,13 @@ hr.fatturazione {
     border-top: 3px solid #ccc;
 }
 
+hr.visualizzafattura {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0px;
+    border-top: 3px solid #ccc;
+}
+
 .img-ridotta20 {
     display: block;
     max-width: 20%;

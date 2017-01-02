@@ -83,6 +83,7 @@
                 $id = $_GET['ddt_id'];
                 if ($ddt->CaricaSQL($id)) {
                     // OK
+                    $ddt->id = $id;
                 } else {
                     $errore['letturaDDT'] = 'Lettura DDT';
                 }
@@ -305,76 +306,74 @@
                     <div class="box-body">
 
 
-                        <div class="row">
+                       <!-- INSERIMENTO NUOVI DETTAGLI -->
+                    <div class="row">
+                        <form name="ddtForm" action="dddaggiungi.php" method="get" class="no-print">
+
+                            <input type="hidden" name="ddt_id" value="<?php echo $ddt->id; ?>"/>
+
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Quantità</label>
-                                    <input type="text" class="form-control" placeholder="Quantità" value="0" name='quantita' id='quantita'>
+                                    <input type="number" min="0" max="1000" step="0.001" class="form-control" placeholder="Qt" value="0" name='quantita' required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Prodotto</label>
-                                    <select class="form-control select2" style="width: 100%;" name='lista' id='lista'>
-                                        <option disabled selected>Seleziona un prodotto</option>
+                                    <select class="form-control select2" style="width: 100%;" name='prodotto' required>
+                                        <?php
+                                        include 'php/prodotto.php';
+                                        prodotto_select();
+                                        ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Tracciabilita</label>
-                                    <input type="text" class="form-control" placeholder="Tracciabilità" name='tracciabilita' id='tracciabilita'>
+                                    <input type="text" class="form-control" placeholder="Tracciabilità" name='tracciabilita' required>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <input type="hidden" name="ddt_id" value="<?php echo $_GET['ddt_id']; ?>">
+                                    <input type="hidden" name="TipoOperazione" value="2">
                                     <label>Aggiungi nuovo prodotto al DDT</label>
-                                    <input type="button" class="btn btn-primary btn-block" style="margin-right: 5px;" id="btnaggiungi" value="AGGIUNGI" />
+                                    <button type="submit" class="btn btn-primary btn-block" style="margin-right: 5px;">
+                                        <i class="fa fa-download"></i> AGGIUNGI
+                                    </button>
                                 </div>
                             </div>
                             <!-- /.col -->
 
-                        </div>
-                        <!-- /.row -->
+                        </form>
+                    </div>
 
-                        <!-- TABELLA PRODOTTI -->
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="box-body">
-                                    
-
-                                    <table id="tabellaProdotti" class="table table-bordered table-hover order-list">
-                                        <thead>
-                                            <tr>
-                                                <td>#</td>
-                                                <td>Prodotto</td>
-                                                <td>Quantit&agrave; (kg/cad)</td>
-                                                <td>Prezzo</td>
-                                                <td>Subtotale</td>
-                                                <td></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <!-- /.box-body -->
+                    <!-- TABELLA DETTAGLIO -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="box-body">
+                                <?php ddtdettaglio_tabella($ddt->id); ?>
                             </div>
-                            <!-- /.col -->
+                            <!-- /.box-body -->
                         </div>
-                        <!-- /.row -->
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Importo Totale: <b>&euro; <?php echo number_format($ddt->ddt_importo, 2, ',', ' '); ?></b></h4>
+                        </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-8">
-                            </div>
-                            <div class="col-md-4">
-                                <h4>Importo Totale: <b>&euro; <span id="importoTotale"></span></b></h4>
-                            </div>
-                        </div>
+                        
 
-                        </div>
+                    </div>
                     <!-- /.box-body -->
 
                 </div>
@@ -388,8 +387,7 @@
 
 
 
-                <input type="hidden" name="prodotti" value="" id="prodotti" />
-                <input type="hidden" name="importo" value="0" id="importo" />
+                
 
                 <div class="form-group row m-t-md">
                     <div class="col-sm-12">
@@ -410,234 +408,6 @@
 <?php include 'script.php'; ?>
 
 <script>
-
-// DICHIARAZIONE VARIABILI GENERALI
-var jslista = [];
-var dbProdotti = [];
-var counter = 0;
-var jsonListaProdotti = [];
-
-// function principale
-$(document).ready(function () {
-    
-    // Carica prodotti nel select
-    $.ajax({
-        dataType: "json",
-        url: 'php/prodottijson.php',
-        success: function (data) {
-            for (var key in data) {
-                if (data.hasOwnProperty(key)) {
-                    var item = data[key];
-                    dbProdotti.push({
-                        "fkprodotto": parseInt(item.pro_id),
-                        "categoria": item.pro_categoria,
-                        "descrizione": item.pro_descrizione,
-                        "prezzo": parseFloat(item.pro_prezzo)
-                    });            
-                }
-            }
-        
-            var option = '';
-            for (var i=0;i<dbProdotti.length;i++){
-                option += '<option value="'+ dbProdotti[i].fkprodotto + '">' + dbProdotti[i].categoria + " - " + dbProdotti[i].descrizione + ' (&euro; '+(dbProdotti[i].prezzo).toFixed(2)+')' + '</option>';
-            }
-            $('#lista').append(option);
-            $(".select2").select2(); 
-        }
-    });
-
-    // --------------CARICA DDD GIA ESISTENTI----------------------
-
-    $.ajax({
-        dataType: "json",
-        url: 'php/dddjson.php?ddt_id=<?php echo $id?>',
-        success: function (data) {
-            for (var key in data) {
-                if (data.hasOwnProperty(key)) {
-                    var item = data[key];
-                    jsonListaProdotti.push({
-                        "id": parseInt(item.id),
-                        "fkprodotto": parseInt(item.fkprodotto),
-                        "quantita": parseFloat(item.quantita),
-                        "categoria": item.categoria,
-                        "descrizione": item.descrizione,
-                        "tracciabilita": item.tracciabilita,
-                        "prezzo": parseFloat(item.prezzo),
-                        "ddd_id": parseInt(item.ddd_id)
-                    });
-
-                }
-            } // chiudo il for
-
-            // inserisco le righe alla tabella e creo array prodotti
-            for (c = 0; c <= jsonListaProdotti.length -1; c++) {
-                // aggiungo
-                aggiungiRiga(jsonListaProdotti[c].id, jsonListaProdotti[c].categoria, jsonListaProdotti[c].descrizione, jsonListaProdotti[c].quantita, jsonListaProdotti[c].prezzo);
-
-                
-                var jsprodotto = {
-                    "id": jsonListaProdotti[c].id,
-                    "fkprodotto": jsonListaProdotti[c].fkprodotto,
-                    "quantita": jsonListaProdotti[c].quantita,
-                    "prezzo": jsonListaProdotti[c].prezzo,
-                    "tracciabilita": jsonListaProdotti[c].tracciabilita
-                };
-                
-                jslista.push(jsprodotto);    
-            }
-
-            counter = jsonListaProdotti.length;
-            visualizzaLista();
-
-            // calcola il totale
-            calculateGrandTotal();
-        }
-    });
-
-
-    // -------------FUNZIONI AGGIUNTA E MODIFICA-------------------
-
-    $("#btnaggiungi").on("click", function () {
-        
-        // Controlla che i tre dati quantita select e tracciabilità siano stati inseriti
-        if(isEmpty($("#lista").val()) || isEmpty($('#quantita').val()) || isEmpty($("#tracciabilita").val()) ) {
-            alert("Inserire tutti i dati");
-            return;
-        }
-
-        counter++;
-        quantitatesto = $('#quantita').val();
-		quantita = parseFloat(quantitatesto.replace(",","."));
-        var newRow = $("<tr>");
-        var cols = "";
-		
-        prodottoid = $("#lista").val();
-        prodottotesto = $("#lista option:selected").text();
-        prodottotracciabilita = $("#tracciabilita").val();
-
-        if(prodottotracciabilita == "") {
-            prodottotracciabilita = "-";
-        } 
-
-        //cerca il prezzo del prodotto in base all'ID
-        prezzo = parseFloat(cercaPrezzo(prodottoid));
-
-        if(isNaN(prezzo) || isNaN(quantita)) {
-            prezzo = 0;
-            quantita = 0;
-        }
-
-        cols += '<td>'+ counter + '</td>';
-        cols += '<td><span name="prodotto">' + prodottotesto + '</span></td>';
-        cols += '<td><span type="text" name="quantita' + counter + '">' + quantita.toFixed(3) + '</span></td>';
-        cols += '<td><span type="text" name="prezzo' + counter + '">&euro; ' + prezzo.toFixed(2) + '</span></td>';
-        cols += '<td><span type="text" name="subtotale' + counter + '"><strong>&euro; ' + (quantita*prezzo).toFixed(2) + '</strong></span></td>';
-        cols += '<td><input type="button" class="ibtnDel btn btn-default btn-block"  value="X"></td>';
-        newRow.append(cols);
-
-        $("table.order-list").append(newRow);
-        
-        var jsprodotto = {
-            "id": counter,
-            "fkprodotto": prodottoid,
-            "quantita": quantita,
-            "prezzo": prezzo,
-            "tracciabilita": prodottotracciabilita
-        };
-
-        jslista.push(jsprodotto);
-
-        // pulisce valori quantita e tracciabilità
-        $('#quantita').val("");
-        $('#tracciabilita').val("");
-
-        visualizzaLista();
-
-        // calcola il totale
-        calculateGrandTotal();
-    });
-
-    // Se premo su una X della tabella
-    $("table.order-list").on("click", ".ibtnDel", function (event) {
-        // cancella dall'array l'oggetto selezionato da ID
-        var tempID = $(this).closest("tr")[0].cells[0].textContent;
-        jslista = jslista.filter(function(el) {
-            return el.id != tempID;
-        });
-        visualizzaLista();
-
-        // cancella la riga dalla tabella
-        $(this).closest("tr").remove();
-        
-        // Ricalcola il totale
-        calculateGrandTotal();
-    });
-
-
-});
-
-// verifica che la stringa sia vuota
-function isEmpty(str) {
-    return (!str || 0 === str.length);
-}
-
-// cerca prezzo
-function cercaPrezzo(id) {
-    for (c = 0; c <= dbProdotti.length -1; c++) {
-        if(dbProdotti[c].fkprodotto == id) {
-            return dbProdotti[c].prezzo;
-        }
-    }
-}
-
-// visualizza lista prodotti
-function visualizzaLista() {
-    // crea la lista
-    var listaprodotti = "";
-
-    for (index = 0; index <= jslista.length -1; index++) {
-        listaprodotti=listaprodotti + " " + jslista[index].fkprodotto;
-    }
-
-    $("#prodotti").val(JSON.stringify(jslista));
-}
-
-// Calcolo totale
-function calculateGrandTotal() {
-    // Calcola da array
-    var importoTotale = 0;
-    for (index = 0; index <= jslista.length -1; index++) {
-        importoTotale=importoTotale + jslista[index].quantita * jslista[index].prezzo;
-    }
-    $("#importoTotale").text(importoTotale.toFixed(2));
-    $("#importo").val(importoTotale.toFixed(2));
-}
-
-
-function aggiungiRiga(tcontatore, tcategoria, tdescrizione, tquantita, tprezzo) {
-    var newRow = $("<tr>");
-    var cols = "";
-	
-    cols += '<td>'+ tcontatore + '</td>';
-    cols += '<td><span name="prodotto">' + tcategoria + ' - ' + tdescrizione + ' (&euro; ' + tprezzo.toFixed(2) + ')</span></td>';
-    cols += '<td><span type="text" name="quantita' + tcontatore + '">' + tquantita.toFixed(3) + '</span></td>';
-    cols += '<td><span type="text" name="prezzo' + tcontatore + '">&euro; ' + tprezzo.toFixed(2) + '</span></td>';
-    cols += '<td><span type="text" name="subtotale' + tcontatore + '"><strong>&euro; ' + (tquantita*tprezzo).toFixed(2) +'</strong></span></td>';
-    cols += '<td><input type="button" class="ibtnDel btn btn-default btn-block"  value="X"></td>';
-    
-    newRow.append(cols);
-    $("table.order-list").append(newRow);
-}
-
-function validateForm() {
-    // controlla che la lista prodotti iniziale sia uguale a quella finale
-    // altrimenti avverti e invia sia iniziale che finale
-
-    // altrimenti potrei cancellare i ddd e ricrearli nuovamente
-    
-    // Se non ci sono state modifiche flagga una stringa così si evita la cancellazione e riscrittura
-    return true;
-}
 
 $(function () {
     //Date picker

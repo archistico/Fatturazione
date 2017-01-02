@@ -99,7 +99,7 @@
                 if (!isset($_GET['destinazione'])) {
                     //$errore['destinazione'] = 'Destinazione';
                 } else {
-                    $ddt->ddt_destinazione = $_GET['destinazione'];
+                    $ddt->ddt_destinazione = pulisciStringa($_GET['destinazione']);
                 }
                 if (!isset($_GET['trasporto'])) {
                     $errore['trasporto'] = 'Trasporto';
@@ -124,7 +124,7 @@
                 if (!isset($_GET['scontrino'])) {
                     $errore['scontrino'] = 'scontrino';
                 } else {
-                    $ddt->ddt_scontrino = $_GET['scontrino'];
+                    $ddt->ddt_scontrino = pulisciStringa($_GET['scontrino']);
                 }
                 if (!isset($_GET['importo'])) {
                     $errore['importo'] = 'Importo';
