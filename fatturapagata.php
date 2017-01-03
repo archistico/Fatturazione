@@ -116,9 +116,13 @@
     </body>
     <!-- page script -->
     <script>
-        setTimeout(function () {
-            window.location.href= 'fatturalista.php'; 
-        },3500); // 5 secondi
+        <?php 
+        if (empty($errore)) {
+            print "setTimeout(function () { window.location.href= 'fatturalista.php'; },1000);";
+        } else {
+            print "setTimeout(function () { window.location.href= 'fatturalista.php'; },3500);";
+        }
+        ?>
     </script>
 </html>
 

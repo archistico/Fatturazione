@@ -113,6 +113,71 @@ class DDT {
             return false;
         }
     }
+
+
+    public function ModificaSQL() {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+            
+            // 16 dati da modificare + 1 id
+            // di cui 5 non vengono cambiati (importo, numero, anno, fkfattura e annullato)
+            // "ddt_numero = '$this->ddt_numero', ddt_anno = '$this->ddt_anno', ddt_fkfattura = '$this->ddt_fkfattura', ddt_annullato = '$this->ddt_annullato', ddt_importo = '$this->ddt_importo'".
+
+            $dataEmissione = $this->ddt_data->format('Y-m-d');
+            $dataRitiro = $this->ddt_ritiro->format('Y-m-d');
+
+            $sql =  "UPDATE ddt ".
+                    "SET ".
+                    "ddt_data = '$dataEmissione', ddt_fkcliente  = '$this->ddt_fkcliente', ".
+                    "ddt_destinazione  = '$this->ddt_destinazione', ddt_causale = '$this->ddt_causale', ddt_trasporto = '$this->ddt_trasporto', ddt_aspetto = '$this->ddt_aspetto', ".
+                    "ddt_colli = '$this->ddt_colli', ddt_ritiro = '$dataRitiro', ddt_scontrino = '$this->ddt_scontrino', ".
+                    "ddt_fatturazioneelettronica = '$this->ddt_fatturazioneelettronica', ddt_pagato = '$this->ddt_pagato' ".
+                    "WHERE ddt_id = $this->ddt_id;";
+ 
+            $db->exec($sql);
+
+            // chiude il database
+            $db = NULL;
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function VerificaFatturatoSQL() {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+            date_default_timezone_set('Europe/Rome');
+            
+            $sql = "SELECT ddt.ddt_fkfattura FROM ddt WHERE ddt_id = '" . $this->ddt_id . "';";
+
+            $result = $db->query($sql);
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+ 
+            // chiude il database
+            $db = NULL;
+            
+            if (is_null($row['ddt_fkfattura'])) {
+                return true;
+            } else { 
+                return false;
+            }
+            
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }
 
 

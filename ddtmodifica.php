@@ -83,7 +83,7 @@
                 $id = $_GET['ddt_id'];
                 if ($ddt->CaricaSQL($id)) {
                     // OK
-                    $ddt->id = $id;
+                    $ddt->ddt_id = $id;
                 } else {
                     $errore['letturaDDT'] = 'Lettura DDT';
                 }
@@ -99,6 +99,9 @@
 
 
             <form role="form" name="ddtForm" action="ddtmodificasql.php" onsubmit="return validateForm()" method="get">
+
+                <!-- **********************************DATI NASCOSTI****************************** -->
+                <input type="hidden" name="ddt_id" value="<?php echo $ddt->ddt_id; ?>">
 
                 <!-- **********************************DATI GENERALI****************************** -->
                 <div class="box box-primary">
@@ -359,7 +362,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="box-body">
-                                <?php ddtdettaglio_tabella($ddt->id); ?>
+                                <?php ddtdettaglio_tabella($ddt->ddt_id); ?>
                             </div>
                             <!-- /.box-body -->
                         </div>

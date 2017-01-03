@@ -34,7 +34,7 @@
                 <section class="sidebar">
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <?php
-                    $menugenerale = 0; $menuclienti = 0; $menuprodotti = 0; $menuddt = 1; $menufatture = 0; $menustatistiche = 0; $menuutilita = 0;
+                    $menugenerale = 0; $menuclienti = 1; $menuprodotti = 0; $menuddt = 0; $menufatture = 0; $menustatistiche = 0; $menuutilita = 0;
                     include 'sidebarmenu.php';
                     ?>
                 </section>
@@ -44,27 +44,29 @@
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
+
                 <section class="content-header">
                     <h1>
                         DDT
-                        <small>Nuovo</small>
+                        <small>Modifica</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li> Home</li>
                         <li class="active">DDT</li>
-                        <li class="active">Nuovo</li>
+                        <li class="active">Modifica</li>
                     </ol>
                 </section>
 
                 <!-- Main content -->
                 <section class="content">
+                    
 
                 <?php
+
                 include 'php/utilita.php';
                 include 'php/config.php';
                 include 'php/ddt.php';
-                include 'php/ddtdettaglio.php'; 
-                
+                                
                 // RECUPERO DATI E AGGIUNGO
                 define('CHARSET', 'UTF-8');
                 define('REPLACE_FLAGS', ENT_COMPAT | ENT_XHTML);
@@ -74,6 +76,11 @@
                 $ddt = new DDT();
 
                 // Carico le variabili
+                if (!isset($_GET['ddt_id'])) {
+                    $errore['ddt_id'] = 'ID ddt';
+                } else {
+                    $ddt->ddt_id = $_GET['ddt_id'];
+                }
                 if (!isset($_GET['cliente'])) {
                     $errore['cliente'] = 'ID cliente';
                 } else {
@@ -120,11 +127,6 @@
                 } else {
                     $ddt->ddt_scontrino = pulisciStringa($_GET['scontrino']);
                 }
-                if (!isset($_GET['importo'])) {
-                    $errore['importo'] = 'Importo';
-                } else {
-                    $ddt->ddt_importo = $_GET['importo'];
-                }
                 if (!isset($_GET['fatturazioneelettronica'])) {
                     $ddt->ddt_fatturazioneelettronica = 0;;
                 } else {
@@ -138,43 +140,25 @@
                 }
                 if (empty($errore)) {
                     
-                    if ($ddt->AggiungiSQL()) {
-                        // OK
-                    } else {
-                        $errore['creazioneDDT'] = 'Errore Database DDT';
-                    }
-
-                    if (empty($errore)) {
-                        $prodotti = json_decode($_GET['prodotti']);
-                        for($c=0; $c<count($prodotti) ; $c++) {
-
-                            $ddd = new DDTDettaglio();
-
-                            $ddd->ddd_fkddt = $ddt->ddt_ultimoID;
-                            $ddd->ddd_quantita = $prodotti[$c]->quantita;
-                            $ddd->ddd_fkprodotto = $prodotti[$c]->fkprodotto;
-                            $ddd->ddd_tracciabilita = $prodotti[$c]->tracciabilita;
-
-                            if ($ddd->AggiungiSQL()) {
-                                // OK
-                            } else {
-                                $errore['creazioneDDD'] = 'Errore Database lista prodotti';
-                            }   
+                    if ($ddt->VerificaFatturatoSQL()) {
+                        if(!$ddt->ModificaSQL()) {
+                            $errore['ErroreMod'] = 'Errore nella modifica del database';
                         }
+                    } else {
+                        $errore['creazioneFAT'] = 'Presente una fattura con questo DDT per cui impossibile cambiare il nome';
                     }
 
                     if (empty($errore)) {
-                        print "<div class='pad margin no-print'><div class='callout callout-success' style='margin-bottom:0!important;'><h4><i class='fa fa-check'></i> Risultato:</h4> Inserito DDT</div></div>";
+                        print "<div class='pad margin no-print'><div class='callout callout-success' style='margin-bottom:0!important;'><h4><i class='fa fa-check'></i> Risultato:</h4> DDT Modificato</div></div>";
                     }
 
                 }
                 if (!empty($errore)) {
-                    print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom:0!important;'><h4><i class='fa fa-ban'></i> Note:</h4>Errori " . implode(", ", $errore) ."</div></div>";
+                    print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom:0!important;'><h4><i class='fa fa-ban'></i> Errore:</h4> " . implode(", ", $errore) ."</div></div>";
                 }
                 
                 //FINE CREAZIONE DDT
                 ?>
-
 
 
                 </section>
