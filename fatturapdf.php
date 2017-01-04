@@ -84,6 +84,18 @@
     $mx = 10;
     $my = 10;
 
+    $totaleiva10 =0;
+    $totaleiva4 =0;
+    
+    $totaleimponibile =0;
+    $totaleimponibile4 =0;
+    $totaleimponibile10 =0;
+    $fkddt_vecchio = -1;
+    
+    $contatoreDDT = 0;
+    $contatoreDDD = 0;
+    $acconto = 0;
+
     ob_end_clean ();
     $pdf = new FPDF('P','mm','A4');
     $pdf->SetAutoPageBreak(true, $my);
@@ -120,9 +132,9 @@
       $pdf->SetFont('Arial','',10);
       $pdf->SetXY(28+$mx,$clienteY+7+$my);$pdf->Cell(115,5, utf8_decode($ddt->ddt_fkcliente_indirizzo." - ".$ddt->ddt_fkcliente_cap." ".$ddt->ddt_fkcliente_comune),1,0,'L');$pdf->ln();
       $pdf->SetXY(28+$mx,$clienteY+7+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_telefono)?"tel: ".$ddt->ddt_fkcliente_telefono." " : "").(!empty($ddt->ddt_fkcliente_fax)?"fax: ".$ddt->ddt_fkcliente_fax : ""),1,0,'L');$pdf->ln();
-      $pdf->SetXY(28+$mx,$clienteY+7+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_piva)?"P.IVA / C.F.: ".$ddt->ddt_fkcliente_piva." " : "").(!empty($ddt->ddt_fkcliente_email)?"email: ".$ddt->ddt_fkcliente_email : ""),1,0,'L');$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+7+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_piva)?"P.IVA / C.F.: ".$ddt->ddt_fkcliente_piva." " : ""),1,0,'L');$pdf->ln();
       $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+$my);$pdf->Cell(115,5,utf8_decode($ddt->ddt_destinazione),1,0,'L');$pdf->ln();
-      $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(115,5,"",1,0,'L');$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_email)?"email: ".$ddt->ddt_fkcliente_email : ""),1,0,'L');$pdf->ln();
       
       // Dati fattura
       $pdf->SetFont('Arial','B',12);
@@ -155,17 +167,6 @@
 
       $listaY= $intestazioneY+10;
 
-      $totaleiva10 =0;
-      $totaleiva4 =0;
-      
-      $totaleimponibile =0;
-      $totaleimponibile4 =0;
-      $totaleimponibile10 =0;
-      $fkddt_vecchio = -1;
-      
-      $contatoreDDT = 0;
-      $contatoreDDD = 0;
-      
       // Inserimento Dettagli
       $linea = 0;
       for($contatore = ($paginacorrente-1)*$maxrighe+1; $contatore <= $paginacorrente*$maxrighe; $contatore++){
@@ -176,7 +177,16 @@
 
           $pdf->SetFont('Arial','B',10);
           $pdf->SetXY(0+$mx,$listaY+$my+$linea*6);
-          $pdf->Cell(190,6," DDT-". $ddts[$contatoreDDT]->ddt_anno."-".$ddts[$contatoreDDT]->ddt_numero_formattato." del ".$ddts[$contatoreDDT]->ddt_data_stringa,1,0,'L');
+
+          if(($ddts[$contatoreDDT]->ddt_pagato) || $ddts[$contatoreDDT]->ddt_causale=="Omaggio") {
+            $pagato = " (Pagato)";
+          } else {
+            $pagato = "";
+          }
+          
+          $stringaDDT = " DDT-".$ddts[$contatoreDDT]->ddt_anno."-".$ddts[$contatoreDDT]->ddt_numero_formattato." del ".$ddts[$contatoreDDT]->ddt_data_stringa." - ".$ddts[$contatoreDDT]->ddt_causale." - scontrino n. ".$ddts[$contatoreDDT]->ddt_scontrino.$pagato;
+
+          $pdf->Cell(190,6,$stringaDDT,1,0,'L');
 
           if($contatore == $numrighe) { break; }
 
@@ -208,6 +218,11 @@
         $pdf->Cell(20,6,EURO. number_format($imponibile, 2, ',', ' '),1,0,'R');
         $pdf->ln();
 
+        
+        if(($ddts[$contatoreDDT-1]->ddt_pagato) || $ddts[$contatoreDDT-1]->ddt_causale=="Omaggio") {
+          $acconto += $imponibile;
+        }
+        
         switch($ddds[$contatoreDDD]->ddd_fkprodotto_iva) {
           case 4: $totaleiva4 += $riga_iva; $totaleimponibile4 += $imponibile; break;
           case 10: $totaleiva10 += $riga_iva; $totaleimponibile10 += $imponibile; break;
@@ -320,22 +335,22 @@
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(50,7.5,"IMPONIBILE LORDO ",1,0,'R');
-      $pdf->Cell(30,7.5,EURO. number_format($totaleimponibile, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(30,7.5,EURO.number_format($totaleimponibile, 2, ',', ' '),1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(50,5,"IVA TOTALE ",1,0,'R');
-      $pdf->Cell(30,5,EURO.  number_format($totaleiva4 + $totaleiva10, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(30,5,EURO.number_format($totaleiva4 + $totaleiva10, 2, ',', ' '),1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(50,5,"IMPONIBILE NETTO ",1,0,'R');
-      $pdf->Cell(30,5,EURO.  number_format($totaleimponibile-($totaleiva4 + $totaleiva10), 2, ',', ' '),1,0,'R');
+      $pdf->Cell(30,5,EURO.number_format($totaleimponibile-($totaleiva4 + $totaleiva10), 2, ',', ' '),1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"",1,0,'R');
-      $pdf->Cell(30,5,"",1,0,'R');
+      $pdf->Cell(50,5,"ACCONTO ",1,0,'R');
+      $pdf->Cell(30,5,EURO.number_format($acconto, 2, ',', ' '),1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+$my);
       $pdf->SetFont('Arial','',8);
@@ -348,7 +363,7 @@
 
       $pdf->Cell(50,15,"TOTALE ",1,0,'R');
 
-      $pdf->Cell(30,15,EURO.  number_format($totaleimponibile, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(30,15,EURO.  number_format($totaleimponibile-$acconto, 2, ',', ' '),1,0,'R');
       $pdf->ln();
 
       // CONTROLLO LA CHIUSURA DEL MOVIMENTO

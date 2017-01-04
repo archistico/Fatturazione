@@ -24,9 +24,12 @@ class Fattura {
             date_default_timezone_set('Europe/Rome');
             
             // Controlla numero ultima fattura e aggiungi 1
-            $result = $db->query("SELECT MAX(fat_numero) AS ultimo FROM fattura WHERE fat_annullata=0 AND fat_anno = '" . $this->fat_anno . "'");
+            $result = $db->query("SELECT MAX(fat_numero) AS ultimo FROM fattura WHERE fat_anno = '" . $this->fat_anno . "'");
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $this->fat_numero = $row['ultimo'] + 1;
+
+            //echo $this->fat_numero;
+            //die();
             
             // Converti data
             $data = $this->fat_data->format('Y-m-d');
@@ -159,7 +162,8 @@ class Fattura {
             date_default_timezone_set('Europe/Rome');
 
             
-            $sql = "UPDATE fattura SET fat_annullata = 1 WHERE fattura.fat_id = ".$this->fat_id;      
+            //$sql = "UPDATE fattura SET fat_annullata = 1 WHERE fattura.fat_id = ".$this->fat_id;
+            $sql = "DELETE FROM fattura WHERE fattura.fat_id = ".$this->fat_id;
             $db->exec($sql);
             
             // cerca tutti i ddt con ddt.ddt_fkfattura = id e metti tutto a null

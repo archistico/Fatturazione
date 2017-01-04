@@ -48,6 +48,13 @@
     $mx = 10;
     $my = 10;
 
+    $totaleiva10 =0;
+    $totaleiva4 =0;
+    
+    $totaleimponibile =0;
+    $totaleimponibile4 =0;
+    $totaleimponibile10 =0;
+
     ob_end_clean ();
     $pdf = new FPDF('P','mm','A4');
     $pdf->SetAutoPageBreak(true, $my);
@@ -55,7 +62,6 @@
     // Per ogni pagina
     for($paginacorrente = 1; $paginacorrente <= $pagineTotali; $paginacorrente++) {
       $pdf->AddPage();
-
 
       // Logo
       $pdf->SetFont('Arial','B',16);
@@ -86,9 +92,9 @@
       $pdf->SetXY(28+$mx,$clienteY+7+$my);$pdf->Cell(115,5, utf8_decode($ddt->ddt_fkcliente_indirizzo." - ".$ddt->ddt_fkcliente_cap." ".$ddt->ddt_fkcliente_comune),1,0,'L');$pdf->ln();
       
       $pdf->SetXY(28+$mx,$clienteY+7+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_telefono)?"tel: ".$ddt->ddt_fkcliente_telefono." " : "").(!empty($ddt->ddt_fkcliente_fax)?"fax: ".$ddt->ddt_fkcliente_fax : ""),1,0,'L');$pdf->ln();
-      $pdf->SetXY(28+$mx,$clienteY+7+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_piva)?"P.IVA / C.F.: ".$ddt->ddt_fkcliente_piva." " : "").(!empty($ddt->ddt_fkcliente_email)?"email: ".$ddt->ddt_fkcliente_email : ""),1,0,'L');$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+7+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_piva)?"P.IVA / C.F.: ".$ddt->ddt_fkcliente_piva." " : ""),1,0,'L');$pdf->ln();
       $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+$my);$pdf->Cell(115,5,utf8_decode($ddt->ddt_destinazione),1,0,'L');$pdf->ln();
-      $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(115,5,"",1,0,'L');$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_email)?"email: ".$ddt->ddt_fkcliente_email : ""),1,0,'L');$pdf->ln();
       
       // Dati fattura
       $pdf->SetFont('Arial','B',12);
@@ -122,14 +128,6 @@
 
       $listaY= $intestazioneY+10;
 
-      $totaleiva10 =0;
-      $totaleiva4 =0;
-      
-      $totaleimponibile =0;
-      $totaleimponibile4 =0;
-      $totaleimponibile10 =0;
-      
-      
       // Inserimento Dettagli
       $linea = 0;
       for($contatore = ($paginacorrente-1)*$maxrighe+1; $contatore <= $paginacorrente*$maxrighe; $contatore++){

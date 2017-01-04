@@ -238,7 +238,7 @@ function DDTTabella() {
             print " / ";
             
             if($row['ddt_fkfattura']) {
-                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
+                //print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
                 list($numero, $anno) = CercaFattura($row['ddt_fkfattura']);
                 print "FAT ".$anno. "-".sprintf("%04d", $numero);
             } else {
