@@ -80,42 +80,46 @@
                 
                     // Carico le variabili
                     if (!isset($_GET['ddt_id'])) {
-                        $erroreaggiunta['ddt'] = 'ID DDT';
+                        $errore['ddt'] = 'ID DDT';
                     } else {
                         $ddd->ddd_fkddt = $_GET['ddt_id'];
                         $ddt_id = $_GET['ddt_id'];
                     }
                     
                     if (!isset($_GET['quantita'])) {
-                        $erroreaggiunta['quantita'] = 'Quantita';
+                        $errore['quantita'] = 'Quantita';
                     } else {
                         $ddd->ddd_quantita = pulisciStringa($_GET['quantita']);
                     }
                     
                     if (!isset($_GET['prodotto'])) {
-                        $erroreaggiunta['prodotto'] = 'Prodotto';
+                        $errore['prodotto'] = 'Prodotto';
                     } else {
                         $ddd->ddd_fkprodotto = $_GET['prodotto'];
                     }
                     
                     if (!isset($_GET['tracciabilita'])) {
-                        $erroreaggiunta['tracciabilita'] = 'Tracciabilita';
+                        $errore['tracciabilita'] = 'Tracciabilita';
                     } else {
                         $ddd->ddd_tracciabilita = pulisciStringa($_GET['tracciabilita']);
                     }
+
+                    if ($ddt->VerificaFatturatoSQL()) {
+                        $errore['creazioneFAT'] = 'Presente una fattura con questo DDT per cui impossibile apportare modifiche';
+                    }
                     
-                    if (empty($erroreaggiunta) && $ddd->AggiungiSQL()) {
+                    if (empty($errore) && $ddd->AggiungiSQL()) {
 
                         if ($ddt->CaricaSQL($ddt_id)) {
                             // OK
                             echo "<div class='callout callout-success'><h4>Dettaglio aggiunto</h4><p>Modifica alla base dati effettuata correttamente</p></div>";
                         } else {
-                            $erroreaggiunta['database'] = 'Database';
+                            $errore['database'] = 'Database';
                         }
                     }
 
-                    if (!empty($erroreaggiunta)) {
-                        print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom: 0!important;'><h4><i class='fa fa-ban'></i> Note:</h4>Errori " . implode(", ", $erroreaggiunta) . "</div></div>";
+                    if (!empty($errore)) {
+                        print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom: 0!important;'><h4><i class='fa fa-ban'></i> Errori:</h4> " . implode(", ", $errore) . "</div></div>";
                     }
                 
                     //FINE AGGIUNGO
@@ -134,7 +138,13 @@
     </body>
     <!-- page script -->
     <script>
-        setTimeout(function () { window.location.href= 'ddtmodifica.php?ddt_id=<?php echo $ddt_id; ?>'; },1000); // 3.5 secondi
+        <?php 
+        if (empty($errore)) {
+            print "setTimeout(function () { window.location.href= 'ddtmodifica.php?ddt_id=$ddt_id'; },1000);";
+        } else {
+            print "setTimeout(function () { window.location.href= 'ddtmodifica.php?ddt_id=$ddt_id'; },3500);";
+        }
+        ?>
     </script>
 </html>
 

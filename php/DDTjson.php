@@ -23,7 +23,7 @@ try {
         $numero_padded = sprintf("%04d", $row['ddt_numero']);
         $dataEmissione = DateTime::createFromFormat('Y-m-d', $row['ddt_data'])->format('d/m/Y');
 
-        $listaDDT[] = array('ddt_id' => $row['ddt_id'], 'descrizione' => "DDT ".$numero_padded . " del " .$dataEmissione. " - ". $row['cli_denominazione']." = &euro; " . $row['ddt_importo']);
+        $listaDDT[] = array('ddt_id' => $row['ddt_id'], 'descrizione' => "DDT ".$numero_padded . " del " .$dataEmissione. " - ". $row['cli_denominazione']." = &euro; " . $row['ddt_importo'] ." (".$row['ddt_causale'].")");
     }
     // chiude il database
     $db = NULL;

@@ -121,7 +121,7 @@
                   <div class="form-group">
                     <label>Seleziona i ddt da mettere in fattura</label>
                     <select class="form-control"  style="width: 100%;" id="listaDDT" name='listaDDT' required>
-                      <option disabled selected value> -- seleziona un cliente -- </option>
+                      <option disabled selected value> -- seleziona prima un cliente -- </option>
                     </select>
 
 

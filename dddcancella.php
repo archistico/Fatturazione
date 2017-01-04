@@ -80,27 +80,32 @@
                    
                     // Carico le variabili
                     if (!isset($_GET['ddt_id'])) {
-                        $errorecancella['ddt'] = 'ID DDT';
+                        $errore['ddt'] = 'ID DDT';
                     } else {
                         $ddd->ddd_fkddt = $_GET['ddt_id'];
                         $ddt_id = $_GET['ddt_id'];
                     }
                     if (!isset($_GET['ddtdettaglio'])) {
-                        $errorecancella['ddtdettaglio'] = 'ID DDTDettaglio';
+                        $errore['ddtdettaglio'] = 'ID DDTDettaglio';
                     } else {
                         $ddd->ddd_id = $_GET['ddtdettaglio'];
                     }
-                    if (empty($errorecancella) && $ddd->CancellaSQL()) {
+
+                    if ($ddt->VerificaFatturatoSQL()) {
+                        $errore['creazioneFAT'] = 'Presente una fattura con questo DDT per cui impossibile apportare modifiche';
+                    }
+
+                    if (empty($errore) && $ddd->CancellaSQL()) {
                     
                         if ($ddt->CaricaSQL($ddt_id)) {
                             echo "<div class='callout callout-success'><h4>Dettaglio cancellato</h4><p>Modifica alla base dati effettuata correttamente</p></div>";
                         } else {
-                            $errorecancella['database'] = 'Database';
+                            $errore['database'] = 'Database';
                         }
                     }
                 
-                    if (!empty($errorecancella)) {
-                        print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom: 0!important;'><h4><i class='fa fa-ban'></i> Note:</h4>Errori " . implode(", ", $errorecancella) . "</div></div>";
+                    if (!empty($errore)) {
+                        print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom: 0!important;'><h4><i class='fa fa-ban'></i> Errori:</h4> " . implode(", ", $errore) . "</div></div>";
                     }
                     
                     //FINE CANCELLA
@@ -135,7 +140,13 @@
     </body>
     <!-- page script -->
     <script>
-        setTimeout(function () { window.location.href= 'ddtmodifica.php?ddt_id=<?php echo $ddt_id; ?>'; },1000); // 3.5 secondi
+        <?php 
+        if (empty($errore)) {
+            print "setTimeout(function () { window.location.href= 'ddtmodifica.php?ddt_id=$ddt_id'; },1000);";
+        } else {
+            print "setTimeout(function () { window.location.href= 'ddtmodifica.php?ddt_id=$ddt_id'; },3500);";
+        }
+        ?>
     </script>
 </html>
 

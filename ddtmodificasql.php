@@ -145,7 +145,7 @@
                             $errore['ErroreMod'] = 'Errore nella modifica del database';
                         }
                     } else {
-                        $errore['creazioneFAT'] = 'Presente una fattura con questo DDT per cui impossibile cambiare il nome';
+                        $errore['creazioneFAT'] = 'Presente una fattura con questo DDT per cui impossibile apportare modifiche';
                     }
 
                     if (empty($errore)) {
