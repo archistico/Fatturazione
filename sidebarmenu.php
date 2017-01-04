@@ -43,6 +43,7 @@
         <ul class="treeview-menu">
             <li><a href="fatturanuova.php"><i class="fa fa-plus"></i> Nuova fattura</a></li>
             <li><a href="fatturalista.php"><i class="fa fa-list"></i> Lista fatture</a></li>
+            <li><a href="fatturalistanonpagate.php"><i class="fa fa-euro"></i> Lista fatture non pagate</a></li>
         </ul>
     </li>
     <li class="<?php echo ($menustatistiche)?'active':''; ?> treeview">

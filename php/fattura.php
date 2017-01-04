@@ -260,7 +260,94 @@ function FATTabella() {
             print "<tr>";
             
             print "<td>";
-            print "<a class='btn btn-xs btn-success' href='fatturapdf.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-file-pdf-o'></i></a>";
+            print "<a class='btn btn-xs btn-success' href='fatturapdf.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px' target='_blank'><i class = 'fa fa-file-pdf-o'></i></a>";
+            //print "<a class='btn btn-xs btn-info' href='fatturavisualizza.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
+            print "</td>";
+            
+            print "<td>$dataEmissione</td>";
+            print "<td> FAT ".$row['fat_anno']."-".$numero_padded."</td>";
+            if($row['cli_comune']) {
+                 print "<td>".$row['cli_denominazione']." (".$row['cli_comune'].")</td>";
+            } else {
+                 print "<td>".$row['cli_denominazione']."</td>";
+            }
+
+            // DEVO SCORRERE I DDT COLLEGATI PER AVERE LA SOMMA DEGLI IMPORTI
+            $importo = 0;
+            $listaDDT = "";
+
+            $resultDDT = $db->query("SELECT * FROM ddt WHERE ddt.ddt_fkfattura = ".$row['fat_id']);
+            foreach ($resultDDT as $rowddt) {
+                $rowddt = get_object_vars($rowddt);
+                $importo += $rowddt['ddt_importo'];
+                $numeroDDT = sprintf("%04d", $rowddt['ddt_numero']);
+                if(empty($listaDDT)){
+                    $listaDDT = "DDT ".$rowddt['ddt_anno']."-".$numeroDDT;
+                } else {
+                    $listaDDT .= ", DDT ".$rowddt['ddt_anno']."-".$numeroDDT;
+                }
+            }
+            print "<td>".$listaDDT."</td>";
+            
+            print "<td>&euro; " . number_format($importo, 2, '.', '') . "</td>";
+
+            print "<td>";
+            if($row['fat_pagata']) {
+                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
+            } else {
+                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i>";
+            }
+            print "<a class='btn btn-xs btn-success' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-left: 15px'><i class = 'fa fa-euro'></i></a>";
+            print "</td>";
+
+            print "<td>";
+            print "<a class='btn btn-xs btn-warning' href='fatturamodifica.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
+            print "</td>";
+
+            print "<td>";
+            print "<a class='btn btn-xs btn-danger' href='fatturacancella.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px'><i class = 'fa fa-remove'></i></a>";
+            print "</td>";
+
+            print "</tr>";
+        }
+        // chiude il database
+        $db = NULL;
+        
+        // Parte finale
+        print "</tbody></table>";
+        
+    } catch (PDOException $e) {
+        throw new PDOException("Error  : " . $e->getMessage());
+    }
+}
+
+
+function FATTabellaNonPagate() {
+    try {
+        include 'config.php';
+        
+        $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+        $result = $db->query('SELECT fattura.*, cliente.* FROM fattura INNER JOIN cliente ON fattura.fat_fkcliente = cliente.cli_id WHERE fattura.fat_annullata = 0 AND fattura.fat_pagata = 0 ORDER BY fattura.fat_numero ASC');
+        
+        // Parte iniziale
+        print "<table id='fattabella' class='table table-bordered table-hover'>";
+        print "<thead><tr>";
+        print "<th>PDF</th><th>Data</th><th>Numero</th><th>Cliente</th><th>DDT</th><th>Importo</th><th>Pagato</th><th>Modifica</th><th>Cancella</th>";
+        print "</tr></thead><tbody>";
+        
+        foreach ($result as $row) {
+            $row = get_object_vars($row);
+            $numero_padded = sprintf("%04d", $row['fat_numero']);
+            $dataEmissione = DateTime::createFromFormat('Y-m-d', $row['fat_data'])->format('d/m/Y');
+                        
+            print "<tr>";
+            
+            print "<td>";
+            print "<a class='btn btn-xs btn-success' href='fatturapdf.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px' target='_blank'><i class = 'fa fa-file-pdf-o'></i></a>";
             //print "<a class='btn btn-xs btn-info' href='fatturavisualizza.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
             print "</td>";
             

@@ -210,7 +210,7 @@ function DDTTabella() {
 
             print "<tr>";
             print "<td>";
-            print "<a class='btn btn-xs btn-success' href='ddtpdf.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-file-pdf-o'></i></a>";
+            print "<a class='btn btn-xs btn-success' href='ddtpdf.php?ddt_id=".$row['ddt_id']."' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px' target='_blank'><i class = 'fa fa-file-pdf-o'></i></a>";
             //print "<a class='btn btn-xs btn-success' href='ddtvisualizza.php?ddt_id=".$row['ddt_id']."&TipoOperazione=1' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
             print "</td>";
             print "<td>$dataEmissione</td>";
