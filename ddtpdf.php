@@ -117,9 +117,9 @@
       $pdf->SetFont('Arial','B',8);
       $pdf->SetXY(0+$mx,$intestazioneY+$my);
       $pdf->Cell(20,10,"QUANTITA'",1,0,'C');
-      $pdf->Cell(80,10,"PRODOTTO",1,0,'C');
+      $pdf->Cell(75,10,"PRODOTTO",1,0,'C');
       $pdf->Cell(25,10,"TRACCIABILITA'",1,0,'C');
-      $pdf->Cell(15,10,"PREZZO",1,0,'C');
+      $pdf->Cell(20,10,"PREZZO",1,0,'C');
       $pdf->Cell(15,10,"IVA [%]",1,0,'C');
       $pdf->Cell(15,10,"IVA",1,0,'C');
       $pdf->Cell(20,10,"IMPORTO",1,0,'C');
@@ -133,21 +133,21 @@
       for($contatore = ($paginacorrente-1)*$maxrighe+1; $contatore <= $paginacorrente*$maxrighe; $contatore++){
         $pdf->SetFont('Arial','',8);
         $pdf->SetXY(0+$mx,$listaY+$my+$linea*6);
-        $pdf->Cell(20,6,$lista[$contatore-1]->ddd_quantita . " kg",1,0,'C');
-        $pdf->Cell(80,6,utf8_decode($lista[$contatore-1]->ddd_fkprodotto_categoria) . " - " . utf8_decode($lista[$contatore-1]->ddd_fkprodotto_descrizione) ,1,0,'L');
+        $pdf->Cell(20,6,$lista[$contatore-1]->ddd_quantita . " ".$lista[$contatore-1]->ddd_fkprodotto_misura,1,0,'C');
+        $pdf->Cell(75,6,utf8_decode($lista[$contatore-1]->ddd_fkprodotto_categoria) . " - " . utf8_decode($lista[$contatore-1]->ddd_fkprodotto_descrizione) ,1,0,'L');
         $pdf->Cell(25,6,$lista[$contatore-1]->ddd_tracciabilita,1,0,'C');
-        $pdf->Cell(15,6,EURO.number_format($lista[$contatore-1]->ddd_fkprodotto_prezzo, 2, ',', ' '),1,0,'R');
+        $pdf->Cell(20,6,number_format($lista[$contatore-1]->ddd_fkprodotto_prezzo, 2, ',', ' ').EURO."/ ".$lista[$contatore-1]->ddd_fkprodotto_misura,1,0,'R');
         $pdf->Cell(15,6,$lista[$contatore-1]->ddd_fkprodotto_iva,1,0,'C');
 
         $importotemp = $lista[$contatore-1]->ddd_quantita*$lista[$contatore-1]->ddd_fkprodotto_prezzo;
         $ivatemp = ($lista[$contatore-1]->ddd_fkprodotto_iva/100);
         $riga_iva = $importotemp - $importotemp/(1+$ivatemp);
-        $pdf->Cell(15,6,EURO. number_format($riga_iva, 2, ',', ' '),1,0,'R');
+        $pdf->Cell(15,6,number_format($riga_iva, 2, ',', ' ').EURO,1,0,'R');
 
         // importo
         $imponibile = $lista[$contatore-1]->ddd_quantita*$lista[$contatore-1]->ddd_fkprodotto_prezzo;
         $totaleimponibile += $imponibile;
-        $pdf->Cell(20,6,EURO. number_format($imponibile, 2, ',', ' '),1,0,'R');
+        $pdf->Cell(20,6,number_format($imponibile, 2, ',', ' ').EURO,1,0,'R');
         $pdf->ln();
 
         switch($lista[$contatore-1]->ddd_fkprodotto_iva) {
@@ -166,9 +166,9 @@
         $pdf->SetFont('Arial','',8);
         $pdf->SetXY(0+$mx,$listaY+$my+$linea*6);
         $pdf->Cell(20,6,"",1,0,'C');
-        $pdf->Cell(80,6,"",1,0,'L');
+        $pdf->Cell(75,6,"",1,0,'L');
         $pdf->Cell(25,6,"",1,0,'C');
-        $pdf->Cell(15,6,"",1,0,'R');
+        $pdf->Cell(20,6,"",1,0,'R');
         $pdf->Cell(15,6,"",1,0,'C');
         $pdf->Cell(15,6,"",1,0,'C');
         $pdf->Cell(20,6,"",1,0,'R');
@@ -225,15 +225,15 @@
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(22,5,"4%",1,0,'C');
-      $pdf->Cell(20,5,EURO.  number_format($totaleimponibile4, 2, ',', ' '),1,0,'R');
-      $pdf->Cell(18,5,EURO.  number_format($totaleiva4, 2, ',', ' '),1,0,'R');$pdf->ln();
+      $pdf->Cell(20,5,number_format($totaleimponibile4, 2, ',', ' ').EURO,1,0,'R');
+      $pdf->Cell(18,5,number_format($totaleiva4, 2, ',', ' ').EURO,1,0,'R');$pdf->ln();
 
       // IVA 10
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(22,5,"10%",1,0,'C');
-      $pdf->Cell(20,5,EURO.  number_format($totaleimponibile10, 2, ',', ' '),1,0,'R');
-      $pdf->Cell(18,5,EURO.  number_format($totaleiva10, 2, ',', ' '),1,0,'R');$pdf->ln();
+      $pdf->Cell(20,5,number_format($totaleimponibile10, 2, ',', ' ').EURO,1,0,'R');
+      $pdf->Cell(18,5,number_format($totaleiva10, 2, ',', ' ').EURO,1,0,'R');$pdf->ln();
 
       // ALTRO
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+5+$my);
@@ -260,17 +260,17 @@
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(50,7.5,"IMPONIBILE LORDO ",1,0,'R');
-      $pdf->Cell(30,7.5,EURO. number_format($totaleimponibile, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(30,7.5,number_format($totaleimponibile, 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(50,5,"IVA TOTALE ",1,0,'R');
-      $pdf->Cell(30,5,EURO.  number_format($totaleiva4 + $totaleiva10, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(30,5,number_format($totaleiva4 + $totaleiva10, 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(50,5,"IMPONIBILE NETTO ",1,0,'R');
-      $pdf->Cell(30,5,EURO.  number_format($totaleimponibile-($totaleiva4 + $totaleiva10), 2, ',', ' '),1,0,'R');
+      $pdf->Cell(30,5,number_format($totaleimponibile-($totaleiva4 + $totaleiva10), 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+$my);
       $pdf->SetFont('Arial','',8);
@@ -288,7 +288,7 @@
 
       $pdf->Cell(50,15,"TOTALE ",1,0,'R');
 
-      $pdf->Cell(30,15,EURO.  number_format($totaleimponibile, 2, ',', ' '),1,0,'R');
+      $pdf->Cell(30,15,number_format($totaleimponibile, 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
 
       // CONTROLLO LA CHIUSURA DEL MOVIMENTO

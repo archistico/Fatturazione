@@ -11,6 +11,7 @@ class DDTDettaglio {
     public $ddd_fkprodotto_descrizione;
     public $ddd_fkprodotto_prezzo;
     public $ddd_fkprodotto_iva;
+    public $ddd_fkprodotto_misura;
 
     public function CaricaSQL($id) {
     try {
@@ -36,6 +37,7 @@ class DDTDettaglio {
             $dettaglio->ddd_fkprodotto_descrizione = $row['pro_descrizione'];
             $dettaglio->ddd_fkprodotto_prezzo = $row['pro_prezzo'];
             $dettaglio->ddd_fkprodotto_iva = $row['pro_iva'];
+            $dettaglio->ddd_fkprodotto_misura = $row['pro_misura'];
             
             $listaDettaglio[]=$dettaglio;
         }
