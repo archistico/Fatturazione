@@ -259,36 +259,36 @@
       $fondoPagamentoX = 64;
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,7.5,"IMPONIBILE LORDO ",1,0,'R');
-      $pdf->Cell(30,7.5,number_format($totaleimponibile, 2, ',', ' ').EURO,1,0,'R');
+      $pdf->Cell(45,7.5,"IMPONIBILE LORDO ",1,0,'R');
+      $pdf->Cell(35,7.5,number_format($totaleimponibile, 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"IVA TOTALE ",1,0,'R');
-      $pdf->Cell(30,5,number_format($totaleiva4 + $totaleiva10, 2, ',', ' ').EURO,1,0,'R');
+      $pdf->Cell(45,5,"IVA TOTALE ",1,0,'R');
+      $pdf->Cell(35,5,number_format($totaleiva4 + $totaleiva10, 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"IMPONIBILE NETTO ",1,0,'R');
-      $pdf->Cell(30,5,number_format($totaleimponibile-($totaleiva4 + $totaleiva10), 2, ',', ' ').EURO,1,0,'R');
+      $pdf->Cell(45,5,"IMPONIBILE NETTO ",1,0,'R');
+      $pdf->Cell(35,5,number_format($totaleimponibile-($totaleiva4 + $totaleiva10), 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,5,"NUMERO SCONTRINO ",1,0,'R');
-      $pdf->Cell(30,5,$ddt->ddt_scontrino,1,0,'R');
+      $pdf->Cell(45,5,"NUMERO SCONTRINO ",1,0,'R');
+      $pdf->Cell(35,5,$ddt->ddt_scontrino,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(50,7.5,"",1,0,'R');
-      $pdf->Cell(30,7.5,"",1,0,'R');
+      $pdf->Cell(45,7.5,"",1,0,'R');
+      $pdf->Cell(35,7.5,"",1,0,'R');
       $pdf->ln();
 
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+7.5+$my);
       $pdf->SetFont('Arial','B',16);
 
-      $pdf->Cell(50,15,"TOTALE ",1,0,'R');
+      $pdf->Cell(45,15,"TOTALE ",1,0,'R');
 
-      $pdf->Cell(30,15,number_format($totaleimponibile, 2, ',', ' ').EURO,1,0,'R');
+      $pdf->Cell(35,15,number_format($totaleimponibile, 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
 
       // CONTROLLO LA CHIUSURA DEL MOVIMENTO
