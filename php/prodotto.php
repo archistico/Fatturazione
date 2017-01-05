@@ -7,6 +7,7 @@ class Prodotto {
     public $pro_prezzo;
     public $pro_iva;
     public $pro_vecchio;
+    public $pro_misura;
     
     public function AggiungiSQL() {
         try {
@@ -17,7 +18,7 @@ class Prodotto {
             $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
             $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
 
-            $db->exec("INSERT INTO prodotto VALUES (NULL, '$this->pro_categoria', '$this->pro_descrizione', '$this->pro_prezzo', '$this->pro_iva','0');");
+            $db->exec("INSERT INTO prodotto VALUES (NULL, '$this->pro_categoria', '$this->pro_descrizione', '$this->pro_prezzo', '$this->pro_iva','0','$this->pro_misura');");
 
             // chiude il database
             $db = NULL;
@@ -45,6 +46,7 @@ class Prodotto {
                 $this->pro_descrizione = convertiStringaToHTML(utf8_decode($row['pro_descrizione']));
                 $this->pro_prezzo = $row['pro_prezzo'];
                 $this->pro_iva = $row['pro_iva'];
+                $this->pro_misura = $row['pro_misura'];
             }
 
             // chiude il database
@@ -120,7 +122,7 @@ class Prodotto {
             $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
             $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
             
-            $sql = "UPDATE prodotto SET pro_categoria = '$this->pro_categoria', pro_descrizione = '$this->pro_descrizione', pro_prezzo = '$this->pro_prezzo', pro_iva = '$this->pro_iva' WHERE pro_id = $this->pro_id;";
+            $sql = "UPDATE prodotto SET pro_categoria = '$this->pro_categoria', pro_descrizione = '$this->pro_descrizione', pro_prezzo = '$this->pro_prezzo', pro_iva = '$this->pro_iva', pro_misura = '$this->pro_misura' WHERE pro_id = $this->pro_id;";
             
             $db->exec($sql);
 

@@ -106,10 +106,22 @@
                                     </div>
                                     <!-- /.col -->
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>IVA (&percnt;)</label>
                                             <input type="number" min="0" max="100" step="0.5" class="form-control" placeholder="IVA: tipo 10 o 4" value="10" name='iva' required>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Unit&agrave; di misura</label>
+                                            <select class="form-control select2" style="width: 100%;" name='misura' required>
+                                                <option value="kg">kg</option>
+                                                <option value="cf">Confezione</option>
+                                                <option value="pz">Pezzo</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <!-- /.col -->
@@ -125,7 +137,7 @@
 
                         <div class="form-group row m-t-md">
                             <div class="col-sm-12">
-                                <button type="submit" class="btn btn-block btn-primary btn-lg">INSERISCI</button>
+                                <button type="submit" class="btn btn-block btn-success btn-lg">REGISTRA PRODOTTO</button>
                             </div>
                         </div>
 

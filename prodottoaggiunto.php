@@ -105,6 +105,12 @@
                         $pro->pro_iva = $_GET['iva'];
                     }
 
+                    if (!isset($_GET['misura'])) {
+                        $errorecreazione['misura'] = 'misura';
+                    } else {
+                        $pro->pro_misura = $_GET['misura'];
+                    }
+
                     if (empty($errorecreazione)) {
 
                         if ($pro->AggiungiSQL()) {

@@ -132,10 +132,22 @@
                                     </div>
                                     <!-- /.col -->
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>IVA (&percnt;)</label>
                                             <input type="number" min="0" max="100" step="0.5" class="form-control" placeholder="IVA: tipo 10 o 4" name='iva' value="<?php echo $prodotto->pro_iva; ?>" required>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Unit&agrave; di misura</label>
+                                            <select class="form-control select2" style="width: 100%;" name='misura' required>
+                                                <option value="kg" <?php print $prodotto->pro_misura=="kg"?"selected":""; ?>>kg</option>
+                                                <option value="cf" <?php print $prodotto->pro_misura=="cf"?"selected":""; ?>>Confezione</option>
+                                                <option value="pz" <?php print $prodotto->pro_misura=="pz"?"selected":""; ?>>Pezzo</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <!-- /.col -->

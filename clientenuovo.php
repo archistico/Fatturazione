@@ -170,7 +170,7 @@
 
                         <div class="form-group row m-t-md">
                             <div class="col-sm-12">
-                                <button type="submit" class="btn btn-block btn-primary btn-lg">INSERISCI</button>
+                                <button type="submit" class="btn btn-block btn-success btn-lg">REGISTRA CLIENTE</button>
                             </div>
                         </div>
 
