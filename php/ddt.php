@@ -223,16 +223,17 @@ function DDTTabella() {
             
             print "<td>&euro; " . $row['ddt_importo'] . "</td>";
             if($row['ddt_pagato']) {
-                print "<td><i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i></td>";
+                print "<td><i class = 'fa fa-fw fa-circle fa-lg' style = 'color:green'></i></td>";
             } else {
-                print "<td><i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i></td>";
+                print "<td><i class = 'fa fa-fw fa-circle fa-lg' style = 'color:red'></i></td>";
             }
+
             print "<td>";
-            
+            print "<div class='icone-unite'>";
             if($row['ddt_fatturazioneelettronica']) {
-                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
+                print "<i class = 'fa fa-fw fa-circle fa-lg' style = 'color:green'></i>";
             } else {
-                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i>";
+                print "<i class = 'fa fa-fw fa-circle fa-lg' style = 'color:red'></i>";
             }
             
             print " / ";
@@ -240,11 +241,11 @@ function DDTTabella() {
             if($row['ddt_fkfattura']) {
                 //print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
                 list($numero, $anno) = CercaFattura($row['ddt_fkfattura']);
-                print "FAT ".$anno. "-".sprintf("%04d", $numero);
+                print "<span class = 'inlinea'>FAT ".$anno. "-".sprintf("%04d", $numero)."</span>";
             } else {
-                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i>";
+                print "<i class = 'fa fa-fw fa-circle fa-lg' style = 'color:red'></i>";
             }
-
+            print "</div>";
             print "</td>";
 
             print "<td>";

@@ -31,3 +31,7 @@ hr.visualizzafattura {
 .text-grigio {
     color: #AAA;
 }
+
+.icone-unite .inlinea {
+    display: inline;
+}

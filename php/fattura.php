@@ -296,12 +296,14 @@ function FATTabella() {
             print "<td>&euro; " . number_format($importo, 2, '.', '') . "</td>";
 
             print "<td>";
+            print "<div class='icone-unite'>";
             if($row['fat_pagata']) {
-                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
+                print "<i class = 'fa fa-fw fa-circle fa-lg' style = 'color:green'></i>";
             } else {
-                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i>";
+                print "<i class = 'fa fa-fw fa-circle fa-lg' style = 'color:red'></i>";
             }
-            print "<a class='btn btn-xs btn-success' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-left: 15px'><i class = 'fa fa-euro'></i></a>";
+            print "<a class='inlinea btn btn-xs btn-success' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-left: 10px;'><i class = 'fa fa-euro'></i></a>";
+            print "</div>";
             print "</td>";
 
 
@@ -380,12 +382,14 @@ function FATTabellaNonPagate() {
             print "<td>&euro; " . number_format($importo, 2, '.', '') . "</td>";
 
             print "<td>";
+            print "<div class='icone-unite'>";
             if($row['fat_pagata']) {
-                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
+                print "<i class = 'fa fa-fw fa-circle fa-lg' style = 'color:green'></i>";
             } else {
-                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i>";
+                print "<i class = 'fa fa-fw fa-circle fa-lg' style = 'color:red'></i>";
             }
-            print "<a class='btn btn-xs btn-success' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-left: 15px'><i class = 'fa fa-euro'></i></a>";
+            print "<a class='inlinea btn btn-xs btn-success' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-left: 10px'><i class = 'fa fa-euro'></i></a>";
+            print "</div>";
             print "</td>";
 
 
