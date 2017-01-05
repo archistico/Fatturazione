@@ -4,6 +4,7 @@ try {
     include 'config.php';
 
     $cliente_id = $_POST['cliente_id'];
+    //$cliente_id = $_GET['cliente_id'];
 
     $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -27,6 +28,8 @@ try {
     }
     // chiude il database
     $db = NULL;
+
+    //echo var_dump($listaDDT);
 
     header('Content-type:application/json;charset=utf-8');
     echo json_encode($listaDDT);

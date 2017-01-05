@@ -173,8 +173,13 @@ function VenditeMensiliGrafico() {
         $result = $db->query($sql);
         foreach ($result as $row) {
             $row = get_object_vars($row);
-              
-            $suddivisione[((string) $row['mese'])."/".((string) $row['anno'])] += $row['Totale'];
+            $indice = ((string) $row['mese'])."/".((string) $row['anno']);
+            if (isset($suddivisione[$indice]))
+            { 
+                $suddivisione[$indice] += $row['Totale']; 
+            } else {
+                $suddivisione[$indice] = $row['Totale'];
+            }
 
         }
 

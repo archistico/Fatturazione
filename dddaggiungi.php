@@ -104,7 +104,7 @@
                         $ddd->ddd_tracciabilita = pulisciStringa($_GET['tracciabilita']);
                     }
 
-                    if ($ddt->VerificaFatturatoSQL()) {
+                    if (!$ddt->VerificaFatturatoSQL()) {
                         $errore['creazioneFAT'] = 'Presente una fattura con questo DDT per cui impossibile apportare modifiche';
                     }
                     

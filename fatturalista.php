@@ -77,6 +77,8 @@
                     // Definisci il tipo di operazione
                     if (isset($_GET['operazione'])) {
                         $operazione = $_GET['operazione'];
+                    } else {
+                        $operazione = "";
                     }
                     
 

@@ -292,10 +292,12 @@
       $pdf->ln();
 
       // CONTROLLO LA CHIUSURA DEL MOVIMENTO
+      /*
       if($fat->chiuso==1) {
         $pdf->Line(0,0,210,297);
         $pdf->Line(210,0,0,297);
       }
+      */
       
 
     } // chiusura per ogni pagina
@@ -304,7 +306,7 @@
 
     // Chiudo il PDF
     //
-    $pdf->Output(I, 'DDT-'.$ddt->ddt_anno.'-'.$ddt->ddt_numero_formattato." ".str_replace(".", "", $ddt->ddt_fkcliente_denominazione).".pdf");
+    $pdf->Output('', 'DDT-'.$ddt->ddt_anno.'-'.$ddt->ddt_numero_formattato." ".str_replace(".", "", $ddt->ddt_fkcliente_denominazione).".pdf");
 
     ?>
 

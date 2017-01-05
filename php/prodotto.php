@@ -210,19 +210,18 @@ function prodotto_tabella() {
             print "<td>".convertiStringaToHTML(utf8_decode($row['pro_descrizione']))."</td>";
             print "<td>&euro; ".$row['pro_prezzo']."</td>";
             print "<td>".$row['pro_iva']." &percnt;</td>";
-            if(!$row['pro_vecchio']) {
-                print "<td>";
-                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";
-                print "<a class='btn btn-xs btn-warning' href='prodottovecchio.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";
-                print "</td>";
-            } else {
-                print "<td><i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i></td>";
-            }
             
             print "<td>";
-                                    
-            print "<a class='btn btn-xs btn-danger' href='prodottocancella.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px;margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
+            if(!$row['pro_vecchio']) {
+                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:green'></i>";               
+            } else {
+                print "<i class = 'fa fa-fw fa-square fa-lg' style = 'color:red'></i>";
+            }
+            print "<a class='btn btn-xs btn-warning' href='prodottovecchio.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-clock-o'></i></a>";
+            print "</td>";
             
+            print "<td>";
+            print "<a class='btn btn-xs btn-danger' href='prodottocancella.php?pro_id=".$row['pro_id']."' role='button' style='width: 30px;margin-bottom: 3px'><i class = 'fa fa-remove'></i></a>";
             print "</td>";
 
             print "</tr>";

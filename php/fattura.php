@@ -253,7 +253,7 @@ function FATTabella() {
         // Parte iniziale
         print "<table id='fattabella' class='table table-bordered table-hover'>";
         print "<thead><tr>";
-        print "<th>PDF</th><th>Data</th><th>Numero</th><th>Cliente</th><th>DDT</th><th>Importo</th><th>Pagato</th><th>Modifica</th><th>Cancella</th>";
+        print "<th>PDF</th><th>Data</th><th>Numero</th><th>Cliente</th><th>DDT</th><th>Importo</th><th>Pagato</th><th>Cancella</th>";
         print "</tr></thead><tbody>";
         
         foreach ($result as $row) {
@@ -304,9 +304,6 @@ function FATTabella() {
             print "<a class='btn btn-xs btn-success' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-left: 15px'><i class = 'fa fa-euro'></i></a>";
             print "</td>";
 
-            print "<td>";
-            print "<a class='btn btn-xs btn-warning' href='fatturamodifica.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
-            print "</td>";
 
             print "<td>";
             print "<a class='btn btn-xs btn-danger' href='fatturacancella.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px'><i class = 'fa fa-remove'></i></a>";
@@ -340,7 +337,7 @@ function FATTabellaNonPagate() {
         // Parte iniziale
         print "<table id='fattabella' class='table table-bordered table-hover'>";
         print "<thead><tr>";
-        print "<th>PDF</th><th>Data</th><th>Numero</th><th>Cliente</th><th>DDT</th><th>Importo</th><th>Pagato</th><th>Modifica</th><th>Cancella</th>";
+        print "<th>PDF</th><th>Data</th><th>Numero</th><th>Cliente</th><th>DDT</th><th>Importo</th><th>Pagato</th><th>Cancella</th>";
         print "</tr></thead><tbody>";
         
         foreach ($result as $row) {
@@ -391,9 +388,6 @@ function FATTabellaNonPagate() {
             print "<a class='btn btn-xs btn-success' href='fatturapagata.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-left: 15px'><i class = 'fa fa-euro'></i></a>";
             print "</td>";
 
-            print "<td>";
-            print "<a class='btn btn-xs btn-warning' href='fatturamodifica.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px; margin-bottom: 3px'><i class = 'fa fa-pencil'></i></a>";
-            print "</td>";
 
             print "<td>";
             print "<a class='btn btn-xs btn-danger' href='fatturacancella.php?fat_id=".$row['fat_id']."' role='button' style='width: 30px'><i class = 'fa fa-remove'></i></a>";
