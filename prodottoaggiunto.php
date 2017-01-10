@@ -44,14 +44,27 @@
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
+                
+                <section class="content-header">
+                    <h1>
+                        PRODOTTO
+                        <small>Aggiungi</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li> Home</li>
+                        <li class="active">Prodotto</li>
+                        <li class="active">Aggiungi</li>
+                    </ol>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
 
                 <?php
                 include 'php/utilita.php';
                 include 'php/config.php';
                 include 'php/prodotto.php';
-                ?>
-
-                <?php
+                
                 // RECUPERO DATI E AGGIUNGO
                 define('CHARSET', 'UTF-8');
                 define('REPLACE_FLAGS', ENT_COMPAT | ENT_XHTML);
@@ -130,50 +143,7 @@
                     print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom: 0!important;'><h4><i class='fa fa-ban'></i> Note:</h4>Operazione non definita</div></div>";
                 }
                 ?>
-                <section class="content-header">
-                    <h1>
-                        PRODOTTO
-                        <small>Aggiungi</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li> Home</li>
-                        <li class="active">Prodotto</li>
-                        <li class="active">Aggiungi</li>
-                    </ol>
-                </section>
 
-                <!-- Main content -->
-                <section class="content">
-
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="box">
-                                <div class="box-header">
-                                    <h3 class="box-title">LISTA PRODOTTI</h3>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <table id="prodotto" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Categoria</th>
-                                                <th>Descrizione</th>
-                                                <th>Prezzo</th>
-                                                <th>Iva</th>
-                                                <th>Vecchio</th>
-                                                <th>#</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php prodotto_tabella(); ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.box-body -->
-                            </div>
-                        </div>
-                    </div>
 
                 </section>
                 <!-- /.content -->
@@ -187,17 +157,13 @@
     </body>
     <!-- page script -->
     <script>
-        $(function () {
-            $('#prodotto').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true
-            });
-            
-        });
+        <?php 
+        if (empty($errorecreazione)) {
+            print "setTimeout(function () { window.location.href= 'prodottolista.php'; },1000);";
+        } else {
+            print "setTimeout(function () { window.location.href= 'prodottolista.php'; },2000);";
+        }
+        ?>
     </script>
 </html>
 
