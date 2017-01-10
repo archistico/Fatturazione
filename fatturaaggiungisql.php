@@ -48,12 +48,12 @@
                 <section class="content-header">
                     <h1>
                         FATTURA
-                        <small>Lista</small>
+                        <small>Aggiungi</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li> Home</li>
                         <li class="active">FATTURA</li>
-                        <li class="active">Lista</li>
+                        <li class="active">Aggiungi</li>
                     </ol>
                 </section>
 
@@ -61,6 +61,7 @@
                 <section class="content">
                     
                     <?php 
+					
                     include 'php/utilita.php';
                     include 'php/config.php';
                     include 'php/fattura.php';
@@ -69,22 +70,71 @@
                     define('CHARSET', 'UTF-8');
                     define('REPLACE_FLAGS', ENT_COMPAT | ENT_XHTML);
 
-                    ?>
+                    $errorecreazione = array();
+                    $erroreaggiunta = array();
+                    $erroremodifica = array(); 
+                    $errorecancella = array();
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="box box-primary">
-                                <div class="box-header">
-                                    <h3 class="box-title">LISTA FATTURE</h3>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <?php FATTabella(); ?>
-                                </div>
-                                <!-- /.box-body -->
-                            </div>
-                        </div>
-                    </div>
+                    $fattura = new Fattura();
+
+                  
+                    // Carico le variabili
+                    if (!isset($_GET['cliente'])) {
+                        $errorecreazione['cliente'] = 'ID cliente';
+                    } else {
+                        $fattura->fat_fkcliente = $_GET['cliente'];
+                    }
+
+                    if (!isset($_GET['dataEmissione'])) {
+                        $errorecreazione['data'] = 'Data di emissione';
+                    } else {
+                        $fattura->fat_data = DateTime::createFromFormat('d/m/Y', $_GET['dataEmissione']);
+                        $fattura->fat_anno = $fattura->fat_data->format('Y');
+                    }
+
+                    if (!isset($_GET['DDT'])) {
+                        $errorecreazione['DDT'] = 'DDT';
+                    } else {
+                        $stringaDDT = $_GET['DDT'];
+                        $fattura->fat_ddt = json_decode($stringaDDT);
+                    }
+                                        
+                                                          
+                    if (!isset($_GET['pagata'])) {
+                        $fattura->fat_pagata = 0;
+                    } else {
+                        $fattura->fat_pagata = 1;
+                    }
+
+                    if (empty($errorecreazione)) {
+
+                        if ($fattura->AggiungiSQL()) {
+                            echo "<div class='callout callout-success'><h4>Fattura aggiunta</h4><p>Documento inserito nel database</p></div>";
+                        } else {
+                            $errorecreazione['creazione'] = 'Database';
+                        }
+                    }
+
+                    if (!empty($errorecreazione)) {
+                        echo "<div class='callout callout-danger'><h4>Errore inserimento della fattura</h4><p>Ricontrollare i dati inseriti o chiamare l'amministratore</p></div>";
+                    }
+                //FINE CREAZIONE FATTURA
+
+
+
+
+
+
+
+
+
+
+
+
+                    
+                    
+                    
+                    ?>
 
                 </section>
                 <!-- /.content -->
@@ -98,34 +148,13 @@
     </body>
     <!-- page script -->
     <script>
-        $(function () {
-            $('#fattabella').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tutti"]],
-                "searching": true,
-                "ordering": true,
-                "order": [[ 2, 'desc' ]],
-                "info": true,
-                "autoWidth": true,
-                "language": {
-                    "lengthMenu": "Mostra _MENU_ fatture per pagina",
-                    "zeroRecords": "Nessuna fattura",
-                    "info": "Pagina _PAGE_ di _PAGES_",
-                    "sSearch": "Cerca: ",
-                    "infoEmpty": "Nessuna fattura",
-                    "infoFiltered": "(filtrate _MAX_ fatture)"
-                },
-                "oPaginate": {
-                    "sFirst": "Inizio",
-                    "sPrevious": "Precedente",
-                    "sNext": "Prossimo",
-                    "sLast": "Fine"
-                },
-                "sLoadingRecords": "In caricamento...",
-                "sProcessing": "In caricamento..."
-            });
-        });
+		<?php 
+        if (empty($errorecreazione)) {
+            print "setTimeout(function () { window.location.href= 'fatturalista.php'; },1000);";
+        } else {
+            print "setTimeout(function () { window.location.href= 'fatturalista.php'; },3000);";
+        }
+        ?>
     </script>
 </html>
 

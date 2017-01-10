@@ -67,7 +67,7 @@
       <!-- Main content -->
       <section class="content">
 
-        <form role="form" name="FatturaForm" action="fatturalista.php" method="get" onsubmit="return validateForm()">
+        <form role="form" name="FatturaForm" action="fatturaaggiungisql.php" method="get" onsubmit="return validateForm()">
 
           <!-- **********************************DATI GENERALI****************************** -->
           <div class="box box-primary">
@@ -108,8 +108,7 @@
           <!-- /.box -->
 
           <input type="hidden" id="DDT" name="DDT" value="">
-          <input type="hidden" id="operazione" name="operazione" value="aggiungi">
-
+          
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">DDT ALLEGATI</h3>
@@ -163,6 +162,7 @@
               <button type="submit" class="btn btn-block btn-success btn-lg">CREA FATTURA</button>
             </div>
           </div>
+
 
         </form>
         <!-- /.form -->
