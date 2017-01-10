@@ -59,8 +59,8 @@
 
                 <!-- Main content -->
                 <section class="content">
-                    
-                    <?php 
+
+                    <?php
                     include 'php/utilita.php';
                     include 'php/config.php';
 

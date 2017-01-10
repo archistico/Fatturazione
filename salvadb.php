@@ -1,86 +1,110 @@
-<?php 
-    include "php/config.php";
-    // http://192.168.1.177/Fatturazione/gestionesalvadb.php
-    
-    //ENTER THE RELEVANT INFO BELOW
-    $mysqlUserName      = $dbuser;
-    $mysqlPassword      = $dbpswd;
-    $mysqlHostName      = $dbhost;
-    $DbName             = $dbname;
-    $backup_name        = "salvataggio.sql";
-    //$tables             = "Your tables";
-    $tables             =  array("cliente","ddt","ddtdettaglio", "fattura", "prodotto");
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Fatturazione | SALVA DB</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <?php include 'link.php'; ?>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+  <div class="wrapper">
 
-    Export_Database($mysqlHostName,$mysqlUserName,$mysqlPassword,$DbName,  $tables=false, $backup_name=false );
+    <header class="main-header">
+      <!-- Logo -->
+      <a href="index.php" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>F</b>AT</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>FATTUR</b>AZIONE</span>
+      </a>
+      <!-- Header Navbar: style can be found in header.less -->
+      <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <span class="sr-only">Toggle navigation</span>
+        </a>
 
-    function Export_Database($host,$user,$pass,$name,  $tables=false, $backup_name=false )
-    {
-        $mysqli = new mysqli($host,$user,$pass,$name); 
-        $mysqli->select_db($name); 
-        $mysqli->query("SET NAMES 'utf8'");
+        <?php include 'navbar.php'; ?>
+      </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+      <!-- sidebar: style can be found in sidebar.less -->
+      <section class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <?php
+        $menugenerale = 0; $menuclienti = 0; $menuprodotti = 0; $menuddt = 0; $menufatture = 0; $menustatistiche = 0; $menuutilita = 1;
+        include 'sidebarmenu.php';
+        ?>
+      </section>
+      <!-- /.sidebar -->
+    </aside>
 
-        $queryTables    = $mysqli->query('SHOW TABLES'); 
-        while($row = $queryTables->fetch_row()) 
-        { 
-            $target_tables[] = $row[0]; 
-        }   
-        if($tables !== false) 
-        { 
-            $target_tables = array_intersect( $target_tables, $tables); 
-        }
-        foreach($target_tables as $table)
-        {
-            $result         =   $mysqli->query('SELECT * FROM '.$table);  
-            $fields_amount  =   $result->field_count;  
-            $rows_num=$mysqli->affected_rows;     
-            $res            =   $mysqli->query('SHOW CREATE TABLE '.$table); 
-            $TableMLine     =   $res->fetch_row();
-            $content        = (!isset($content) ?  '' : $content) . "\n\n".$TableMLine[1].";\n\n";
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
 
-            for ($i = 0, $st_counter = 0; $i < $fields_amount;   $i++, $st_counter=0) 
-            {
-                while($row = $result->fetch_row())  
-                { //when started (and every after 100 command cycle):
-                    if ($st_counter%100 == 0 || $st_counter == 0 )  
-                    {
-                            $content .= "\nINSERT INTO ".$table." VALUES";
-                    }
-                    $content .= "\n(";
-                    for($j=0; $j<$fields_amount; $j++)  
-                    { 
-                        $row[$j] = str_replace("\n","\\n", addslashes($row[$j]) ); 
-                        if (isset($row[$j]))
-                        {
-                            $content .= '"'.$row[$j].'"' ; 
-                        }
-                        else 
-                        {   
-                            $content .= '""';
-                        }     
-                        if ($j<($fields_amount-1))
-                        {
-                                $content.= ',';
-                        }      
-                    }
-                    $content .=")";
-                    //every after 100 command cycle [or at last line] ....p.s. but should be inserted 1 cycle eariler
-                    if ( (($st_counter+1)%100==0 && $st_counter!=0) || $st_counter+1==$rows_num) 
-                    {   
-                        $content .= ";";
-                    } 
-                    else 
-                    {
-                        $content .= ",";
-                    } 
-                    $st_counter=$st_counter+1;
+      <section class="content-header">
+        <h1>
+          Utilit&agrave;
+          <small>Salva DB</small>
+        </h1>
+        <ol class="breadcrumb">
+          <li> Home</li>
+          <li class="active">Utilit&agrave;</li>
+          <li class="active">Salva DB</li>
+        </ol>
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+
+        <?php
+        include 'php/utilita.php';
+        include 'php/config.php';
+
+        ?>
+
+        <div class='box box-primary'>
+
+          <div class='box-header with-border'>
+            <h3 class='box-title'>INFORMAZIONI</h3>
+          </div>
+          <div class='box-body'>
+            <div class='row'>
+              <div class='col-md-12'>
+                <?php
+                try {
+                  $mysqlUserName      = $dbuser;
+                  $mysqlPassword      = $dbpswd;
+                  $mysqlHostName      = $dbhost;
+                  $DbName             = $dbname;
+
+                  $filename = "backup/backup-" . date('Y-m-d')."_".date('H-i-s') . ".sql";
+                  exec("mysqldump --user=$mysqlUserName --password=$mysqlPassword --host=$mysqlHostName $DbName > $filename");
+
+                } catch (Exception $e) {
+                    print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom: 0!important;'><h4><i class='fa fa-ban'></i> ERRORE:</h4>Backup non eseguito</div></div>";
+                } finally {
+                  print "<div class='pad margin no-print'><div class='callout callout-success' style='margin-bottom: 0!important;'><h4><i class='fa fa-check'></i> Risultato:</h4> Backup eseguito</div></div>";
                 }
-            } $content .="\n\n\n";
-        }
-        $backup_name = $backup_name ? $backup_name : date('Y-m-d')."_".date('H-i-s')."_".$name.".sql";
-        //$backup_name = $backup_name ? $backup_name : $name.".sql";
-        header('Content-Type: application/octet-stream');   
-        header("Content-Transfer-Encoding: Binary"); 
-        header("Content-disposition: attachment; filename=\"".$backup_name."\"");  
-        echo $content; exit;
-    }
-?>
+                ?>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <?php include 'footer.php'; ?>
+  </div>
+  <!-- ./wrapper -->
+
+  <?php include 'script.php'; ?>
+</body>
+<!-- page script -->
+
+</html>
