@@ -60,8 +60,8 @@
 
         <!-- Main content -->
         <section class="content">
-            
-            <!-- ********************************** CARICA DATI ****************************** -->    
+
+            <!-- ********************************** CARICA DATI ****************************** -->
 
             <?php
             include 'php/utilita.php';
@@ -74,7 +74,7 @@
             define('CHARSET', 'UTF-8');
             define('REPLACE_FLAGS', ENT_COMPAT | ENT_XHTML);
             $errore = array();
-            
+
             $ddt = new DDT();
             // Carico le variabili
             if (!isset($_GET['ddt_id'])) {
@@ -142,6 +142,7 @@
                                         <option value="Vendita" <?php print $ddt->ddt_causale=="Vendita"?"selected":""; ?> >Vendita</option>
                                         <option value="Tentata vendita" <?php print $ddt->ddt_causale=="Tentata vendita"?"selected":""; ?>>Tentata vendita</option>
                                         <option value="Omaggio" <?php print $ddt->ddt_causale=="Omaggio"?"selected":""; ?>>Omaggio</option>
+                                        <option value="Conto lavorazione" <?php print $ddt->ddt_causale=="Conto lavorazione"?"selected":""; ?>>Conto lavorazione</option>
                                     </select>
                                 </div>
                             </div>
@@ -319,11 +320,13 @@
                        <!-- INSERIMENTO NUOVI DETTAGLI -->
                     <div class="row">
                         <form name="ddtForm" action="dddaggiungi.php" method="get" class="no-print">
-                            
+
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Quantità</label>
-                                    <input type="number" min="0" max="1000" step="0.001" class="form-control" placeholder="Qt" value="0" name='quantita' required>
+                                    <div lang="en-US">
+                                        <input type="number" min="0" max="1000" step="0.001" class="form-control" placeholder="Qt" value="0" name='quantita' required>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -340,7 +343,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Tracciabilita</label>
-                                    <input type="text" class="form-control" placeholder="Tracciabilità" name='tracciabilita' required>
+                                    <input type="text" class="form-control" placeholder="Tracciabilità" name='tracciabilita' value="-" required>
                                 </div>
                             </div>
 
@@ -369,7 +372,7 @@
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
-                    
+
                     <div class="row">
                         <div class="col-md-8">
                         </div>
@@ -378,14 +381,14 @@
                         </div>
                     </div>
 
-                        
+
 
                     </div>
                     <!-- /.box-body -->
 
                 </div>
                 <!-- /.box -->
-            
+
         </section>
         <!-- /.content -->
     </div>

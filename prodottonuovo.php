@@ -82,7 +82,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Categoria</label>
-                                            <input type="text" class="form-control" placeholder="Categoria: tipo Carne bovino, Insaccato, ..." name='categoria' required>
+                                            <input type="text" class="form-control" placeholder="Categoria: Bovino, Maiale, Salumi, Misto..." name='categoria' required>
                                         </div>
                                     </div>
                                     <!-- /.col -->
@@ -101,7 +101,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Prezzo (&euro;)</label>
-                                            <input type="number" min="0" max="1000000" step="0.01" class="form-control" placeholder="Prezzo" value="0" name='prezzo' required>
+                                            <div lang="en-US">
+                                                <input type="number" min="0" max="1000000" step="0.01" class="form-control" placeholder="Prezzo" value="0" name='prezzo' required>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- /.col -->
@@ -109,7 +111,9 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>IVA (&percnt;)</label>
-                                            <input type="number" min="0" max="100" step="0.5" class="form-control" placeholder="IVA: tipo 10 o 4" value="10" name='iva' required>
+                                            <div lang="en-US">
+                                                <input type="number" min="0" max="100" step="0.5" class="form-control" placeholder="IVA: tipo 10 o 4" value="10" name='iva' required>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- /.col -->

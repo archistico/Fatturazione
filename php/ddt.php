@@ -167,11 +167,12 @@ class DDT {
  
             // chiude il database
             $db = NULL;
-            
+            // || isset($row['ddt_fkfattura'])
+
             if (is_null($row['ddt_fkfattura'])) {
-                return true;
-            } else { 
                 return false;
+            } else { 
+                return true;
             }
             
         } catch (PDOException $e) {

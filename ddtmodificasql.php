@@ -140,7 +140,7 @@
                 }
                 if (empty($errore)) {
                     
-                    if ($ddt->VerificaFatturatoSQL()) {
+                    if (!$ddt->VerificaFatturatoSQL()) {
                         if(!$ddt->ModificaSQL()) {
                             $errore['ErroreMod'] = 'Errore nella modifica del database';
                         }

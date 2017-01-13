@@ -84,6 +84,7 @@
                     } else {
                         $ddd->ddd_fkddt = $_GET['ddt_id'];
                         $ddt_id = $_GET['ddt_id'];
+                        $ddt->ddt_id = $ddt_id;
                     }
                     if (!isset($_GET['ddtdettaglio'])) {
                         $errore['ddtdettaglio'] = 'ID DDTDettaglio';
@@ -92,7 +93,7 @@
                     }
 
                     if ($ddt->VerificaFatturatoSQL()) {
-                        $errore['creazioneFAT'] = 'Presente una fattura con questo DDT per cui impossibile apportare modifiche';
+                        $errore['creazioneFAT'] = 'Presente una fattura con questo DDT per non è cui possibile apportare modifiche';
                     }
 
                     if (empty($errore) && $ddd->CancellaSQL()) {

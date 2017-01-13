@@ -27,7 +27,7 @@
             </a>
 
             <?php include 'navbar.php'; ?>
-            
+
         </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
@@ -109,6 +109,7 @@
                                         <option value="Vendita">Vendita</option>
                                         <option value="Tentata vendita">Tentata vendita</option>
                                         <option value="Omaggio">Omaggio</option>
+                                        <option value="Conto lavorazione">Conto lavorazione</option>
                                     </select>
                                 </div>
                             </div>
@@ -312,7 +313,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="box-body">
-                                    
+
 
                                     <table id="tabellaProdotti" class="table table-bordered table-hover order-list">
                                         <thead>
@@ -389,7 +390,7 @@ var counter = 0;
 
 // function principale
 $(document).ready(function () {
-    
+
     // Carica prodotti nel select
     $.ajax({
         dataType: "json",
@@ -403,36 +404,36 @@ $(document).ready(function () {
                         "categoria": item.pro_categoria,
                         "descrizione": item.pro_descrizione,
                         "prezzo": parseFloat(item.pro_prezzo)
-                    });            
+                    });
                 }
             }
-        
+
             var option = '';
             for (var i=0;i<dbProdotti.length;i++){
                 option += '<option value="'+ dbProdotti[i].fkprodotto + '">' + dbProdotti[i].categoria + " - " + dbProdotti[i].descrizione + ' (&euro; '+(dbProdotti[i].prezzo).toFixed(2)+')' + '</option>';
             }
             $('#lista').append(option);
-            $(".select2").select2(); 
+            $(".select2").select2();
         }
     });
 
     // --------------------------------------------
 
     $("#btnaggiungi").on("click", function () {
-        
+
         counter++;
         quantitatesto = $('#quantita').val();
 		quantita = parseFloat(quantitatesto.replace(",","."));
         var newRow = $("<tr>");
         var cols = "";
-		
+
         prodottoid = $("#lista").val();
         prodottotesto = $("#lista option:selected").text();
         prodottotracciabilita = $("#tracciabilita").val();
 
         if(prodottotracciabilita == "") {
             prodottotracciabilita = "-";
-        } 
+        }
 
         // pulisco stringa tracciabilita
         prodottotracciabilita = prodottotracciabilita.replace("'", " ");
@@ -456,7 +457,7 @@ $(document).ready(function () {
         newRow.append(cols);
 
         $("table.order-list").append(newRow);
-        
+
         var jsprodotto = {
             "id": counter,
             "fkprodotto": prodottoid,
@@ -488,7 +489,7 @@ $(document).ready(function () {
 
         // cancella la riga dalla tabella
         $(this).closest("tr").remove();
-        
+
         // Ricalcola il totale
         calculateGrandTotal();
     });

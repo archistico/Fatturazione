@@ -127,7 +127,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Prezzo (&euro;)</label>
-                                            <input type="number" min="0" max="1000000" step="0.01" class="form-control" placeholder="Prezzo" name='prezzo' value="<?php echo $prodotto->pro_prezzo; ?>" required>
+                                            <div lang="en-US">
+                                                <input type="number" min="0" max="1000000" step="0.01" class="form-control" placeholder="Prezzo" name='prezzo' value="<?php echo $prodotto->pro_prezzo; ?>" required>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- /.col -->
