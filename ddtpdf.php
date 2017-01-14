@@ -204,13 +204,13 @@
       // Scritta vettore
       $pdf->SetXY(0+$mx,$fondoY+0.5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell($fondoFirmeX,4,$ddt->ddt_trasporto." - ".$ddt->ddt_aspetto,0,0,'L');$pdf->ln();
+      $pdf->Cell($fondoFirmeX,4,$ddt->ddt_trasporto." - ".$ddt->ddt_ritiro_stringa,0,0,'L');$pdf->ln();
       $pdf->Cell($fondoFirmeX,4,"Firma vettore",0,0,'L');
 
       // Scritta cliente
       $pdf->SetXY(0+$mx,$fondoY+22.5+0.5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell($fondoFirmeX,4,"Numero colli: " . $ddt->ddt_colli,0,0,'L');$pdf->ln();
+      $pdf->Cell($fondoFirmeX,4,"Colli: " . $ddt->ddt_colli.", ".$ddt->ddt_aspetto,0,0,'L');$pdf->ln();
       $pdf->Cell($fondoFirmeX,4,"Firma cliente",0,0,'L');
 
       // Scritta vettore
