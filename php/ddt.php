@@ -146,8 +146,39 @@ class DDT {
             return true;
         } catch (PDOException $e) {
             return false;
+        }      
+    }
+
+
+    public function Cancella() {
+        try {
+            include "config.php";
+            
+            $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES UTF8');
+
+            date_default_timezone_set('Europe/Rome');
+
+            $sql = "DELETE FROM ddt WHERE ddt.ddt_id = ".$this->ddt_id;
+            $db->exec($sql);
+            
+            // cerca tutti i ddtdettaglio con ddtdettaglio.ddd_fkddt = id
+            $sql = "DELETE FROM ddtdettaglio WHERE ddtdettaglio.ddd_fkddt = ".$this->ddt_id;      
+            $db->exec($sql);
+            
+            // chiude il database
+            $db = NULL;
+
+            return true;
+
+        } catch (PDOException $e) {
+            return false;
         }
     }
+
+
 
     public function VerificaFatturatoSQL() {
         try {
