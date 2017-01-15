@@ -165,7 +165,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Destinazione</label>
-                                    <input type="text" class="form-control" placeholder="Destinazione se diversa" name='destinazione' value="<?php print $ddt->ddt_destinazione; ?>">
+                                    <input type="text" class="form-control" placeholder="Destinazione se diversa" name='destinazione' value="<?php print db2html($ddt->ddt_destinazione); ?>">
                                 </div>
                             </div>
                             <!-- /.col -->

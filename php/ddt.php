@@ -248,7 +248,7 @@ function DDTTabella() {
             print "<td>$dataEmissione</td>";
             print "<td>".$row['ddt_anno']."-".$numero_padded."</td>";
 
-            $denominazione = $row['cli_denominazione'];
+            $denominazione = db2html($row['cli_denominazione']);
             /*
             if(strlen($denominazione)>26) {
                 $denominazione=substr($denominazione,0,26)." ..."; 
@@ -256,7 +256,7 @@ function DDTTabella() {
             */
 
             if($row['cli_comune']) {
-                 print "<td>".$denominazione." (".$row['cli_comune'].")</td>";
+                 print "<td>".$denominazione." (".db2html($row['cli_comune']).")</td>";
             } else {
                  print "<td>".$denominazione."</td>";
             }

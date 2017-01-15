@@ -108,7 +108,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Categoria</label>
-                                            <input type="text" class="form-control" placeholder="Categoria: tipo Carne bovina, Insaccato, ..." name='categoria' value="<?php echo $prodotto->pro_categoria; ?>" required>
+                                            <input type="text" class="form-control" placeholder="Categoria: tipo Carne bovina, Insaccato, ..." name='categoria' value="<?php echo db2html($prodotto->pro_categoria); ?>" required>
                                         </div>
                                     </div>
                                     <!-- /.col -->
@@ -116,7 +116,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Descrizione</label>
-                                            <input type="text" class="form-control" placeholder="Descrizione: tipo Rolata, Sottofiletto, ..." name='descrizione' value="<?php echo $prodotto->pro_descrizione; ?>" required>
+                                            <input type="text" class="form-control" placeholder="Descrizione: tipo Rolata, Sottofiletto, ..." name='descrizione' value="<?php echo db2html($prodotto->pro_descrizione); ?>" required>
                                         </div>
                                     </div>
                                     <!-- /.col -->

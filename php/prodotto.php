@@ -43,7 +43,7 @@ class Prodotto {
                 
                 $this->pro_id = $row['pro_id'];
                 $this->pro_categoria = $row['pro_categoria'];
-                $this->pro_descrizione = convertiStringaToHTML(utf8_decode($row['pro_descrizione']));
+                $this->pro_descrizione = $row['pro_descrizione'];
                 $this->pro_prezzo = $row['pro_prezzo'];
                 $this->pro_iva = $row['pro_iva'];
                 $this->pro_misura = $row['pro_misura'];
@@ -179,7 +179,7 @@ function prodotto_select() {
         $result = $db->query('SELECT * FROM prodotto WHERE pro_vecchio=0 ORDER BY pro_categoria ASC, pro_descrizione ASC, pro_prezzo ASC');
         foreach ($result as $row) {
             $row = get_object_vars($row);
-            print "<option value='" . $row['pro_id'] . "'>". convertiStringaToHTML(utf8_decode($row['pro_categoria'])) . " - " . convertiStringaToHTML(utf8_decode($row['pro_descrizione']))." (&euro; ".$row['pro_prezzo'].")</option>\n";
+            print "<option value='" . $row['pro_id'] . "'>". db2html($row['pro_categoria'] . " - " . $row['pro_descrizione'])." (&euro; ".$row['pro_prezzo'].")</option>\n";
         }
         // chiude il database
         $db = NULL;
@@ -208,8 +208,8 @@ function prodotto_tabella() {
             
             print "</td>";
 
-            print "<td>".convertiStringaToHTML(utf8_decode($row['pro_categoria']))."</td>";
-            print "<td>".convertiStringaToHTML(utf8_decode($row['pro_descrizione']))."</td>";
+            print "<td>".db2html($row['pro_categoria'])."</td>";
+            print "<td>".db2html($row['pro_descrizione'])."</td>";
             print "<td>&euro; ".$row['pro_prezzo']."</td>";
             print "<td>".$row['pro_iva']." &percnt;</td>";
             

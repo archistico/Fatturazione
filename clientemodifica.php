@@ -106,7 +106,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Denominazione / Cognome</label>
-                                            <input type="text" class="form-control" placeholder="Inserisci la denominazione dell'azienda o il cognome" name='denominazione' value="<?php echo $cliente->cli_denominazione; ?>" required>
+                                            <input type="text" class="form-control" placeholder="Inserisci la denominazione dell'azienda o il cognome" name='denominazione' value="<?php echo db2html($cliente->cli_denominazione); ?>" required>
                                         </div>
                                     </div>
                                     <!-- /.col -->
@@ -125,7 +125,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Indirizzo</label>
-                                            <input type="text" class="form-control" placeholder="Via / Piazza ... e numero civico" name='indirizzo'  value="<?php echo $cliente->cli_indirizzo; ?>" required>
+                                            <input type="text" class="form-control" placeholder="Via / Piazza ... e numero civico" name='indirizzo'  value="<?php echo db2html($cliente->cli_indirizzo); ?>" required>
                                         </div>
                                     </div>
                                     <!-- /.col -->
@@ -141,7 +141,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Comune</label>
-                                            <input type="text" class="form-control" placeholder="Comune" name='comune'  value="<?php echo $cliente->cli_comune; ?>" required>
+                                            <input type="text" class="form-control" placeholder="Comune" name='comune'  value="<?php echo db2html($cliente->cli_comune); ?>" required>
                                         </div>
                                     </div>
                                     <!-- /.col -->

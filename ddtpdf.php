@@ -87,13 +87,13 @@
       $pdf->SetXY(0+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(28,5,"ALTRO ",1,0,'R');$pdf->ln();
 
       $pdf->SetFont('Arial','B',14);
-      $pdf->SetXY(28+$mx,$clienteY+$my);$pdf->Cell(115,7, utf8_decode($ddt->ddt_fkcliente_denominazione),1);$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+$my);$pdf->Cell(115,7, $ddt->ddt_fkcliente_denominazione,1);$pdf->ln();
       $pdf->SetFont('Arial','',10);
-      $pdf->SetXY(28+$mx,$clienteY+7+$my);$pdf->Cell(115,5, utf8_decode($ddt->ddt_fkcliente_indirizzo." - ".$ddt->ddt_fkcliente_cap." ".$ddt->ddt_fkcliente_comune),1,0,'L');$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+7+$my);$pdf->Cell(115,5, $ddt->ddt_fkcliente_indirizzo." - ".$ddt->ddt_fkcliente_cap." ".$ddt->ddt_fkcliente_comune,1,0,'L');$pdf->ln();
       
       $pdf->SetXY(28+$mx,$clienteY+7+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_telefono)?"tel: ".$ddt->ddt_fkcliente_telefono." " : "").(!empty($ddt->ddt_fkcliente_fax)?"fax: ".$ddt->ddt_fkcliente_fax : ""),1,0,'L');$pdf->ln();
       $pdf->SetXY(28+$mx,$clienteY+7+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_piva)?"P.IVA / C.F.: ".$ddt->ddt_fkcliente_piva." " : ""),1,0,'L');$pdf->ln();
-      $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+$my);$pdf->Cell(115,5,utf8_decode($ddt->ddt_destinazione),1,0,'L');$pdf->ln();
+      $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+$my);$pdf->Cell(115,5,$ddt->ddt_destinazione,1,0,'L');$pdf->ln();
       $pdf->SetXY(28+$mx,$clienteY+7+5+5+5+5+$my);$pdf->Cell(115,5,(!empty($ddt->ddt_fkcliente_email)?"email: ".$ddt->ddt_fkcliente_email : ""),1,0,'L');$pdf->ln();
       
       // Dati fattura
@@ -134,7 +134,7 @@
         $pdf->SetFont('Arial','',8);
         $pdf->SetXY(0+$mx,$listaY+$my+$linea*6);
         $pdf->Cell(20,6,$lista[$contatore-1]->ddd_quantita . " ".$lista[$contatore-1]->ddd_fkprodotto_misura,1,0,'C');
-        $pdf->Cell(75,6,utf8_decode($lista[$contatore-1]->ddd_fkprodotto_categoria) . " - " . utf8_decode($lista[$contatore-1]->ddd_fkprodotto_descrizione) ,1,0,'L');
+        $pdf->Cell(75,6,$lista[$contatore-1]->ddd_fkprodotto_categoria . " - " . $lista[$contatore-1]->ddd_fkprodotto_descrizione ,1,0,'L');
         $pdf->Cell(25,6,$lista[$contatore-1]->ddd_tracciabilita,1,0,'C');
         $pdf->Cell(20,6,number_format($lista[$contatore-1]->ddd_fkprodotto_prezzo, 2, ',', ' ').EURO."/ ".$lista[$contatore-1]->ddd_fkprodotto_misura,1,0,'R');
         $pdf->Cell(15,6,$lista[$contatore-1]->ddd_fkprodotto_iva,1,0,'C');

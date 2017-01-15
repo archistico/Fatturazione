@@ -271,7 +271,7 @@ function FATTabella() {
             print "<td>$dataEmissione</td>";
             print "<td>".$row['fat_anno']."-".$numero_padded."</td>";
 
-            $denominazione = $row['cli_denominazione'];
+            $denominazione = db2html($row['cli_denominazione']);
             /*
             if(strlen($denominazione)>26) {
                 $denominazione=substr($denominazione,0,26)." ..."; 
@@ -279,7 +279,7 @@ function FATTabella() {
             */
 
             if($row['cli_comune']) {
-                 print "<td>".$denominazione." (".$row['cli_comune'].")</td>";
+                 print "<td>".$denominazione." (".db2html($row['cli_comune']).")</td>";
             } else {
                  print "<td>".$denominazione."</td>";
             }
@@ -365,7 +365,7 @@ function FATTabellaNonPagate() {
             print "<td>$dataEmissione</td>";
             print "<td>".$row['fat_anno']."-".$numero_padded."</td>";
             
-            $denominazione = $row['cli_denominazione'];
+            $denominazione = db2html($row['cli_denominazione']);
             /*
             if(strlen($denominazione)>26) {
                 $denominazione=substr($denominazione,0,26)." ..."; 
@@ -373,7 +373,7 @@ function FATTabellaNonPagate() {
             */
             
             if($row['cli_comune']) {
-                 print "<td>".$denominazione." (".$row['cli_comune'].")</td>";
+                 print "<td>".$denominazione." (".db2html($row['cli_comune']).")</td>";
             } else {
                  print "<td>".$denominazione."</td>";
             }

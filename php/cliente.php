@@ -205,7 +205,7 @@ function cliente_select() {
         $result = $db->query('SELECT * FROM cliente WHERE cli_vecchio=0 ORDER BY cli_denominazione ASC');
         foreach ($result as $row) {
             $row = get_object_vars($row);
-            print "<option value='" . $row['cli_id'] . "'>" . $row['cli_denominazione'] . "(".$row['cli_comune'].")</option>\n";
+            print "<option value='" . $row['cli_id'] . "'>" . db2html($row['cli_denominazione']) . "(".db2html($row['cli_comune']).")</option>\n";
         }
         // chiude il database
         $db = NULL;
@@ -226,9 +226,9 @@ function cliente_selectbyID($id) {
         foreach ($result as $row) {
             $row = get_object_vars($row);
             if($id==$row['cli_id']) {
-                print "<option value='" . $row['cli_id'] . "' selected>" . $row['cli_denominazione'] . "</option>\n";
+                print "<option value='" . $row['cli_id'] . "' selected>" . db2html($row['cli_denominazione']) . "</option>\n";
             } else {
-                print "<option value='" . $row['cli_id'] . "'>" . $row['cli_denominazione'] . "</option>\n";
+                print "<option value='" . $row['cli_id'] . "'>" . db2html($row['cli_denominazione']) . "</option>\n";
             }
         }
         // chiude il database
@@ -268,8 +268,8 @@ function ClienteTabella() {
 
             print "</td>";
 
-            print "<td>".$row['cli_denominazione']."</td>";
-            print "<td>".$row['cli_comune']. " (" .$row['cli_cap']. ") - " .$row['cli_indirizzo']."</td>";
+            print "<td>".db2html($row['cli_denominazione'])."</td>";
+            print "<td>".db2html($row['cli_comune']). " (" .$row['cli_cap']. ") - " .db2html($row['cli_indirizzo'])."</td>";
             print "<td>".$row['cli_telefono']. " / " .$row['cli_fax']. "</td>";
             //print "<td>".$row['cli_email']."</td>";
             print "<td>".$row['cli_piva']."</td>";
