@@ -246,11 +246,19 @@ function DDTTabella() {
             //print "<a class='btn btn-xs btn-success' href='ddtvisualizza.php?ddt_id=".$row['ddt_id']."&TipoOperazione=1' role='button' style='width: 30px;margin-right: 3px; margin-bottom: 3px'><i class = 'fa fa-eye'></i></a>";
             print "</td>";
             print "<td>$dataEmissione</td>";
-            print "<td>DDT ".$row['ddt_anno']."-".$numero_padded."</td>";
+            print "<td>".$row['ddt_anno']."-".$numero_padded."</td>";
+
+            $denominazione = $row['cli_denominazione'];
+            /*
+            if(strlen($denominazione)>26) {
+                $denominazione=substr($denominazione,0,26)." ..."; 
+            }
+            */
+
             if($row['cli_comune']) {
-                 print "<td>".$row['cli_denominazione']." (".$row['cli_comune'].")</td>";
+                 print "<td>".$denominazione." (".$row['cli_comune'].")</td>";
             } else {
-                 print "<td>".$row['cli_denominazione']."</td>";
+                 print "<td>".$denominazione."</td>";
             }
             
             print "<td>&euro; " . $row['ddt_importo'] . "</td>";

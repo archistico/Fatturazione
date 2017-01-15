@@ -103,7 +103,7 @@
                     if (!isset($_GET['destinazione'])) {
                         //$errorecreazione['destinazione'] = 'Destinazione';
                     } else {
-                        $ddt->ddt_destinazione = $_GET['destinazione'];
+                        $ddt->ddt_destinazione = pulisciStringa($_GET['destinazione']);
                     }
 
                     if (!isset($_GET['trasporto'])) {
@@ -133,7 +133,7 @@
                     if (!isset($_GET['scontrino'])) {
                         $errorecreazione['scontrino'] = 'scontrino';
                     } else {
-                        $ddt->ddt_scontrino = $_GET['scontrino'];
+                        $ddt->ddt_scontrino = pulisciStringa($_GET['scontrino']);
                     }
                     
                     /*

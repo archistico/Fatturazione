@@ -269,11 +269,19 @@ function FATTabella() {
             print "</td>";
             
             print "<td>$dataEmissione</td>";
-            print "<td> FAT ".$row['fat_anno']."-".$numero_padded."</td>";
+            print "<td>".$row['fat_anno']."-".$numero_padded."</td>";
+
+            $denominazione = $row['cli_denominazione'];
+            /*
+            if(strlen($denominazione)>26) {
+                $denominazione=substr($denominazione,0,26)." ..."; 
+            }
+            */
+
             if($row['cli_comune']) {
-                 print "<td>".$row['cli_denominazione']." (".$row['cli_comune'].")</td>";
+                 print "<td>".$denominazione." (".$row['cli_comune'].")</td>";
             } else {
-                 print "<td>".$row['cli_denominazione']."</td>";
+                 print "<td>".$denominazione."</td>";
             }
 
             // DEVO SCORRERE I DDT COLLEGATI PER AVERE LA SOMMA DEGLI IMPORTI
@@ -355,11 +363,19 @@ function FATTabellaNonPagate() {
             print "</td>";
             
             print "<td>$dataEmissione</td>";
-            print "<td> FAT ".$row['fat_anno']."-".$numero_padded."</td>";
+            print "<td>".$row['fat_anno']."-".$numero_padded."</td>";
+            
+            $denominazione = $row['cli_denominazione'];
+            /*
+            if(strlen($denominazione)>26) {
+                $denominazione=substr($denominazione,0,26)." ..."; 
+            }
+            */
+            
             if($row['cli_comune']) {
-                 print "<td>".$row['cli_denominazione']." (".$row['cli_comune'].")</td>";
+                 print "<td>".$denominazione." (".$row['cli_comune'].")</td>";
             } else {
-                 print "<td>".$row['cli_denominazione']."</td>";
+                 print "<td>".$denominazione."</td>";
             }
 
             // DEVO SCORRERE I DDT COLLEGATI PER AVERE LA SOMMA DEGLI IMPORTI

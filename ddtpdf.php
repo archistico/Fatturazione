@@ -279,8 +279,8 @@
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(45,7.5,"",1,0,'R');
-      $pdf->Cell(35,7.5,"",1,0,'R');
+      $pdf->Cell(45,7.5,"FATT. ELETTRONICA ",1,0,'R');
+      $pdf->Cell(35,7.5,(!empty($ddt->ddt_fatturazioneelettronica)?"SI" : "NO"),1,0,'R');
       $pdf->ln();
 
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+5+7.5+$my);
