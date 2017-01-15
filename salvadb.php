@@ -82,9 +82,9 @@
                   $DbName             = $dbname;
 
                   $filename = "backup/backup-" . date('Y-m-d')."_".date('H-i-s') . ".sql";
-                  //exec("mysqldump --user=$mysqlUserName --password=$mysqlPassword --host=$mysqlHostName $DbName > $filename");
+                  exec("mysqldump --user=$mysqlUserName --password=$mysqlPassword --host=$mysqlHostName $DbName > $filename");
 
-                  exec("C:\\xampp\\mysql\\bin\\mysqldump --user=$mysqlUserName --password=$mysqlPassword --host=$mysqlHostName $DbName > $filename");
+                  //exec("C:\\xampp\\mysql\\bin\\mysqldump --user=$mysqlUserName --password=$mysqlPassword --host=$mysqlHostName $DbName > $filename");
 
                 } catch (Exception $e) {
                     print "<div class='pad margin no-print'><div class='callout callout-danger' style='margin-bottom: 0!important;'><h4><i class='fa fa-ban'></i> ERRORE:</h4>Backup non eseguito</div></div>";
