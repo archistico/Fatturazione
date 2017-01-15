@@ -184,7 +184,7 @@ function ddtdettaglio_tabella($id) {
                         
             print "<tr>";
             print "<td>".$row['ddd_quantita']."</td>";
-            print "<td>". $row['pro_categoria'] . " - " . convertiStringaToHTML(utf8_decode($row['pro_descrizione']))." (&euro; ".$row['pro_prezzo'].")</td>";
+            print "<td>". db2html($row['pro_categoria']) . " - " . db2html($row['pro_descrizione'])." (&euro; ".$row['pro_prezzo'].")</td>";
             print "<td>".$row['ddd_tracciabilita']."</td>";
             $importo = $row['ddd_quantita']*$row['pro_prezzo'];
             print "<td>&euro; " . number_format($importo, 2, ',', ' ') . "</td>";

@@ -106,6 +106,12 @@
                         $prodotto->pro_iva = $_GET['iva'];
                     }
 
+                    if (!isset($_GET['misura'])) {
+                        $errore['misura'] = 'misura';
+                    } else {
+                        $prodotto->pro_misura = $_GET['misura'];
+                    }
+
                     
                     if (empty($errore)){
                         if (!$prodotto->ModificaSQL()){
