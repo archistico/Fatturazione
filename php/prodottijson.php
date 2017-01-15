@@ -2,6 +2,7 @@
 
 try {
     include 'config.php';
+    include 'utilita.php';
 
     $db = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpswd);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -20,12 +21,14 @@ try {
     foreach ($result as $row) {
         $row = get_object_vars($row);
         
-        $listaProdotti[] = array('pro_id' => $row['pro_id'], 'pro_categoria' =>  utf8_encode($row['pro_categoria']), 'pro_descrizione' =>  utf8_encode($row['pro_descrizione']), 'pro_prezzo' =>  $row['pro_prezzo']);
+        $listaProdotti[] = array('pro_id' => $row['pro_id'], 'pro_categoria' =>  $row['pro_categoria'], 'pro_descrizione' =>  $row['pro_descrizione'], 'pro_prezzo' =>  $row['pro_prezzo']);
     }
     // chiude il database
+    // utf8_encode()
     $db = NULL;
 
     //echo var_dump($listaProdotti); 
+    //die();
 
     header('Content-type:application/json;charset=utf-8');
     echo json_encode($listaProdotti);

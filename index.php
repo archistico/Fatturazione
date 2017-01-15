@@ -111,7 +111,14 @@
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Migliore cliente</span>
-                                    <span class="info-box-number"><?php echo MiglioreClienteDenominazione(); ?></span>
+                                    <span class="info-box-number"><?php 
+                                                                    $denominazione = MiglioreClienteDenominazione();
+                                                                    if(strlen($denominazione)>26) {
+                                                                        echo substr($denominazione,0,26)." ..."; 
+                                                                    } else {
+                                                                        echo $denominazione; 
+                                                                    }
+                                                                ?></span>
                                     <span class="info-box-number"><small>&euro; <?php echo number_format(MiglioreClienteImporto(), 2, '.', ''); ?></small></span>
                                 </div>
                             <!-- /.info-box-content -->

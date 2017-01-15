@@ -9,7 +9,7 @@ function convertiHTMLToStringa($stringa) {
 }
 
 function pulisciStringa($stringa) {
-    return str_replace("'", " ", str_replace('"', ' ', $stringa)); 
+    return str_replace("'", " ", str_replace('"', ' ', trim($stringa))); 
 }
 
 ?>
