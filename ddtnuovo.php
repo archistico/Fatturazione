@@ -401,8 +401,8 @@ $(document).ready(function () {
                     var item = data[key];
                     dbProdotti.push({
                         "fkprodotto": parseInt(item.pro_id),
-                        "categoria": item.pro_categoria,
-                        "descrizione": item.pro_descrizione,
+                        "categoria": decode_utf8(item.pro_categoria),
+                        "descrizione": decode_utf8(item.pro_descrizione),
                         "prezzo": parseFloat(item.pro_prezzo)
                     });
                 }
@@ -496,6 +496,14 @@ $(document).ready(function () {
 
 
 });
+
+function encode_utf8(s) {
+  return unescape(encodeURIComponent(s));
+}
+
+function decode_utf8(s) {
+  return decodeURIComponent(escape(s));
+}
 
 // cerca prezzo
 function cercaPrezzo(id) {

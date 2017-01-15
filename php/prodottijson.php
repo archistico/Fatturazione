@@ -21,7 +21,7 @@ try {
     foreach ($result as $row) {
         $row = get_object_vars($row);
         
-        $listaProdotti[] = array('pro_id' => $row['pro_id'], 'pro_categoria' =>  $row['pro_categoria'], 'pro_descrizione' =>  $row['pro_descrizione'], 'pro_prezzo' =>  $row['pro_prezzo']);
+        $listaProdotti[] = array('pro_id' => $row['pro_id'], 'pro_categoria' =>  utf8_encode($row['pro_categoria']), 'pro_descrizione' =>  utf8_encode($row['pro_descrizione']), 'pro_prezzo' =>  $row['pro_prezzo']);
     }
     // chiude il database
     // utf8_encode()
