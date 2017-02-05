@@ -30,3 +30,5 @@ Visualizzazione statistiche dei migliori clienti, prodotti
 
 Licenza MIT che trovate sotto il file licence.  
 Il tema utilizzato è [AdminLTE] (https://github.com/almasaeed2010/AdminLTE) (che ha licenza MIT)
+
+[![screenshot](https://s23.postimg.org/dr8gsbwzf/2017_02_05_150225.jpg)](https://postimg.org/image/gxkognxwj/)
