@@ -1,3 +1,5 @@
+[![screenshot](https://s29.postimg.org/qi4b3jn8n/2017_02_05_150247.jpg)](https://postimg.org/image/gxkognxwj/)
+
 # Fatturazione
 
 Fatturazione per negozio
