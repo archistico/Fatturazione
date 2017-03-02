@@ -259,9 +259,9 @@
       $ivaY = $listaY+25*6-3;
       $pdf->SetFont('Arial','',8);
       //$pdf->SetXY(0+$mx,$ivaY+$my);
-      //$pdf->Cell(190,4,"Operazione non imponibile ai sensi dell'art. 41 comma 1 lettera a D.L. 331/1993 - Contributo ambientale CONAI assolto",0,0,'L');
+      //$pdf->Cell(190,4,"",0,0,'L');
       $pdf->SetXY(0+$mx,$ivaY+3.5+$my);
-      $pdf->Cell(190,4,"",0,0,'L');
+      $pdf->Cell(190,4,"Assolve agli obblighi di cui all'art.62 comma 1 del D.L. 24/01/2012 n.1 convertito con modificazioni L. 24/3/2012 n.27 ",0,0,'L');
 
       // Zona timbri vettore e cliente
       $fondoY = $ivaY + 9;
@@ -300,14 +300,14 @@
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(22,5,"4%",1,0,'C');
-      $pdf->Cell(20,5,number_format($totaleimponibile4, 2, ',', ' ').EURO,1,0,'R');
+      $pdf->Cell(20,5,number_format($totaleimponibile4-$totaleiva4, 2, ',', ' ').EURO,1,0,'R');
       $pdf->Cell(18,5,number_format($totaleiva4, 2, ',', ' ').EURO,1,0,'R');$pdf->ln();
 
       // IVA 10
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+$my);
       $pdf->SetFont('Arial','',8);
       $pdf->Cell(22,5,"10%",1,0,'C');
-      $pdf->Cell(20,5,number_format($totaleimponibile10, 2, ',', ' ').EURO,1,0,'R');
+      $pdf->Cell(20,5,number_format($totaleimponibile10-$totaleiva10, 2, ',', ' ').EURO,1,0,'R');
       $pdf->Cell(18,5,number_format($totaleiva10, 2, ',', ' ').EURO,1,0,'R');$pdf->ln();
 
       // ALTRO
@@ -325,7 +325,7 @@
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+5+5+7.5+$my);
       $pdf->SetFont('Arial','B',16);
-      $pdf->Cell(60,15,(!empty($fat->fat_pagata)?"PAGATO" : "NON PAGATO"),1,0,'C');
+      $pdf->Cell(60,15,(!empty($fat->fat_pagata)?"PAGATO" : ""),1,0,'C');
 
       $pdf->ln();
       
@@ -334,7 +334,7 @@
       $fondoPagamentoX = 64;
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(45,7.5,"IMPONIBILE LORDO ",1,0,'R');
+      $pdf->Cell(45,7.5,"TOTALE FATTURA ",1,0,'R');
       $pdf->Cell(35,7.5,number_format($totaleimponibile, 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+$my);
@@ -344,7 +344,7 @@
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+$my);
       $pdf->SetFont('Arial','',8);
-      $pdf->Cell(45,5,"IMPONIBILE NETTO ",1,0,'R');
+      $pdf->Cell(45,5,"IMPONIBILE ",1,0,'R');
       $pdf->Cell(35,5,number_format($totaleimponibile-($totaleiva4 + $totaleiva10), 2, ',', ' ').EURO,1,0,'R');
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+$fondoPagamentoX,$fondoY+7.5+5+5+$my);
