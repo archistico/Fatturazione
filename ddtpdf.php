@@ -250,7 +250,7 @@
       $pdf->ln();
       $pdf->SetXY(0+$mx+$fondoFirmeX+2,$fondoY+7.5+5+5+5+7.5+$my);
       $pdf->SetFont('Arial','B',16);
-      $pdf->Cell(60,15,(!empty($ddt->ddt_pagato)?"" : "NON PAGATO"),1,0,'C');
+      $pdf->Cell(60,15,(!empty($ddt->ddt_pagato)?"PAGATO" : ""),1,0,'C');
 
       $pdf->ln();
       
