@@ -5,9 +5,9 @@
 * [ ] Gestione login tutte le pagine
 
 ## Generale  
-* [ ] Home statistiche con diagramma dei ddt con importo
-* [ ] Sistemazione liste
-* [ ] Pulsanti per aggiungere subito nuovo DDT o Fattura
+* [X] ~~*Home statistiche con diagramma dei ddt con importo*~~
+* [ ] ~~*Sistemazione liste*~~
+* [ ] ~~*Pulsanti per aggiungere subito nuovo DDT o Fattura*~~
 
 ## Clienti
 * [X] ~~*Creazione cliente*~~
