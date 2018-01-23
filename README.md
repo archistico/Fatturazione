@@ -26,6 +26,13 @@ Segnalazione nella lista delle fatture non pagate
 
 Visualizzazione statistiche dei migliori clienti, prodotti
 
+## Release
+
+Modifiche future:
+- sistemazione di fatture con acconto che risultato a zero
+- login/autorizzazione
+- sistemazione fatturazione elettronica con xml
+
 ## Licenza
 
 Licenza MIT che trovate sotto il file licence.  
