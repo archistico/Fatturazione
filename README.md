@@ -31,6 +31,10 @@ Modifiche future:
 - login/autorizzazione
 - sistemazione fatturazione elettronica con xml
 
+## News
+
+- Porting to Symfony
+
 ## Licenza
 
 Licenza MIT che trovate sotto il file licence.  
